@@ -1,0 +1,24 @@
+{% from "govuk_frontend_jinja/components/error-message/macro.html" import govukErrorMessage %}
+
+<div class="govuk-form-group{% if field.errors and field.errors.get(field.name) %} govuk-form-group--error{% endif %}" id="{{ field.name }}-{{ field.name }}">
+{% if field.errors %}
+    {% for error in field.errors.get(field.name, []) %}
+        {{ govukErrorMessage({
+        "text": error,
+        "visuallyHiddenText": _("Error:")
+        }) }}
+    {% endfor %}
+{% endif %}
+{% for subfield in field %}
+    {{ subfield.widget.params }}
+    {% if subfield.widget.__class__.__name__.startswith("Gov") %}
+        {% set params = kwargs.get('params', {}).get(subfield.name, {}) %}
+        {% if field.errors and field.errors.get(field.name) %}
+            {% do params.update({"classes": params.get("classes", "") + " govuk-input--error"}) %}
+        {% endif %}
+        {{ subfield(params=params) }}
+    {% else %}
+        {{ subfield }}
+    {% endif %}
+{% endfor %}
+</div>

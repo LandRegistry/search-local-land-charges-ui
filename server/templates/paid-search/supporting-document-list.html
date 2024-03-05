@@ -1,0 +1,37 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/pagination/macro.html" import govukPagination %}
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+
+{% block title %}{{ _('Download light obstruction notice documents') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">{{ _('Download light obstruction notice documents') }}</h1>
+    <p class="govuk-body">
+      {{ _('Download documents relating to light obstruction notices in your official local land charges search. The documents for each light obstruction notice will be contained within a zip file.') }}
+    </p>
+    {% set table_rows = [] %}
+    {% for charge in charges %}
+      {% set link_html %}
+        <a class="govuk-link" href="{{ url_for('paid_search.charge_supporting_documents', charge_id=charge, enc_search_id=enc_search_id) }}">{{ _('Download') }}</a>
+      {% endset %}
+      {% do table_rows.append([{"text": charge}, {"html": link_html}]) %}
+    {% endfor %}
+    {{ govukTable({
+      "caption": _('Light obstruction notices with related documents'),
+      "captionClasses": "govuk-table__caption--m",
+      "firstCellIsHeader": true,
+      "rows": table_rows
+    }) }}
+
+    {% if show_pagination %}
+      {{ govukPagination(pagination_info) }}
+    {% endif %}
+    <p class="govuk-body">
+      <a class="govuk-link" href="{{ url_for('paid_search.get_paid_search', enc_search_id=enc_search_id) }}">{{ _('Return to official search result download') }}</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

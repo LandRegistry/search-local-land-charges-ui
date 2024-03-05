@@ -1,0 +1,64 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/pagination/macro.html" import govukPagination %}
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+
+{% block title %}{{ _('Free searches') }}{% endblock %}
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    {% include 'includes/subnav.html' %}
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-xl">{{ _('Free searches') }}</h1>
+    <form method="post" action="{{ url_for('my_account.free_searches') }}" novalidate>
+      {{ form.csrf_token }}
+      {{ form.search_term(params={"classes": 'govuk-input--width-20', 'spellcheck': false}) }}
+      <div class="govuk-button-group">
+        {{ form.submit }}
+        <a class="govuk-link" href="{{ url_for('my_account.free_searches') }}">{{ _('Clear search') }}</a>
+      </div>
+    </form>
+    {% if not form.validate_on_submit() or form.data.errors | length > 0 %}
+      {% if result_count == 1 %}
+        <p class="govuk-body">{{ _('You have %(result_count)s search from the past 6 months', result_count=result_count) }}.</p>
+      {% else %}
+        <p class="govuk-body">{{ _('You have %(result_count)s searches from the past 6 months', result_count=result_count) }}.</p>
+      {% endif %}
+    {% endif %}
+    {% set table_rows = [] %}
+    {% for search in searches %}
+      {% set link_html %}
+        <a href="{{ url_for('my_account.free_search_review', search_id=search['id']) }}" class="govuk-link">{{ _('Repeat search') }}</a>
+      {% endset %}
+      {% do table_rows.append([{"text": search['id']},
+                               {"text": search['formatted_date']},
+                               {"html": link_html}]) %}
+    {% endfor %}
+    {{ govukTable({
+        "caption": _('Free search information'),
+        "captionClasses": "govuk-table__caption--m",
+        "firstCellIsHeader": false,
+        "head": [
+          {
+            "text": _("Search reference")
+          },
+          {
+            "text": _("Date of search")
+          },
+          {
+            "text": _("Action")
+          }
+        ],
+        "rows": table_rows
+      }) }}
+    {% if table_rows | length == 0 %}
+      <p class="govuk-body">{{ _('No searches found') }}.</p>
+    {% endif %}
+    {% if show_pagination %}
+      {{ govukPagination(pagination_info) }}
+    {% endif %}
+    <a href="{{ url_for('search.search_by_post_code_address') }}" class="govuk-link govuk-body">{{ _('Start a new search') }}</a>
+  </div>
+</div>
+{% endblock %}

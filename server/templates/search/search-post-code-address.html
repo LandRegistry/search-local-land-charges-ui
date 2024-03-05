@@ -1,0 +1,35 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
+
+{% block title %}{{ _('Identify a search area') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">{{ _('Identify a search area') }}</h1>
+    <p class="govuk-body">
+      {{ _('To search for a local land charge, you will need to identify a property or area of land. We call this a search area.') }}
+    </p>
+    {{ govukInsetText({
+      "text": _('Not all local authority areas are currently available to search on this system. For these areas you will need to contact the local authority.')
+    }) }}
+    <form method="post" id="search-form" action="{{ url_for('search.search_by_post_code_address') }}" novalidate>
+      {{ form.csrf_token }}
+      {{ form.search_term(params={"classes": 'govuk-input--width-20', 'spellcheck': false }) }}
+      {% set tou_html %}<a class="govuk-link" href="{{ url_for('main.terms_and_conditions') }}">{{ _('terms of use') }}</a>{% endset %}
+      {% set practice_html %}<a class="govuk-link" href="{{ _('https://www.gov.uk/government/publications/local-land-charges-pg79/local-land-charges') }}">{{ _('Practice Guide 79') }}</a>{% endset %}
+      <p class="govuk-body">{{ _('By starting a search you agree to our %(tou_html)s. For further information about the service see %(practice_html)s', tou_html=tou_html|safe, practice_html=practice_html|safe) }}.</p>
+      {{ form.submit }}
+    </form>
+  </div>
+  {% include 'includes/search-side-menu.html' %}
+</div>
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  <!--[if gt IE 8]><!-->
+  <script src="{{ url_for('static', filename='js/search-button-ga.js') }}"> </script>
+  <!--<![endif]-->
+{% endblock %}

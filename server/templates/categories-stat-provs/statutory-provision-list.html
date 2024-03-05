@@ -1,0 +1,67 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+{% from "govuk_frontend_jinja/components/select/macro.html" import govukSelect %}
+
+{% block title %}{{ _('Statutory provisions') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">{{ _('Statutory provisions') }}</h1>
+    <p class="govuk-body">
+      {{ _("Use the list to check if a new statutory provision is available or if an existing one has changed.") }}
+    </p>
+    {% set stat_prov_rows = [] %}
+    {% for stat_prov in stat_provs_list %}
+      {% if "last_updated" in stat_prov %}
+        {% set last_updated = format_timestamp(stat_prov['last_updated'], true) %}
+      {% else %}
+        {% set last_updated = "" %}
+      {% endif %}
+      {% do stat_prov_rows.append([{"text": stat_prov['title']},
+                                   {"text": last_updated},
+                                   {"html": "<br>".join(stat_prov['previous_titles'])}]) %}
+    {% endfor %}
+    {% set select_items = [] %}
+    <div class="language-switcher">
+      <form id="sort_stat_provs_form" method="get">
+        {{ govukSelect({
+          "id": "sort_stat_provs",
+          "name": "sort_stat_provs",
+          "label": {
+            "text": _("Sort by")
+          },
+          "items": [
+            {
+              "value": "title",
+              "text": "A to Z",
+              "selected": request.args.get("sort_stat_provs", "title") == 'title'
+            },
+            {
+              "value": "last_updated",
+              "text": "Date",
+              "selected": request.args.get("sort_stat_provs", "title") == 'last_updated'
+            }
+          ]
+        }) }}
+      </form>
+    </div>
+    {{ govukTable({
+        "firstCellIsHeader": true,
+        "head": [
+          {
+            "text": _("Statutory provision")
+          },
+          {
+            "text": _("Last updated")
+          },
+          {
+            "text": _("Previous names")
+          }
+        ],
+        "rows": stat_prov_rows
+      }) }}
+  </div>
+</div>
+{% endblock %}

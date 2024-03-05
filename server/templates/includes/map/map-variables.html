@@ -1,0 +1,20 @@
+<script type="application/json" id="mapping-variables">
+  {
+    "staticContentUrl": "{{ url_for('static', filename='') | string() }}",
+    "addAreaText":"{{ _('Add area') }}",
+    "editAreaText": "{{ _('Edit area') }}",
+    "clearAllText": "{{ _('Clear all') }}",
+    "undoText": "{{ _('Undo') }}",
+    "undoArrowText":"{{ _('Undo arrow') }}",
+    "snapToMapText": "{{ _('Snap to map') }}",
+    "copyFromMapText": "{{ _('Copy from map') }}",
+    "deleteAreaText": "{{ _('Delete area') }}",
+    "language": "{{ g.locale }}",
+    "mastermap_api_key": "{{ config.MASTERMAP_API_KEY | string() }}",
+    "map_base_layer_view_name": "{{ config.MAP_BASE_LAYER_VIEW_NAME | string() }}",
+    "wfs_server_url": "{{ config.WFS_SERVER_URL | string() }}",
+    "wmts_server_url": "{{ config.WMTS_SERVER_URL | string() }}",
+    "geoserver_url": "{{ config.GEOSERVER_URL | string() }}",
+    "geoserver_token": "{{ geoserver_token() }}"
+  }
+</script>

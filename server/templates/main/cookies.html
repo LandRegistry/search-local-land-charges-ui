@@ -1,0 +1,66 @@
+{% extends 'base-templates/base.html' %}
+
+{%- from 'govuk_frontend_jinja/components/table/macro.html' import govukTable -%}
+
+{% block title %}{{ _('Cookies') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">{{ _('Cookies') }}</h1>
+    <p class="govuk-body">{{ _('Cookies are small files saved on your phone, tablet or computer when you visit a website') }}.
+    </p>
+    <p class="govuk-body">{{ _('We use cookies to make') }} {{ service_name }} {{ _('work and collect information about how you use our service') }}.</p>
+
+    <!-- Add any other essential cookies your service is using here, for example a language setting -->
+    <h2 class="govuk-heading-l">{{ _('Essential cookies') }}</h2>
+    <p class="govuk-body">{{ _('Essential cookies keep your information secure while you use') }} {{ service_name }}. {{ _('We do not need to ask permission to use them') }}.</p>
+    {{ govukTable(
+      {
+        'head': [{'text': 'Name'}, {'text': 'Purpose'}, {'text': 'Expires'}],
+        'rows': [
+          [{'text': 'session'}, {'text': _('Saves temporary information required to move through the service')}, {'text': _('On browser close')}],
+          [{'text': 'cookies_policy'}, {'text': _('Saves your cookie consent settings')}, {'text': _('1 year')}],
+          [{'text': 'language'}, {'text': _('Remembers the language you have selected as you move through the service and between your browser sessions. This is so that the service works in the same way for English and Welsh users.')}, {'text': _('1 year')}],
+        ]
+      }
+    )}}
+
+    <!-- Remove this section if not using analytics cookies -->
+    <h2 class="govuk-heading-l">{{ _('Analytics cookies') }}</h2>
+    <p class="govuk-body">{{ _('With your permission, we use Google Analytics to collect data about how you use') }} {{ service_name }}. {{ _('This information helps us to improve our service') }}.</p>
+    <p class="govuk-body">{{ _('Google is not allowed to use or share our analytics data with anyone') }}.</p>
+    <p class="govuk-body">{{ _('Google Analytics stores anonymised information about') }}:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>{{ _('how you got to this service') }}</li>
+      <li>{{ _('the pages you visit') }}</li>
+      <li>{{ _('how long you spend on each page') }} {{ service_name }}</li>
+      <li>{{ _("what you click on while you're using the service") }} {{ service_name }}</li>
+      <li>{{ _("any errors you see while you're using the service") }} {{ service_name }}</li>
+    </ul>
+    <p class="govuk-body">{{_('Google Analytics sets the following cookies:')}}</p>
+    {{ govukTable(
+      {
+        'caption': _('Analytics cookies'),
+        'captionClasses': 'govuk-visually-hidden',
+        'head': [{'text': _('Name')}, {'text': _('Purpose')}, {'text': _('Expires')}],
+        'rows': [
+          [{'text': '_ga'}, {'text': _('Checks if you\'ve visited Search local land charges before. This helps us count how many people visit our site')}, {'text': _('2 years')}],
+          [{'text': '_gid'}, {'text': _('Checks if you\'ve visited Search local land charges before. This helps us count how many people visit our site')}, {'text': _('24 hours')}],
+        ]
+      }
+    )}}
+
+    <!-- Remove this section if only using essential cookies -->
+    <h2 class="govuk-heading-l">{{ _('Change your cookie settings') }}</h2>
+    <form action="" method="post" novalidate>
+      {{ form.csrf_token }}
+
+      <!-- Remove if not using analytics cookies -->
+      {{ form.analytics }}
+
+      {{ form.save }}
+    </form>
+  </div>
+</div>
+{% endblock %}

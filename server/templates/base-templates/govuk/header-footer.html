@@ -1,0 +1,72 @@
+{% from "govuk_frontend_jinja/components/header/macro.html" import govukHeader %}
+{% from "govuk_frontend_jinja/components/footer/macro.html" import govukFooter %}
+
+{% extends "govuk_frontend_jinja/template.html" %}
+
+{% block header %}
+  {% if "profile" in session and "user_id" in session['profile'] %}
+    {{ govukHeader({
+      'homepageUrl': "/",
+      'serviceName': service_name,
+      'serviceUrl': url_for('index.index_page'),
+      'navigation': [
+        {
+          'href': url_for("my_account.my_account_page"),
+          'text': _("My account"),
+        },
+        {
+          'href': url_for('auth.logout'),
+          'text': _("Sign out")
+        }
+      ]
+    }) }}
+  {% else %}
+    {{ govukHeader({
+      'homepageUrl': "/",
+      'serviceName': service_name,
+      'serviceUrl': url_for('index.index_page'),
+      'navigation': [
+        {
+          'href': url_for("sign_in.handle_sign_in"),
+          'text': _("Sign in")
+        },
+        {
+          'href': url_for('account_admin.register'),
+          'text': _("Register")
+        }
+      ]
+    }) }}
+  {% endif %}
+{% endblock %}
+
+{% block footer %}
+  {{ govukFooter({
+    'meta': {
+      'items': [
+        {
+          'href': contact_url,
+          'text': _("Contact HM Land Registry")
+        },
+        {
+          'href': url_for('main.accessibility_statement'),
+          'text': _("Accessibility statement")
+        },
+        {
+          'href': url_for('main.cookies_page'),
+          'text': _("Cookies")
+        },
+        {
+          'href': url_for('main.terms_and_conditions'),
+          'text': _("Terms of use")
+        }
+      ],
+      'html': '{} <a href="{}" class="govuk-footer__link">{}</a>'.format(_('Built by'), _('https://www.gov.uk/government/organisations/land-registry'), _('HM Land Registry'))
+    },
+    'copyright': {
+      'text': _('&copy; Crown copyright')
+    },
+    'contentLicence': {
+      'html': '{} <a href="{}" class="govuk-footer__link">{}</a>, {}'.format(_('All content is available under the'), _('https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/'), _('Open Government Licence v3.0'), _('except where otherwise stated'))
+    }
+  }) }}
+{% endblock %}

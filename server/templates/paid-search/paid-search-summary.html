@@ -1,0 +1,96 @@
+
+
+
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
+{% from "govuk_frontend_jinja/components/panel/macro.html" import govukPanel %}
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+
+{% block title %}{{ _('Download your official local land charges search result') }}{% endblock %}
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {{ govukPanel({
+      "titleText": _('Official search result ready to download'),
+      "attributes": {"id": "table-caption"}
+    }) }}
+    <h2 class="govuk-heading-m">{{ _('What happens next') }}</h2>
+    <p class="govuk-body">{{ _('You can download your official search result. This will appear in your downloads folder.') }}</p>
+    {% set csv_link_html %}
+        <a id="csv-download-link" class="govuk-link" href="{{ url_for('paid_search.download_charges', enc_search_id=enc_search_id, download_format='csv') }}">{{ _('Download') }}</a>
+    {% endset %}
+    {% set json_link_html %}
+        <a id="json-download-link" class="govuk-link" href="{{ url_for('paid_search.download_charges', enc_search_id=enc_search_id, download_format='json') }}">{{ _('Download') }}</a>
+    {% endset %}
+    {% set pdf_link_html %}
+        <a id="pdf-download-link" class="govuk-link" href="{{ document_url }}">{{ _('Download') }}</a>
+    {% endset %}
+    {% set xml_link_html %}
+        <a id="xml-download-link" class="govuk-link" href="{{ url_for('paid_search.download_charges', enc_search_id=enc_search_id, download_format='xml') }}">{{ _('Download') }}</a>
+    {% endset %}
+
+    {{ govukTable({
+        "attributes": {"aria-describedby": "table-caption"},
+        "firstCellIsHeader": true,
+        "head": [
+            {
+            "text": _('Format')
+            },
+            {
+            "text": _('Action')
+            }
+        ],
+        "rows": [
+            [
+            {
+                "text": _('CSV')
+            },
+            {
+                "html": csv_link_html
+            }
+            ],
+            [
+            {
+                "text": _('JSON')
+            },
+            {
+                "html": json_link_html
+            }
+            ],
+            [
+            {
+                "text": _('PDF')
+            },
+            {
+                "html": pdf_link_html
+            }
+            ],
+            [
+            {
+                "text": _('XML')
+            },
+            {
+                "html": xml_link_html
+            }
+            ]
+        ]
+        }) }}
+    {% if has_supporting_documents %}
+        <p class="govuk-body"><a class="govuk-link" href="{{ url_for('paid_search.supporting_document_list', enc_search_id=enc_search_id) }}" id="supporting-documents-link">{{ _('Download light obstruction notice documents') }}</a></p>
+    {% endif %}
+    {% set inset_html %}
+        <p class="govuk-body">{{ _('You can also view the official search result in your account in ') }}<a class="govuk-link" href="{{ url_for('my_account.active_searches') }}">{{ _('active searches') }}</a></p>
+    {% endset %}
+    {{ govukInsetText({"html": inset_html}) }}
+    <p class="govuk-body"><a class="govuk-link" href="{{ url_for('search.search_by_post_code_address') }}">{{ _('Start a new search') }}</a></p>
+  </div>
+</div>
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  <!--[if gt IE 8]><!-->
+  <script src="{{ url_for('static', filename='js/download-format-ga.js') }}"> </script>
+  <!--<![endif]-->
+{% endblock %}

@@ -1,0 +1,322 @@
+@import 'govuk-frontend/govuk/all';
+
+/* Draw Control group and ol overrides  */
+#draw-controls {
+    top: 2%;
+    background-color: rgba(0, 0, 0, 0);
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%
+}
+
+#draw-controls button:disabled {
+    background-color: rgba(0, 94, 165, 0.5);
+}
+
+@media screen and (min-width: 600px){
+    #draw-controls{
+        display: inline;
+        width: auto;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 0.4em;
+    }
+}
+
+@media screen and (min-width: 760px) {
+    #draw-controls {
+        right: 10%;
+    }
+
+}
+
+#draw-controls button,
+#draw-controls button:focus,
+#snap-to button,
+#snap-to button:focus,
+.ol-control.ol-zoom button,
+.ol-control.ol-zoom button:hover,
+.ol-control.ol-zoom button:focus {
+    display: inline;
+    border: 3px solid rgba(0, 0, 0, 0);
+    border-radius: 7px;
+    background-color: #005ea5;
+    outline: none;
+    margin: 0px;
+    background-clip: padding-box;
+}
+
+.ol-control{
+    padding: 0.001em;
+}
+
+#draw-controls button:focus,
+#snap-to button:focus,
+.ol-control.ol-zoom button:focus {
+    box-shadow: 0 0 0 2px #ffbf47;
+}
+
+#draw-controls button.active-control,
+#draw-controls button.active-mode,
+#snap-to button.active-control,
+#snap-to button.active-mode,
+#snap-to button:active,
+.ol-control.ol-zoom button:active {
+    border: 3px solid #0b0c0c;
+    background-color: #2b8cc4
+}
+
+/* Move and show zoom controls based on screen size */
+.ol-zoom {
+    display: none;
+}
+
+@media screen and (min-width: 600px) {
+    .ol-viewport .ol-zoom {
+        display: inline;
+        top: 2%;
+    }
+}
+
+@media screen and (min-width: 641px) {
+    .ol-viewport .ol-zoom {
+        top: 16%;
+    }
+}
+
+@media screen and (min-width: 760px) {
+    .ol-viewport .ol-zoom {
+        top: 2%;
+    }
+}
+
+/* Stop jumbo buttons on touch devices above certain resolutions */
+.ol-touch .ol-control button {
+    font-size: 1.4em;
+}
+
+@media screen and (min-width: 600px) {
+    .ol-touch .ol-control button {
+       font-size: 1.2em;
+    }
+    .ol-touch .snap-text{
+        font-size: 0.75em;
+        font-weight: bold;
+    }
+}
+
+@media screen and (min-width: 641px) {
+    .ol-touch .ol-control button {
+       font-size: 1.0em;
+    }
+    .ol-touch .snap-text{
+        font-size: 0.65em;
+        font-weight: bold;
+    }
+}
+
+.ol-control.ol-zoom button,
+.ol-control.ol-zoom button:hover,
+.ol-control.ol-zoom button:focus {
+    display: block;
+    height: 1.8em;
+    width: 1.8em;
+    color:rgb(255, 255, 255);
+    font-family: $govuk-font-family;
+}
+
+.ol-control.ol-zoom,
+.ol-control.ol-zoom:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.control-title {
+    display: none;
+    color:rgb(255, 255, 255);
+    font-family: $govuk-font-family;
+}
+
+.snap-to-disabled{
+    opacity: 0.3;
+}
+
+.ol-control button.active {
+    background-color: rgba(0, 60, 136, 1);
+}
+
+.disabled-btn button,
+.disabled-btn button:hover,
+.disabled-btn button:focus {
+    background-color: #999;
+    border-color: #999;
+}
+
+/* Draw Control Buttons */
+
+button.map-button-add-area {
+    background: url("../images/mapping/polygon.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 1.8em;
+    width: 1.8em;
+}
+
+button.map-button-copy {
+    background: url("../images/mapping/copy.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 1.8em;
+    width: 1.8em;
+}
+
+button.map-button-clear-all {
+    background: url("../images/mapping/remove-all.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 1.8em;
+    width: 1.8em;
+}
+
+/* Disabled in mobile view */
+#draw-controls .map-button-edit,
+#draw-controls .map-button-undo,
+#draw-controls .checkbox,
+#draw-controls .map-button-delete{
+    display: none;
+}
+
+@media screen and (min-width: 600px) {
+
+    button.map-button-add-area,
+    button.map-button-clear-all,
+    button.map-button-copy {
+        background: none;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .control-title {
+        font-size: 0.65em;
+        display: inline;
+    }
+    
+    .snap-text{
+        font-size: 0.65em;
+        font-weight: bold;
+    }
+
+    .undo-img{
+        height: 0.8em;
+        margin-bottom: 0.1em;
+    }
+
+    .checkbox{
+        padding-right: 0.4em;
+    }
+
+    .checkbox input{
+        padding: 0.2em;
+        width: 0;
+    }
+
+    .checkbox label {
+        position: relative;
+        display: inline-block;
+        padding-left: 2em;
+    }
+
+    .checkbox label::before,
+    .checkbox label::after {
+        position: absolute;
+        content: "";
+        display: inline-block;
+    }
+
+    .checkbox label::before{
+        height: 1.5em;
+        width: 1.5em;
+        border: 0.2em solid;
+        left: -0.3em;
+        top: -0.3em;
+    }
+
+    .checkbox label::after {
+        height: 5px;
+        width: 9px;
+        border-left: 2px solid;
+        border-bottom: 2px solid;
+        transform: rotate(-45deg);
+        left: 0.15em;
+        top: 0.2em;
+    }
+
+    .checkbox input[type="checkbox"] + label::after {
+        content: none;
+    }
+
+    .checkbox input[type="checkbox"]:checked + label::after {
+        content: "";
+    }
+
+    .checkbox input[type="checkbox"]:focus + label::before {
+        box-shadow: 0 0 0 2px #ffbf47;
+    }
+
+    .checkbox input[type="checkbox"] {
+        opacity: 0;
+    }
+
+    button#map-button-add-area.map-button-add-area,
+    button#map-button-edit.map-button-edit,
+    button#map-button-copy.map-button-copy{
+        height: 2em;
+        width: auto;
+        padding-left: 0.25em;
+        padding-right: 0.25em;
+    }
+
+    button#map-button-undo.map-button-undo,
+    button#map-button-clear-all.map-button-clear-all,
+    button#map-button-delete.map-button-delete{
+        height: 2em;
+        width: 2.5em;
+        vertical-align: bottom;
+        padding-left: 0.1em;
+        padding-right: 0.1em;
+    }
+
+    button#map-button-undo.map-button-undo-welsh{
+        width: 4em;
+        height: 2em;
+        vertical-align: bottom;
+        padding-left: 0.1em;
+        padding-right: 0.1em;
+    }
+
+    button#map-button-clear-all.map-button-clear-all,
+    button#map-button-delete.map-button-delete{
+        line-height: 0.7em;
+    }
+
+    /* Enable all controls in desktop view */
+    #draw-controls .map-button-edit,
+    #draw-controls .map-button-undo,
+    #draw-controls .checkbox,
+    #draw-controls .map-button-delete{
+        display: inline;
+    }
+}
+
+.ol-attribution.ol-unselectable.ol-control.ol-uncollapsible{
+    padding-top: 1%;
+    margin-bottom: 4%;
+}
+
+.ol-attribution.ol-unselectable.ol-control.ol-uncollapsible.small-copy-right-text{
+    padding-top: 0;
+    margin-bottom: 0;
+}

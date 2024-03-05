@@ -1,0 +1,30 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
+{% from "govuk_frontend_jinja/components/warning-text/macro.html" import govukWarningText %}
+
+{% block title %}{{ _('Contact HM Land Registry') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      {{ _('Contact HM Land Registry') }}
+    </h1>
+    {{ govukWarningText({
+        "text": _('You can\'t see this many charges in a single search'),
+        "iconFallbackText": "Warning"
+      }) }}
+    {% set inset_html %}
+      {{ _('Contact HM Land Registry to search this area') }}:
+      <a class="govuk-link" id=“contact-us-link” href="{{ config.CONTACT_US_URL }}" target=“_blank”>{{ _("Contact HM Land Registry") }} {{ _('(link opens in new tab)') }}</a>.
+    {% endset %}
+    {{ govukInsetText({
+      "html": inset_html
+    }) }}
+    <p class="govuk-body">
+      {{ _('or') }} <a class="govuk-link" href="{{ url_for('search.define_search_area', page_style='edit') }}">{{ _('return to map search') }}</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

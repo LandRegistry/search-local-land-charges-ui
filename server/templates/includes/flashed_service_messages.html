@@ -1,0 +1,19 @@
+{%- from 'govuk_frontend_jinja/components/notification-banner/macro.html' import govukNotificationBanner -%}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      {% if category == "service_message" %}
+        {% set sm_html %}
+          {% for service_message in message %}
+            <p class="govuk-notification-banner__heading">{{ service_message.message }}
+            {% if service_message.link_text %}
+              <br><a href="{{ service_message.link }}" class="govuk-notification-banner__link">{{ service_message.link_text}} {{ _('(link opens in new tab)') }}</a>
+            {% endif %}
+            </p>
+          {% endfor %}
+        {% endset %}
+        {{ govukNotificationBanner({'type': "important", 'html': sm_html, 'titleHeadingLevel': 2, "titleText": _("Important")}) }}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}

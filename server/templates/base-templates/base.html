@@ -1,0 +1,177 @@
+{% from "govuk_frontend_jinja/components/cookie-banner/macro.html" import govukCookieBanner %}
+{% from "govuk_frontend_jinja/components/error-summary/macro.html" import govukErrorSummary %}
+{% from "govuk_frontend_jinja/components/phase-banner/macro.html" import govukPhaseBanner %}
+{% from "govuk_frontend_jinja/components/skip-link/macro.html" import govukSkipLink %}
+{% from "govuk_frontend_jinja/components/back-link/macro.html" import govukBackLink %}
+
+{% extends 'base-templates/' ~ config.BASE_TEMPLATE ~ '/header-footer.html' %}
+
+{% set assetPath = url_for('static', filename='').rstrip('/') %}
+
+{% block head %}
+  <meta name="description" content="{{ service_name }}">
+  <meta name="keywords" content="">
+  <meta name="author" content="HM Land Registry">
+  <!--[if gt IE 8]><!--><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"><!--<![endif]-->
+  <!--[if IE 8]><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main-ie8.css') }}"><![endif]-->
+  {% if google_analytics_key %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{google_analytics_key}}"></script>
+    <script data-analytics-id="{{google_analytics_key}}">
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      var analytics_script = document.querySelector('[data-analytics-id]');
+      var google_analytics_id = analytics_script.getAttribute('data-analytics-id');
+
+      gtag('config', google_analytics_id, { 'anonymize_ip': true });
+    </script>
+  {% else %}
+    <script src="{{ url_for('static', filename='js/fake-analytics.js') }}"> </script>
+  {% endif %}
+{% endblock %}
+
+{% block pageTitle %}{%- if form and form.errors %}Error: {% endif -%}{% block title %}{% endblock %}{%if self.title() %} - {% endif %}{{ service_name }}{% endblock %}
+
+{% block bodyEnd %}
+  <!--[if gt IE 8]><!-->
+  <script src="{{ url_for('babel_catalog') }}"></script>
+  <script src="{{ url_for('static', filename='js/runtime.js') }}"> </script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"> </script>
+  <!--<![endif]-->
+{% endblock %}
+
+{% block bodyStart %}
+  {% if "cookies_policy" not in request.cookies or not check_valid_base64_json_cookie(request.cookies.get("cookies_policy"))[0] %}
+    {% set html %}
+      <p class="govuk-body">{{ _('We use some essential cookies to make this service work') }}.</p>
+      <p class="govuk-body">{{ _('We’d like to set additional cookies so we can remember your settings, understand how people use the service and make improvements') }}.</p>
+    {% endset %}
+
+    {% set acceptHtml %}
+      <p class="govuk-body">{{ _('You’ve accepted additional cookies. You can') }} <a href="{{ url_for('main.cookies_page') }}">{{ _('change your cookie settings') }}</a> {{ _('at any time') }}.</p>
+    {% endset %}
+
+    {% set rejectHtml %}
+      <p class="govuk-body">{{ _('You’ve rejected additional cookies. You can') }} <a href="{{ url_for('main.cookies_page') }}">{{ _('change your cookie settings') }}</a> {{ _('at any time') }}.</p>
+    {% endset %}
+
+    {{ govukCookieBanner({
+      'ariaLabel': _('Cookies on ') ~ service_name,
+      'attributes': {
+        'id': "cookie-banner"
+      },
+      'messages': [
+        {
+          'attributes': {
+            'id': "default-message"
+          },
+          'headingText': _('Cookies on ') ~ service_name,
+          'html': html,
+          'actions': [
+            {
+              'attributes': {
+                'id': "accept-cookies"
+              },
+              'text': _('Accept additional cookies'),
+              'type': "button",
+              'name': "cookies",
+              'value': "accept"
+            },
+            {
+              'attributes': {
+                'id': "reject-cookies"
+              },
+              'text': _('Reject additional cookies'),
+              'type': "button",
+              'name': "cookies",
+              'value': "reject"
+            },
+            {
+              'text': _('View cookies'),
+              'href': url_for('main.cookies_page')
+            }
+          ]
+        },
+        {
+          'attributes': {
+            'id': "accepted-message"
+          },
+          'html': acceptHtml,
+          'role': "alert",
+          'hidden': true,
+          'actions': [
+            {
+              'attributes': {
+                'id': "accepted-hide"
+              },
+              'text': _('Hide this message')
+            }
+          ]
+        },
+        {
+          'attributes': {
+            'id': "rejected-message"
+          },
+          'html': rejectHtml,
+          'role': "alert",
+          'hidden': true,
+          'actions': [
+            {
+              'attributes': {
+                'id': "rejected-hide"
+              },
+              'text': _('Hide this message')
+            }
+          ]
+        }
+      ]
+    }) }}
+  {% endif %}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukPhaseBanner({
+    'tag': {
+      'text': "beta"
+    },
+    'html': '{}. <a href="{}" target="_blank" class="govuk-link">{} ({})</a>.'.format(_('This is a new service – your feedback will help us to improve it'), feedback_url, _('Feedback form'),  _('link opens in new tab'))
+  }) }}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      {% if show_back_link() %}
+        {{ govukBackLink({
+          "text": _("Back"),
+          "href": url_for('main.back')
+        }) }}
+      {% endif %}
+      <div class="language-switcher govuk-body-s">
+        {% if g.locale == 'en' %}
+          English | <a class="govuk-link" href="{{ url_for('language.change_language', language='cy') }}">Cymraeg</a>
+        {% else %}
+          <a class="govuk-link" href="{{ url_for('language.change_language', language='en') }}">English</a> | Cymraeg
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  {% include 'includes/flashed_service_messages.html' %}
+
+  {% if form and form.errors %}
+    {{ govukErrorSummary(wtforms_errors(form, {"titleText": _("There is a problem")})) }}
+
+    {% if google_analytics_key %}
+      {# JSON block containing form errors to be sent to Google Analytics #}
+      <script type="application/json" id="form-error-data" data-form-name="{{ form.__class__.__name__ }}">
+        {{ form.errors|build_form_errors|tojson }}
+      </script>
+    {% endif %}
+  {% endif %}
+
+  {% include 'includes/flashed_messages.html' %}
+
+  {% block inner_content %}{% endblock %}
+{% endblock %}

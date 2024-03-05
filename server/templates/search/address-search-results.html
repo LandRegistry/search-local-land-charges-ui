@@ -1,0 +1,31 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/pagination/macro.html" import govukPagination %}
+
+{% block title %}{{ _('Search results for ‘%(search_term)s’', search_term=search_term) }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">{{ _('Search results for ‘%(search_term)s’', search_term=search_term) }}</h1>
+    <p class="govuk-body">
+      {% set address_count_html %}<span class="govuk-!-font-weight-bold">{{ _('%(address_count)s addresses', address_count=no_of_addresses) }}</span>{% endset %}
+      {{ _('Your search has found %(address_count_html)s. Select an address to continue.', address_count_html=address_count_html|safe) }}
+    </p>
+    <ul class="govuk-list">
+      {% for address in addresses %}
+      <li>
+        <a class="govuk-link govuk-link--no-visited-state" href="{{ url_for('search.address_details', index=start_index + loop.index0) }}"
+          id="address-{{ loop.index }}">
+          {{ address.get('address') }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% if show_pagination %}
+      {{ govukPagination(pagination_info) }}
+    {% endif %}
+  </div>
+  {% include 'includes/search-side-menu.html' %}
+</div>
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+
+{% set map_style = "search-results-map-large" %}
+
+{% block title %}{{ _('Search result') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">{{ _('Search result') }}</h1>
+    <div aria-label="{{ _('Image showing search extent') }}">
+        {% include "includes/map/map.html" %}
+        <input type="hidden" name="saved-features" id="saved-features" value="{{ geometry }}">
+    </div>
+    <p class="govuk-body-s">
+        {{ _('The dotted line shows the extent area of the INSPIRE ID') }}
+    </p>
+    <h2 class="govuk-heading-m">{{ charge.format_field_for_display('charge_type') }}</h2>
+    {% if charge['supplementary_information'] %}
+        <p class="govuk-body">
+            {{ charge.format_field_for_display('supplementary_information') }}
+        </p>
+    {% endif %}
+    {% set location_html %}
+        {% if charge['charge_geographic_description'] %}
+            {% for line in charge.charge_geographic_description.splitlines() %}
+                {{ line }}
+                <br/>
+            {% endfor %}
+        {% else %}
+            {% for line in charge.format_charge_address_for_display() %}
+                {{ line }}
+                <br/>
+            {% endfor %}
+        {% endif %}
+    {% endset %}
+    {% set category_text %}
+      {{ charge.format_field_for_display('charge_type') }}{% if charge['charge_sub_category'] %} - {{ charge.format_field_for_display('charge_sub_category') }}{% endif %}
+    {% endset%}
+
+    {{ govukTable({
+        'firstCellIsHeader': true,
+        'rows': [
+          [
+            {},{}
+          ],
+          [
+            {
+              'text': _('Location')
+            },
+            {
+              'html': location_html
+            }
+          ],
+          [
+            {
+              'text': _('Category')
+            },
+            {
+              'text': category_text
+            }
+          ],
+          [
+            {
+              'text': _('Law')
+            },
+            {
+              'text': charge.format_field_for_display('statutory_provision')
+            }
+          ],
+          [
+            {
+              'text': _('Legal document')
+            },
+            {
+              'text': charge.format_field_for_display('instrument')
+            }
+          ],
+          [
+            {
+              'text': _('Authority reference')
+            },
+            {
+              'text': charge.format_field_for_display('further_information_reference')
+            }
+          ],
+          [
+            {
+              'text': _('Originating authority')
+            },
+            {
+              'text': charge.format_field_for_display('originating_authority')
+            }
+          ],
+          [
+            {
+              'text': _('Creation date')
+            },
+            {
+              'text': charge.format_date_for_display('charge_creation_date')
+            }
+          ],
+          [
+            {
+              'text': _('Registration date')
+            },
+            {
+              'text': charge.format_date_for_display('registration_date')
+            }
+          ],
+          [
+            {
+              'text': _('HM Land Registry reference')
+            },
+            {
+              'text': charge.format_llc_ref_for_display('local_land_charge')
+            }
+          ]
+        ]
+      }) }}
+      <p class="govuk-body">{{ _('Not the right area?') }} <a class="govuk-link" href="{{ url_for('search.search_by_post_code_address') }}">{{ _('Search again') }}.</a></p>
+  </div>
+</div>
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  {% include 'includes/map/map-variables.html' %}
+  <!--[if gt IE 8]><!-->
+  <script src="{{ url_for('static', filename='js/proj4.js') }}"> </script>
+  <script src="{{ url_for('static', filename='js/jquery.js') }}"> </script>
+  <script src="{{ url_for('static', filename='js/mapping.js') }}"> </script>
+  <script src="{{ url_for('static', filename='js/confirm-search-area.js') }}"> </script>
+  <!--<![endif]-->
+{% endblock %}

@@ -1,0 +1,18 @@
+      <ul class="govuk-list">
+        <li class="subnav-item {% if request.path == url_for('my_account.my_account_page') %}subnav-item-current{% endif %}">
+          <a href="{{ url_for('my_account.my_account_page') }}" class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.my_account_page') %}subnav-item-current-link{% endif %} govuk-link--no-visited-state">{{ _('Manage account') }}</a>
+        </li>
+      </ul>
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      <h2 class="govuk-heading-s">{{ _('My searches') }}</h2>
+      <ul class="govuk-list">
+        <li class="subnav-item {% if request.path == url_for('my_account.active_searches') %}subnav-item-current{% endif %}">
+          <a class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.active_searches') %}subnav-item-current-link{% endif %} govuk-link--no-visited-state" href="{{ url_for('my_account.active_searches') }}">{{ _('Active searches') }}</a>
+        </li>
+        <li class="subnav-item {% if request.path == url_for('my_account.expired_searches') %}subnav-item-current{% endif %}">
+          <a class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.expired_searches') %}subnav-item-current-link{% endif %} govuk-link--no-visited-state" href="{{ url_for('my_account.expired_searches') }}">{{ _('Expired searches') }}</a>
+        </li>
+        <li class="subnav-item {% if request.path == url_for('my_account.free_searches') %}subnav-item-current{% endif %}">
+          <a class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.free_searches') %}subnav-item-current-link{% endif %} govuk-link--no-visited-state" href="{{ url_for('my_account.free_searches') }}">{{ _('Free searches') }}</a>
+        </li>
+      </ul>

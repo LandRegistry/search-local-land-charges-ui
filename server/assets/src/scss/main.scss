@@ -1,0 +1,32 @@
+// GOV.UK design system
+$govuk-images-path: '../images/';
+$govuk-fonts-path: '../fonts/';
+
+// Uncomment the following line to disable the transport font
+// Conversely, comment it out if you want to use transport
+// Anything not on a service.gov.uk domain should not use transport
+// $govuk-font-family: 'Arial', sans-serif;
+
+// govuk-frontend
+// Feel free to be more selective than this - referring to the govuk-frontend source to include just what's needed
+@import 'govuk-frontend/govuk/all';
+
+// hmlr-design-system
+// Styles for the hmlr specific headers and footers
+// If you know you are not using these, you can omit these imports entirely
+//
+// If you _are_ using these, you could expand out the govuk-frontend import
+// from above and omit the gov header and footer
+// @import '@hmlr/frontend/hmlr/all';
+
+// App specific code
+
+// Accessible autocomplete styles
+@import "accessible-autocomplete";
+
+@import "partials/custom-styles";
+
+@import "ol/ol";
+@import "partials/map";
+@import "partials/draw-controls";
+@import "partials/map-attributions";

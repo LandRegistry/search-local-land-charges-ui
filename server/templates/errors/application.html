@@ -1,0 +1,11 @@
+{% extends 'base-templates/base.html' %}
+
+{% block title %}{{ _('An error has occured') }}{% endblock %}
+
+{% block inner_content %}
+  <h1 class="govuk-heading-l">{{ _('An error has occured') }}</h1>
+  {% if code %}
+    <p class="govuk-body"><strong>{{ _('Error code:') }}</strong> {{code}}</p>
+  {% endif %}
+  <p class="govuk-body">{{description}}</p>
+{% endblock %}

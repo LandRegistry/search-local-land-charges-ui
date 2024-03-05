@@ -1,0 +1,125 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
+
+{% block title %}
+	{% if maintenance %}
+		{{ _('Your search area includes an area where information is temporarily not available') }}
+	{% elif maintenance_contact %}
+		{{ _('Your search area may include information that is temporarily not available') }}
+	{% elif no_authority %}
+		{{ _('Your search includes areas we do not hold information for') }}
+	{% else %}
+		{{ _('Your search includes areas we do not hold information for') }}
+	{% endif %}
+{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      {% if maintenance %}
+        {% if authorities|length == 1 %}
+          {{ _('Your search includes an area where information is temporarily not available') }}
+        {% else %}
+          {{ _('Your search includes areas where information is temporarily not available') }}
+        {% endif %}
+      {% elif maintenance_contact %}
+        {% if authorities|length == 1 %}
+          {{ _('Your search may include an area that is temporarily not available') }} 
+        {% else %}
+          {{ _('Your search may include areas that are temporarily not available') }} 
+        {% endif %}
+      {% elif no_authority %}
+        {{ _('Your search includes areas we do not hold information for') }}
+      {% else %}
+        {% if authorities|length == 1 %}
+          {{ _('Your search includes an area we do not hold information for') }}
+        {% else %}
+          {{ _('Your search includes areas we do not hold information for') }}
+        {% endif %}
+      {% endif %}
+    </h1>
+    {% if no_authority %}
+      <p class="govuk-body">
+        {{ _('This service only covers land in England and Wales.') }}
+      </p>
+    {% endif %}
+    {% if authorities %}
+      <div>
+        {% if lang != "cy" %}
+          {% if authorities|length == 1 %}
+            <p class="govuk-body">{{ _('This area is') }}:</p>
+          {% else %}
+            <p class="govuk-body">{{ _('These areas are') }}:</p>
+          {% endif %}
+          <ul class='govuk-list govuk-list--bullet'>
+            {% for authority in authorities %}
+              <li>{{ authority }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <ul class='govuk-list govuk-list--bullet'>
+            {% for authority in authorities %}
+              <li>{{ authority }}</li>
+            {% endfor %}
+          </ul>
+          {% if authorities|length == 1 %}
+            <p>{{ _('This area is') }}:</p>
+          {% else %}
+            <p>{{ _('These areas are') }}:</p>
+          {% endif %}
+        {% endif %}
+        {% if maintenance or maintenance_contact %}
+          <p class="govuk-body">
+            {% if authorities|length == 1 %}
+              {{ _('We\'re currently working on making this information available again.  You\'ll be able to search this area once we\'ve done that.') }}
+            {% else %}
+              {{ _('We\'re currently working on making this information available again.  You\'ll be able to search these areas once we\'ve done that.') }}
+            {% endif %}
+          </p>
+          {% if maintenance_contact %}
+            {% set inset_html %}
+              <a href="{{ config.CONTACT_US_URL }}">{{ _('Contact us') }}</a> {{ _('if you need this search urgently.  We may be able to complete this search for you.') }}
+            {% endset %}
+            {{ govukInsetText({
+              "html": inset_html
+            }) }}
+          {% endif %}
+        {% else %}
+          <p class="govuk-body">
+            {% if authorities|length == 1 and not scotland %}
+              {{ _('You will need to contact them to search this area') }}
+            {% else %}
+              {% if scotland %}
+                {%if authorities|length > 2 %}
+                  {{ _('You will need to contact these authorities and Registers of Scotland to search this area') }}
+                {% elif authorities|length > 1 %}
+                  {{ _('You will need to contact them and Registers of Scotland to search this area') }}
+                {% endif %}
+              {% else %}
+                {{ _('You will need to contact these authorities to search this area') }}
+              {% endif %}
+            {% endif %}
+          </p>
+        {% endif %}
+      </div>
+    {% endif %}
+    <p class="govuk-body">
+      <a id="non-migrated-start-new" class="govuk-button" href="{{ url_for('search.search_by_post_code_address') }}">{{ _('Start a new search') }}</a>
+    </p>
+    {% if show_amend_search %}
+      <p class="govuk-body">
+        <a id="non-migrated-edit" class="govuk-link" href="{{ url_for('search.define_search_area', page_style='edit') }}">{{ _('Edit your search area') }}</a>
+      </p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block bodyEnd %}
+    {{ super() }}
+    <!--[if gt IE 8]><!-->
+    <script src="{{ url_for('static', filename='js/non-migrated-ga.js') }}"></script>
+    <!--<![endif]-->
+{% endblock %}

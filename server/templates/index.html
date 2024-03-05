@@ -1,0 +1,22 @@
+{% extends 'base-templates/base.html' %}
+{% from 'govuk_frontend_jinja/components/button/macro.html' import govukButton %}
+
+{% block title %}Dummy {{language}} homepage{% endblock %}
+
+{% block inner_content %}
+<span class="govuk-caption-xl">{{service_name}}</span>
+<h1 class="govuk-heading-xl">Dummy {{language}} homepage</h1>
+
+{% filter markdown %}
+## Dummy {{language}} homepage standing in for the GDS one
+<a class="govuk-link" href="{{ url_for('check_migrated_authorities.check_authorities')}}">Check authorities page</a>
+
+{{ govukButton({
+  "text": "Start now",
+  "href": "/sign-in",
+  "isStartButton": true
+}) }}
+
+{% endfilter %}
+
+{% endblock %}

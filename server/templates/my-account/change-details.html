@@ -1,0 +1,24 @@
+{% extends 'base-templates/base.html' %}
+
+{% block title %}{{ _('Change your details') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">{{ _('Change your details') }}</h1>
+    <form method="post" action="{{ url_for('my_account.change_details') }}" novalidate>
+      {{ form.csrf_token }}
+      {{ form.first_name(params={"classes": 'govuk-input--width-20', 'spellcheck': false}) }}
+      {{ form.last_name(params={"classes": 'govuk-input--width-20', 'spellcheck': false}) }}
+      {% set link_html %}<a class="govuk-link" href="{{ _('https://www.gov.uk/government/organisations/land-registry/about/personal-information-charter') }}">{{ _('personal information charter') }}</a>{% endset %}
+      <p class="govuk-body">
+        {{ _('Your personal information will be used to manage your account, process search requests and to contact you. We may retain and share it to help detect and prevent fraud, in line with our %(link_html)s', link_html=link_html) }}.
+      </p>
+      {{ form.submit }}
+    </form>
+    <p class="govuk-body">
+      <a class="govuk-link" href="{{ url_for('my_account.my_account_page') }}">{{ _('Return to my account') }}</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

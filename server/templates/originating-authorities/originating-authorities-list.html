@@ -1,0 +1,66 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+
+{% block title %}{{ _('View Originating authority names') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">{{ _('View Originating authority names') }}</h1>
+    <p class="govuk-body" id="table-caption">
+      {{ _("Use this list to check which originating authority names will be accepted onto the register when registering new charges. Previous names are recognised as valid, but cannot be used for new registrations.") }}
+    </p>
+    {% set la_rows = [] %}
+    {% set ooa_rows = [] %}
+    {% for oa in oa_list %}
+      {% set previous_names = oa['historic_names']['valid_names'] %}
+      {% if previous_names.count(oa['title']) > 0 %}
+        {% do previous_names.remove(oa['title']) %}
+      {% endif %}
+      {% if oa['type'] == 1 %}
+        {% do la_rows.append([{"text": oa['title']},
+                              {"text": format_date(fromisoformat(oa["last_updated"])) if oa["last_updated"]},
+                              {"html": "<br>".join(previous_names)}]) %}
+      {% elif oa['type'] == 2 %}
+        {% do ooa_rows.append([{"text": oa['title']},
+                               {"text": format_date(fromisoformat(oa["last_updated"])) if oa["last_updated"]},
+                               {"html": "<br>".join(previous_names)}]) %}
+      {% endif %}
+    {% endfor %}
+    {{ govukTable({
+        "attributes": {"aria-describedby": "table-caption"},
+        "firstCellIsHeader": true,
+        "head": [
+          {
+            "text": _("Local Authority")
+          },
+          {
+            "text": _("Last updated")
+          },
+          {
+            "text": _("Previous names")
+          }
+        ],
+        "rows": la_rows
+      }) }}
+    <br><br>
+    {{ govukTable({
+        "attributes": {"aria-describedby": "table-caption"},
+        "firstCellIsHeader": true,
+        "head": [
+          {
+            "text": _("Other originating authority")
+          },
+          {
+            "text": _("Last updated")
+          },
+          {
+            "text": _("Previous names")
+          }
+        ],
+        "rows": ooa_rows
+      }) }}
+  </div>
+</div>
+{% endblock %}

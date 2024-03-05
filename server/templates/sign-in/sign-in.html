@@ -1,0 +1,25 @@
+{% from "govuk_frontend_jinja/components/fieldset/macro.html" import govukFieldset %}
+
+{% extends 'base-templates/base.html' %}
+
+{% block title %}{{ _('Sign in') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">{{ _('Sign in') }}</h1>
+    <p class="govuk-body">
+      {{ _('Sign in or') }} <a href="{{ url_for('account_admin.register') }}" class="govuk-link">{{ _('create an account') }}</a>
+    </p>
+    <form method="post" action="{{ url_for('sign_in.handle_sign_in') }}" novalidate>
+      {{ form.username_password(params={"username_password-username":{"classes": 'govuk-input--width-20', 'spellcheck': false, 'autocomplete': 'email'}, "username_password-password": {"classes": 'govuk-input--width-20'} }) }}
+      {{ form.redirect_uri(value=redirect_uri) }}
+      {{ form.submit }}
+    </form>
+
+    <p class="govuk-body">
+      <a href="{{ url_for('account_admin.reset_password', page_type='reset-password') }}" class="govuk-link">{{ _('Forgotten your password?') }}</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

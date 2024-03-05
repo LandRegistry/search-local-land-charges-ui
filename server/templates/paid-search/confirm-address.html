@@ -1,0 +1,79 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
+{% from "govuk_frontend_jinja/components/warning-text/macro.html" import govukWarningText %}
+
+{% set map_style = "area-confirm-map" %}
+
+{% block title %}{{ _('Does ‘%(address)s’ match the exact search area?', address=address) }}{% endblock %}
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-half">
+    <form id="confirm-address-form" method="post" action="{{ url_for('paid_search.confirm_address', enc_search_id=enc_search_id) }}">
+      {{ form.csrf_token }}
+      {{ form.address_matches(params={
+        "fieldset": {
+          "legend": {
+            "text": _('Does ‘%(address)s’ match the exact search area?', address=address),
+            "isPageHeading": true,
+            "classes": "govuk-fieldset__legend--xl"
+          }
+        },
+        "hint": {
+          "html": govukInsetText({"text": _("This description will be used on your official copy.")})
+        },
+        "items": [
+        {
+          "value": "yes",
+          "text": _("Yes"),
+        },{
+          "value": "no",
+          "text": _("No, I'd like to provide my own description"),
+          "conditional": {
+            "html": form.search_area_description(params={"maxlength": 1000,
+              "label": {
+                "classes": "govuk-label--s govuk-!-font-weight-bold"},
+              "charactersAtLimitText": _('You have 0 characters remaining'),
+              "charactersUnderLimitText": {
+                "one": _('You have %(count)s character remaining', count="%{count}"),
+                "other": _('You have %(count)s characters remaining', count="%{count}")
+              },
+              "charactersOverLimitText": {
+                "one": _('You have %(count)s character too many', count="%{count}"),
+                "other": _('You have %(count)s characters too many', count="%{count}")
+              },
+              "textareaDescriptionText": _("You can enter up to %(count)s characters", count="%{count}")
+            })
+          }
+        }]}) }}
+      {{ govukWarningText({"text": _("You cannot change your search area after you have paid.")}) }}
+      <p class="govuk-body govuk-!-margin-bottom-8">
+        {{ _("Your payment will be processed by our payment service provider, WorldPay, through GOV.UK Pay. You should refer to the Privacy Notices of those organisations for details of how your personal data is used.") }}
+      </p>
+      {{ form.submit }}
+      <p class="govuk-body">
+        <a class="govuk-link" href="{{ url_for('search.search_by_post_code_address') }}">{{ _('Cancel and start a new search') }}</a>
+      </p>
+    </form>
+  </div>
+  <div class="govuk-grid-column-one-half">
+    <input type="hidden" name="saved-features" id="saved-features" value="{{ geometry }}">
+    <div id="{{ map_style}}" aria-label="{{ _('Image showing search extent') }}">
+      {% include "includes/map/map.html" %}
+    </div>
+    <p class="govuk-body-s">{{ _('The dotted line shows your search area.') }}</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  {% include 'includes/map/map-variables.html' %}
+  <!--[if gt IE 8]><!-->
+  <script src="{{ url_for('static', filename='js/proj4.js') }}"> </script>
+  <script src="{{ url_for('static', filename='js/jquery.js') }}"> </script>
+  <script src="{{ url_for('static', filename='js/mapping.js') }}"> </script>
+  <script src="{{ url_for('static', filename='js/confirm-search-area.js') }}"> </script>
+  <script src="{{ url_for('static', filename='js/payment-pageview-onsubmit.js') }}"> </script>
+  <!--<![endif]-->
+{% endblock %}

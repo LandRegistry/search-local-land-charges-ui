@@ -1,0 +1,12 @@
+import './modules/mapping/set_map_variables';
+import './modules/mapping/map_styles';
+import './modules/mapping/copy_vector_layer';
+import './modules/mapping/snap_to_vector_layer';
+import './modules/mapping/map_controls';
+import './modules/mapping/map_helpers';
+import './modules/mapping/map_config';
+import './modules/mapping/geoserver';
+import './modules/mapping/address_marker';
+import './modules/mapping/map';
+import './modules/mapping/map_undo';
+import './modules/mapping/save_load_geometries'

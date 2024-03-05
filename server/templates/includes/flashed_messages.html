@@ -1,0 +1,18 @@
+{%- from 'govuk_frontend_jinja/components/notification-banner/macro.html' import govukNotificationBanner -%}
+{%- from 'govuk_frontend_jinja/components/panel/macro.html' import govukPanel -%}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      {% if category != "service_message" and category != "panel" %}
+        {% if category == 'success' %}
+          {% set title_text = _("Success") %}
+        {% else %}
+          {% set title_text = _("Important") %}
+        {% endif %}
+        {{ govukNotificationBanner({'type': category, 'text': message | safe, "titleText": title_text }) }}
+      {% elif category == "panel" %}
+        {{ govukPanel({"titleText": message}) }}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}

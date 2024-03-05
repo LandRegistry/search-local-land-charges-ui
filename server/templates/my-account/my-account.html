@@ -1,0 +1,81 @@
+
+
+
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+
+{% block title %}{{ _('My account') }}{% endblock %}
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    {% include 'includes/subnav.html' %}
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-xl">{{ _('My account') }}</h1>
+    {% set change_details_first_html %}
+      <a href="{{ url_for('my_account.change_details') }}" id="change-first-name" class="govuk-link">{{ _('Change') }}</a>
+    {% endset %}
+    {% set change_details_last_html %}
+      <a href="{{ url_for('my_account.change_details') }}" id="change-last-name" class="govuk-link">{{ _('Change') }}</a>
+    {% endset %}
+    {% set change_password_html %}
+      <a href="{{ url_for('my_account.change_password') }}" id="change-password" class="govuk-link">{{ _('Change') }}</a>
+    {% endset %}
+    {{ govukTable({
+      "caption": _("Account information"),
+      "captionClasses": "govuk-table__caption--m",
+      "firstCellIsHeader": true,
+      "head": [
+        {
+          "text": _("Information")
+        },
+        {
+          "text": _("Contents")
+        },
+        {
+          "text": _("Action")
+        }
+      ],
+      "rows": [
+        [
+          {
+            "text": _("First name")
+          },
+          {
+            "text": first_name
+          },
+          {
+            "html": change_details_first_html
+          }
+        ],
+        [
+          {
+            "text": _("Last name")
+          },
+          {
+            "text": surname
+          },
+          {
+            "html": change_details_last_html
+          }
+        ],
+        [
+          {
+            "text": _("Password")
+          },
+          {
+            "html": "&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+          },
+          {
+            "html": change_password_html
+          }
+        ]
+      ]
+    }) }}
+    <p class="govuk-body">
+      <a href="{{ url_for('search.search_by_post_code_address') }}" class="govuk-link">{{ _('Start a new search') }}</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

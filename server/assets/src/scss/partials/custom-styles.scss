@@ -1,0 +1,105 @@
+// General custom styling
+
+// Float language switcher off to the right
+.language-switcher {
+    float: right;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+// Make header links float on the right rather than underneath
+@media (min-width: 48.0625em) {
+    nav.govuk-header__navigation {
+        float: right;
+    }
+}
+
+.side-menu-bar {
+    border-top: 2px solid $govuk-brand-colour;
+    padding-top: 9.5px;
+}
+
+.search-detail-summary, .search-detail-content, .charge-detail-summary, .charge-detail-content {
+    display: grid;
+    grid-template-columns: auto 50%;
+    gap: 10px;
+}
+
+.search-detail-content-reference {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+.search-detail-content-date {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.search-detail-summary-sub-heading, .search-detail-content-sub-heading {
+    display: block;
+}
+
+.searches-headings, #accordion-searches .govuk-accordion__controls {
+    display: None
+}
+
+@media (min-width: 40.0625em) {
+    .searches-headings, .search-detail-summary, .search-detail-content {
+        display: grid;
+        grid-template-columns: auto 21% 23%;
+        gap: 20px;
+    }
+
+    .search-detail-summary-sub-heading, .search-detail-content-sub-heading {
+        display: none;
+    }
+
+    .charge-detail-summary, .charge-detail-content {
+        display: grid;
+        grid-template-columns: auto 50%;
+        gap: 20px;
+    }
+}
+
+.full-width {
+    width: 100%;
+}
+
+.prop-desc-address-list {
+    height: 20em;
+    overflow-y: scroll;
+}
+
+.centred-warning-poll {
+    width: 75%;
+    margin: auto;
+}
+
+// Can't get rid of visited from pagination links without overriding styling
+.govuk-pagination__link:visited {
+    color:  $govuk-link-colour;
+}
+.govuk-pagination__link:hover {
+    color:  $govuk-link-hover-colour;
+}
+
+.subnav-item-current {
+    margin-left: -14px;
+    padding-left: 10px;
+    border-left: 4px solid $govuk-brand-colour;
+    background-color: #fff;
+}
+
+.subnav-item {
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.subnav-item-current-link {
+    font-weight: bold;
+}
+
+.span-as-link {
+    color: $govuk-link-colour;
+}

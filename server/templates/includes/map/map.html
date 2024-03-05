@@ -1,0 +1,11 @@
+<noscript>
+    <div id="nojs" class="nojs-content">
+        <div id="nojs-message" class="notification-summary">
+            <p>
+                {{ _('You need to turn on JavaScript to use this service. Or, for assistance, please use the following link') }} -
+                <a id=“assistance-link” href="{{ config.CONTACT_US_URL }}">{{ config.CONTACT_US_URL }}</a>
+            </p>
+        </div>
+    </div>
+</noscript>
+<div id="map" class="{{ map_style }} govuk-body govuk-!-margin-bottom-0"></div>

@@ -1,0 +1,40 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+
+{% block title %}{{ _('View release notices') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">
+            <span class="govuk-caption-l">{{ _('View release notices') }}</span>
+            {{ _('Select a date') }}
+        </h1>
+        <p class="govuk-body">{{ _('View updates or changes to local land charges service.') }}</p>
+        <p class="govuk-body">{{ _('The following links open in a new tab:') }}</p>
+
+        {% set table_rows = [] %}
+        {% for release_notice in release_notices %}
+            {% set notice_link %}
+                <a class="govuk-link" href="{{ release_notice['link'] }}" target="_blank">{{ release_notice['name'] }} <span class="govuk-visually-hidden">{{ _('(opens in new tab)') }}</span></a>
+            {% endset %}
+            {% do table_rows.append([{"html": notice_link}, {"text": "PDF"}]) %}
+        {% endfor %}
+
+        {{ govukTable({
+        "head": [
+            {
+            "text": _('Release notice')
+            },
+            {
+            "text": _('Format')
+            }
+        ],
+        "rows": table_rows
+        }) }}
+
+    </div>
+</div>
+
+{% endblock %}

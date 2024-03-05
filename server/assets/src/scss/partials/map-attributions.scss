@@ -1,0 +1,107 @@
+/* OpenLayers Scale Line Override */
+.ol-scale-line {
+    display: none;
+}
+
+/* Use desktop layout for copyright attrbution on map for size larger than 600px */
+@media screen and (min-width: 700px) {
+    .ol-scale-line {
+        background: rgba(255, 255, 255, .8);
+        border-radius: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: auto;
+        top: 95%;
+        display: inline;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 699px){
+    .ol-scale-line {
+        display: none;
+    }
+}
+
+.ol-scale-line-inner {
+    color: #000;
+    border: 1px solid #000;
+    border-top: none;
+}
+
+/* OpenLayers Copyright Override */
+.ol-attribution.ol-uncollapsible {
+    border-radius: 0px;
+    height: auto;
+}
+
+.ol-attribution {
+    height: auto;
+    text-align: left !important;
+}
+
+.ol-attribution ul {
+    color: #0b0c0c !important;
+    font-size: 8px;
+}
+
+.ol-attribution-small ul {
+    font-size: 8px !important;
+}
+
+/* Use desktop layout for copyright attrbution on map for size larger than 600px */
+@media screen and (min-width: 600px) {
+    .ol-attribution {
+        left: auto !important;
+        right: 1vw !important;
+        bottom: 1vw !important;
+        max-width: 70vw;
+        width: auto;
+        padding: 0.1em;
+    }
+
+    .ol-attribution.ol-uncollapsible {
+        border-radius: 4px;
+    }
+
+    .ol-attribution ul {
+        font-size: 10px !important;
+    }
+}
+
+.ol-attribution.ol-uncollapsible .map-key {
+    font-size: 12px;
+}
+
+.ol-attribution.ol-uncollapsible .map-key img {
+    padding: 1px 1px 1px 0px;
+    margin-top: unset;
+}
+
+.map-key-image {
+    vertical-align: middle;
+    padding-bottom: 3px;
+    padding-right: 5px;
+}
+
+.map-key-column-3 {
+    display: flex;
+    float: left;
+    padding: 0 5px;
+}
+.map-key-column-4 {
+    display: flex;
+    float: left;
+    padding: 0 5px;
+}
+.map-key-column-5 {
+    display: flex;
+    float: left;
+    padding: 0 5px;
+}
+.map-key-row {
+    display: flex;
+}
+
+.map-key-row > div:first-of-type { 
+    width: 5em;
+}

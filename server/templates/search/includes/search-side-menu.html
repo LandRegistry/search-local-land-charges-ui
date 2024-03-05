@@ -1,0 +1,32 @@
+<div class="govuk-grid-column-one-third">
+    <div class="side-menu-bar">
+        <h2 class="govuk-heading-s">{{ _('Other ways to search for a local land charge') }}</h2>
+        <ul class="govuk-list">
+        {% if request.path != url_for('search.search_by_post_code_address') and request.path != url_for('search.address_search_results') %}
+            <li>
+                <a class="govuk-link govuk-body-s" href="{{  url_for('search.search_by_post_code_address')}}">{{ _('Search by postcode or street name') }}</a>
+            </li>
+        {% endif %}
+        {% if request.path != url_for('search.search_by_coordinates') %}
+            <li>
+                <a class="govuk-link govuk-body-s" href="{{ url_for('search.search_by_coordinates') }}">{{ _('Search by coordinates') }}</a>
+            </li>
+        {% endif %}
+        <li>
+            <a class="govuk-link govuk-body-s" href="{{ url_for('search.define_search_area', page_style='find') }}">{{ _('Search by map') }}</a>
+        </li>
+        {% if request.path != url_for('search.search_by_title_number') %}
+            <li>
+                <a class="govuk-link govuk-body-s" href="{{ url_for('search.search_by_title_number') }}">{{ _('Search by title number') }}</a>
+            </li>
+        {% endif %}
+        {% if request.path != url_for('search.search_by_inspire_id') %}
+            <li>
+                <a class="govuk-link govuk-body-s" href="{{ url_for('search.search_by_inspire_id') }}">{{ _('Search by INSPIRE ID') }}</a>
+            </li>
+        {% endif %}
+        </ul>
+        {% set phone_html %}<span class="govuk-!-font-weight-bold">{{ _('0300 006 0444') }}</span>{% endset %}
+        <span class="govuk-body-s">{{ _('Contact HM Land Registry on %(phone_html)s if you are struggling to use this service', phone_html=phone_html|safe) }}</span>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+{% extends 'base-templates/base.html' %}
+
+{% block title %}{{ _('Create an account') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">{{ _('Create an account') }}</h1>
+    <form method="post" action="{{ url_for('account_admin.register') }}" novalidate>
+      {{ form.csrf_token }}
+      {{ form.first_name(params={"classes": 'govuk-input--width-20', 'spellcheck': false}) }}
+      {{ form.last_name(params={"classes": 'govuk-input--width-20', 'spellcheck': false}) }}
+      {{ form.email_addresses(params={"email_addresses-email_address":{"classes": 'govuk-input--width-20', 'spellcheck': false}, "email_addresses-confirm_email_address": {"classes": 'govuk-input--width-20', 'spellcheck': false} }) }}
+      {% set hint_html %}
+        {{ _('Your password must') }}:
+        <ul class="govuk-list govuk-list--bullet govuk-hint">
+          <li>{{ _('be at least 8 characters long') }}</li>
+          <li>{{ _('use both capital and lower case letters') }}</li>
+          <li>{{ _('use at least 1 number') }}</li>
+          <li>{{ _('use at least 1 symbol, like a question mark') }}</li>
+        </ul>
+      {% endset %}
+      {{ form.passwords(params={"passwords-password": {"classes": 'govuk-input--width-20', "hint": {"html": hint_html } }, "passwords-confirm_password": {"classes": 'govuk-input--width-20', 'spellcheck': false} }) }}
+      {% set link_html %}<a class="govuk-link" href="{{ _('https://www.gov.uk/government/organisations/land-registry/about/personal-information-charter') }}">{{ _('personal information charter') }}</a>{% endset %}
+      <p class="govuk-body">
+        {{ _('Your personal information will be used to manage your account, process search requests and to contact you. We may retain and share it to help detect and prevent fraud, in line with our %(link_html)s', link_html=link_html) }}.
+      </p>
+      {% set link_html %}<a class="govuk-link" href="{{ url_for('main.terms_and_conditions') }}">{{ _('terms of use') }}</a>{% endset %}
+      <p class="govuk-body">
+        {{ _('By creating an account, you are agreeing to %(link_html)s', link_html=link_html) }}.
+      </p>
+      {{ form.submit }}
+    </form>
+    <p class="govuk-body">
+      {% set link_html %}<a class="govuk-link" href="{{ url_for('sign_in.handle_sign_in') }}">{{ _('sign in') }}</a>{% endset %}
+      {{ _('If you already have an account, %(link_html)s', link_html=link_html) }}.
+    </p>
+  </div>
+</div>
+{% endblock %}

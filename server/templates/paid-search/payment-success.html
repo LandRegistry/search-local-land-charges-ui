@@ -1,0 +1,34 @@
+{% extends 'base-templates/base.html' %}
+
+{% block title %}
+    {% if not refresh %}
+        {{ _('Your payment was successful') }}
+    {% else %}
+        {{ _('Your repeat search is in progress') }}
+    {% endif %}
+{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {% if not refresh %}
+      <h1 class="govuk-heading-xl">{{ _('Your payment was successful') }}</h1>
+      <p class="govuk-body-l">
+          {{ _('Your payment reference number is') }} <br>
+          {{ payment_state.reference }}
+      </p>
+    {% else %}
+      <h1 class="govuk-heading-xl">{{ _('Your repeat search is in progress') }}</h1>
+    {% endif %}
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <hr class="govuk-section-break govuk-section-break--visible">
+  </div>
+  <div class="govuk-grid-column-two-thirds govuk-!-margin-top-6">
+    <p class="govuk-body">{{ _('We are now creating your official search result. When ready, you can view this in active searches') }}</p>
+    <p class="govuk-body"><a id="proceed-to-download" class="govuk-button" href="{{ url_for('paid_search.get_paid_search', enc_search_id=enc_search_id) }}">{{ _('Load your official search result') }}</a></p>
+  </div>
+</div>
+{% endblock %}

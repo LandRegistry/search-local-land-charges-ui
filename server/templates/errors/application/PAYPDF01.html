@@ -1,0 +1,12 @@
+{% extends 'base-templates/base.html' %}
+
+{% set title=_("Sorry, there is a problem with the service") %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block inner_content %}
+  <h1 class="govuk-heading-l">{{title}}</h1>
+  <p class="govuk-body">{{ _('Your official search result failed to load') }}.</p>
+  {% set active_searches_link %}<a class="govuk-link" href="{{ url_for('my_account.active_searches') }}">{{ _('active searches') }}</a>{% endset %}
+  <p class="govuk-body">{{ _('To try again, visit %(active_searches_link)s.', active_searches_link=active_searches_link) }}</p>
+{% endblock %}

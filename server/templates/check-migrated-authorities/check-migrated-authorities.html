@@ -1,0 +1,40 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
+{% from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
+
+{% block title %}{{ _('Check if your authority has moved to this register') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">{{ _('Check if your authority has moved to this register') }}</h1>
+    {{ govukInsetText({
+      "html": '<a href="https://www.gov.uk/find-local-council" class="govuk-link">{} {}</a>'.format(_('Find out which local authority your search area belongs to'), _('(this link will open in a new tab or window).'))
+    }) }}
+    <form method="post" action="{{ url_for('check_migrated_authorities.check_authorities') }}" novalidate>
+      {{ form.csrf_token }}
+      <div class="govuk-body">{{ form.organisation_search(params={"classes": 'govuk-input--width-20', 'spellcheck': false, 'attributes': {'data-use-autocomplete': 'yes', 'data-default-value': form.organisation_search.data } }) }}</div>
+      {{ form.submit(params={"classes": 'govuk-button--secondary'}) }}
+    </form>
+    {% if migrated is defined %}
+      {% if maintenance %}
+        <p class="govuk-body govuk-!-font-weight-bold">{{ _('%(organisation)s is on the register but information for this area is temporarily not available', organisation=form.organisation_search.data) }}</p>
+        <p class="govuk-body">{{ _("We're currently working on making this information available again. You'll be able to search this area once we've done that.") }}</p>
+      {% elif migrated %}
+        <p class="govuk-body govuk-!-font-weight-bold">{{ _('%(organisation)s is on the register.', organisation=form.organisation_search.data) }}</p>
+        <p class="govuk-body">{{ _('By using the service you agree to our') }} <a href="{{ url_for('main.terms_and_conditions') }}">{{ _('terms of use') }}</a>.</p>
+        <p class="govuk-body">{{ govukButton({
+            "text": _("Continue"),
+            "type": "button",
+            "href": url_for('search.search_by_post_code_address')
+        }) }}
+        </p>
+      {% elif not migrated %}
+        <p class="govuk-body govuk-!-font-weight-bold">{{ _('%(organisation)s is not on the register yet.', organisation=form.organisation_search.data) }}</p>
+        <p class="govuk-body">{{ _('Contact this authority to complete your search.') }}</p>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

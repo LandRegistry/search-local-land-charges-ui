@@ -1,0 +1,14 @@
+
+
+
+{% extends 'base-templates/base.html' %}
+
+{% block title %}{{ _('You have activated your account') }}{% endblock %}
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">{{ _('You have activated your account') }}</h1>
+    <p class="govuk-body"><a href="{{ url_for('sign_in.handle_sign_in') }}" class="govuk-button">{{ _('Sign in') }}</a></p>
+  </div>
+</div>
+{% endblock %}

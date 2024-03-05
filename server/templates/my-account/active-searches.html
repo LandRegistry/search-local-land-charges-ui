@@ -1,0 +1,129 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/pagination/macro.html" import govukPagination %}
+{% from "govuk_frontend_jinja/components/accordion/macro.html" import govukAccordion %}
+
+{% block title %}{{ _('Active searches') }}{% endblock %}
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    {% include 'includes/subnav.html' %}
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-xl">{{ _('Active searches') }}</h1>
+    <form method="get" action="{{ url_for('my_account.active_searches') }}" novalidate>
+      {{ form.search_term(params={"classes": 'govuk-input--width-20', 'spellcheck': false}) }}
+      <div class="govuk-button-group">
+        {{ form.submit }}
+        <a class="govuk-link" href="{{ url_for('my_account.active_searches') }}">{{ _('Clear search') }}</a>
+      </div>
+    </form>
+    {% if form.search_term.data and form.validate() %}
+      {% set result_count_html %}<span class="govuk-!-font-weight-bold">{{ result_count }}</span>{% endset %}
+      {% set search_term_html %}<span class="govuk-!-font-weight-bold">'{{ form.search_term.data }}'</span>{% endset %}
+      <p class="govuk-body">{{ _('Showing %(result_count_html)s search results for %(search_term_html)s', result_count_html=result_count_html, search_term_html=search_term_html) }}</p>
+    {% endif %}
+
+    {% set accordian_items = [] %}
+    {% for search in display_searches %}
+      {% set header_html %}
+        <span class="govuk-visually-hidden">
+          {{ _('Search reference') }} - {{ search.search_id | format_search_id }}
+        </span>
+      {% endset %}
+      {% set summary_html %}
+        <span class="search-detail-summary">
+          <span class="govuk-heading-s govuk-!-margin-bottom-0 search-detail-summary-sub-heading">{{ _('Search area') }}</span>
+          <span class="govuk-heading-s govuk-!-margin-bottom-0">{{ search.search_area_description }}</span>
+          <span class="govuk-body govuk-!-margin-bottom-0 search-detail-summary-sub-heading">{{ _('Search reference') }}</span>
+          <span class="govuk-body govuk-!-margin-bottom-0">{{ search.search_id | format_search_id }}</span>
+          <span class="govuk-body govuk-!-margin-bottom-0 search-detail-summary-sub-heading">{{ _('Expiry date') }}</span>
+          <span class="govuk-body govuk-!-margin-bottom-0">{{ search.format_date_for_display('lapsed_date', translate=True) }}</span>
+        </span>
+      {% endset %}
+      {% set content_html %}
+        <div class="govuk-body govuk-!-margin-bottom-7">
+          <a href="{{ url_for('my_account.repeat_search', search_id=search.search_id)}}" class="govuk-link stop-click-propagation">{{ _('Repeat search') }}</a>
+        </div>
+        <div class="search-detail-content">
+          <div class="govuk-heading-s govuk-!-margin-bottom-0 search-detail-content-date">
+            {{ _('Search date') }}
+          </div>
+          <div class="govuk-heading-s govuk-!-margin-bottom-0 search-detail-content-reference">
+            {{ _('Search reference') }}
+          </div>
+          {% if search.document_url == "ERROR" %}
+            <div class="govuk-body govuk-!-margin-bottom-0 search-detail-content-date">
+              {{ search.format_date_for_display('search_date', translate=True) }}
+            </div>
+            <div class="govuk-body govuk-!-margin-bottom-0 search-detail-content-reference">
+              {{ _('(Unavailable)') }}
+            </div>
+          {% else %}
+            <div class="govuk-body govuk-!-margin-bottom-0 search-detail-content-date">
+              <a class="govuk-link stop-click-propagation" href="{{ url_for('my_account.view_search', search_id=search.search_id) }}">{{ search.format_date_for_display('search_date', translate=True) }}</a>
+            </div>
+            <div class="govuk-body govuk-!-margin-bottom-0 search-detail-content-reference">
+              {{ search.search_id | format_search_id }}
+            </div>
+          {% endif %}
+          {% if search.repeat_searches %}
+            {% for repeat in search.repeat_searches %}
+              {% if repeat.document_url == "ERROR" %}
+                <div class="govuk-body govuk-!-margin-bottom-0 search-detail-content-date">
+                  {{ repeat.format_date_for_display('search_date', translate=True) }}
+                </div>
+                <div class="govuk-body govuk-!-margin-bottom-0 search-detail-content-reference">
+                  {{ _('(Unavailable)') }}
+                </div>
+              {% else %}
+                <div class="govuk-body govuk-!-margin-bottom-0 search-detail-content-date">
+                  <a class="govuk-link stop-click-propagation" href="{{ url_for('my_account.view_search', search_id=repeat.search_id) }}">{{ repeat.format_date_for_display('search_date', translate=True) }}</a>
+                </div>
+                <div class="govuk-body govuk-!-margin-bottom-0 search-detail-content-reference">
+                  {{ repeat.search_id | format_search_id }}
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
+      {% endset %}
+      {% do accordian_items.append(
+        {
+          "heading": {
+            "html": header_html
+          },
+          "summary": {
+            "html": summary_html
+          },
+          "content": {
+            "html": content_html
+          },
+          "expanded": search.search_id in expand
+        }
+      ) %}
+    {% endfor %}
+    <h2 class="govuk-heading-m">{{ _('Active search information') }}</h2>
+    <div class="searches-headings">
+      <div class="govuk-heading-s govuk-!-margin-bottom-2">{{ _('Search area') }}</div>
+      <div class="govuk-heading-s govuk-!-margin-bottom-2">{{ _('Search reference') }}</div>
+      <div class="govuk-heading-s govuk-!-margin-bottom-2">{{ _('Expiry date') }}</div>
+    </div>
+    {{ govukAccordion({
+      "id": "accordion-searches",
+      "rememberExpanded": false,
+      "hideSectionText": _("Hide searches"),
+      "showSectionText": _("Show searches"),
+      "items": accordian_items
+    }) }}
+    {% if accordian_items | length == 0 %}
+      <p class="govuk-body">{{ _('No searches found') }}.</p>
+    {% endif %}
+
+    {% if show_pagination %}
+      {{ govukPagination(pagination_info) }}
+    {% endif %}
+    <a href="{{ url_for('search.search_by_post_code_address') }}" class="govuk-link govuk-body">{{ _('Start a new search') }}</a>
+  </div>
+</div>
+{% endblock %}
