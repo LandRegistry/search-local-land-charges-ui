@@ -1,15 +1,24 @@
-from server.models.charges import LocalLandChargeItem, FinancialItem, LandCompensationItem, LightObstructionNoticeItem
-from unit_tests.test_data.mock_lon import (
-    applicant_address,
-    structure_position_and_dimension,
-    mock_light_obstruction_notice,
-    documents_filed,
-)
-from unit_tests.test_data.mock_land_charge import mock_financial_charge, mock_land_charge, mock_land_compensation_charge
 import copy
 import unittest
 from datetime import date
 
+from server.models.charges import (
+    FinancialItem,
+    LandCompensationItem,
+    LightObstructionNoticeItem,
+    LocalLandChargeItem,
+)
+from unit_tests.test_data.mock_land_charge import (
+    mock_financial_charge,
+    mock_land_charge,
+    mock_land_compensation_charge,
+)
+from unit_tests.test_data.mock_lon import (
+    applicant_address,
+    documents_filed,
+    mock_light_obstruction_notice,
+    structure_position_and_dimension,
+)
 
 mock_charge_item = LocalLandChargeItem(
     local_land_charge=123,
@@ -183,10 +192,16 @@ class TestLocalLandChargeItemModel(unittest.TestCase):
         del lon_mandatory["structure-position-and-dimension"]["height"]
 
         llc = LightObstructionNoticeItem.from_json(lon_mandatory)
-        self.assertEqual(llc.format_date_for_display("tribunal_definitive_certificate_date"), "Not provided")
+        self.assertEqual(
+            llc.format_date_for_display("tribunal_definitive_certificate_date"),
+            "Not provided",
+        )
         self.assertEqual(llc.format_applicants_for_display()["applicant_name"], "Not provided")
         self.assertEqual(llc.format_applicants_for_display()["applicant_address"], [])
-        self.assertEqual(llc.format_field_for_display("servient_land_interest_description"), "Not provided")
+        self.assertEqual(
+            llc.format_field_for_display("servient_land_interest_description"),
+            "Not provided",
+        )
         self.assertEqual(llc.format_height_pos_for_display("height"), "Not provided")
 
     def test_llc_format_charge_address_for_display(self):

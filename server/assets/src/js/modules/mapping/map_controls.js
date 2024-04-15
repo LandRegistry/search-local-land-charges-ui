@@ -1,3 +1,4 @@
+import $ from "jquery";
 import { draw_layer_styles } from './map_styles';
 import Control from 'ol/control/Control';
 import { Draw, Modify, Select }  from 'ol/interaction';
@@ -5,92 +6,51 @@ import { Polygon, MultiPolygon } from 'ol/geom';
 import { GeoJSON } from 'ol/format';
 import Feature from 'ol/Feature';
 import union from '@turf/union';
-import { staticContentUrl, addAreaText, editAreaText, copyFromMapText,
-    deleteAreaText, clearAllText, undoText, snapToMapText, language, undoArrowText } from './set_map_variables'
 import { MAP_HELPERS } from "./map_helpers";
 import { SNAP_TO_VECTOR_LAYER } from './snap_to_vector_layer';
 import { COPY_VECTOR_LAYER } from './copy_vector_layer';
 import { MAP_UNDO } from './map_undo';
 import { MAP_CONFIG } from './map_config';
 import { map } from "./map"
+import { KeyboardSelectDelete, KeyboardSelectCopy } from "./keyboard_select";
 
 var MAP_CONTROLS = {};
 
-MAP_CONTROLS.polygonButtonId = "map-button-add-area";
-MAP_CONTROLS.editButtonId = "map-button-edit";
-MAP_CONTROLS.copyButtonId = "map-button-copy";
-MAP_CONTROLS.undoButtonId = "map-button-undo";
-MAP_CONTROLS.removeAllButtonId = "map-button-clear-all";
-MAP_CONTROLS.snapToButtonId = "checkbox";
+MAP_CONTROLS.controlContainer = "map-options_container";
+MAP_CONTROLS.polygonButtonId = "map-options_draw-area";
+MAP_CONTROLS.editButtonId = "map-options_edit-area";
+MAP_CONTROLS.copyButtonId = "map-options_select-area";
+MAP_CONTROLS.undoButtonId = "map-options_undo";
+MAP_CONTROLS.removeAllButtonId = "map-options_clear-all";
+MAP_CONTROLS.snapToButtonId = "map-options_snap-to";
 MAP_CONTROLS.searchButtonId = "searchButton";
-MAP_CONTROLS.deleteButtonId = "map-button-delete";
+MAP_CONTROLS.deleteButtonId = "map-options_delete-area";
 
 MAP_CONTROLS.currentInteraction = null;
+MAP_CONTROLS.hoverInteraction = null;
+MAP_CONTROLS.keyboardInteraction = null;
+
 MAP_CONTROLS.currentStyle = draw_layer_styles.NONE;
 
-// Toolbar Of Available Map Controls
-MAP_CONTROLS.Controls = function (controls) {
-    var container = document.createElement('div');
-    var noOfControls = controls.length;
-
-    container.id = "draw-controls";
-    container.className = "ol-control";
-
-    for (var i = 0; i < noOfControls; i++) {
-        container.appendChild(controls[i]);
+function bindButtonEvent(id, clickEvent) {
+    var button = document.getElementById(id);
+    if (button != null) {
+        button.addEventListener('click', clickEvent);
     }
-
-    return new Control({
-        element: container
-    });
-};
-
-var ol_ext_inherits = function(child,parent) {
-    child.prototype = Object.create(parent.prototype);
-    child.prototype.constructor = child;
-};
-
-ol_ext_inherits(MAP_CONTROLS.Controls, Control);
-
-function createButton(id, description, isUndo, clickEvent) {
-    var button = document.createElement('button');
-    button.setAttribute('id', id);
-    button.setAttribute('class', id);
-    button.setAttribute('aria-label', description);
-    button.value = 'button'
-
-    if (isUndo){
-        var undoImg = document.createElement('img');
-        undoImg.setAttribute('src', staticContentUrl + '/images/mapping/undo.png');
-        undoImg.setAttribute('class', 'undo-img');
-        undoImg.setAttribute('alt', undoArrowText);
-        undoImg.setAttribute('height', '15');
-        button.appendChild(undoImg);
-        if (language === 'cy'){
-            button.setAttribute('class', id + '-welsh')
-        }
-    }
-
-    var span = document.createElement("span");
-    span.textContent = description;
-    span.setAttribute('class', 'control-title')
-    button.appendChild(span);
-
-    button.addEventListener('click', clickEvent);
     return button
 }
 
 // Draw Polygon Button
 MAP_CONTROLS.polygonButton = function () {
-    return createButton(MAP_CONTROLS.polygonButtonId, addAreaText, false, function () {
+    return bindButtonEvent(MAP_CONTROLS.polygonButtonId, function () {
         gtag('event', 'Button click', {'eventCategory': 'Map tools', 'eventLabel': 'Draw polygon button clicked'});
 
         // Remove the previous interaction
-        map.removeInteraction(MAP_CONTROLS.currentInteraction);
+        MAP_CONTROLS.removeActiveControl();
         // Toggle the draw control as needed
-        var activated = MAP_CONTROLS.toggleActiveControl(MAP_CONTROLS.polygonButtonId);
+        var checked = $('#' + MAP_CONTROLS.polygonButtonId).attr('checked');
 
-        if (activated) {
+        if (!checked) {
             MAP_CONTROLS.toggleDrawLayerStyle(draw_layer_styles.DRAW);
 
             MAP_CONTROLS.currentInteraction = new Draw({
@@ -131,13 +91,13 @@ MAP_CONTROLS.polygonButton = function () {
 
 // Edit Features Button
 MAP_CONTROLS.editButton = function () {
-    return createButton(MAP_CONTROLS.editButtonId, editAreaText, false, function () {
+    return bindButtonEvent(MAP_CONTROLS.editButtonId, function () {
         gtag('event', 'Button click', {'eventCategory': 'Map tools', 'eventLabel': 'Edit button clicked'});
 
-        map.removeInteraction(MAP_CONTROLS.currentInteraction);
-        var activated = MAP_CONTROLS.toggleActiveControl(MAP_CONTROLS.editButtonId);
+        MAP_CONTROLS.removeActiveControl();
+        var checked = $('#' + MAP_CONTROLS.editButtonId).attr('checked');
 
-        if (activated) {
+        if (!checked) {
             MAP_CONTROLS.toggleDrawLayerStyle(draw_layer_styles.EDIT);
 
             MAP_CONTROLS.currentInteraction = new Modify({
@@ -162,91 +122,63 @@ MAP_CONTROLS.editButton = function () {
 
 // Remove all button
 MAP_CONTROLS.removeAllButton = function () {
-    return createButton(MAP_CONTROLS.removeAllButtonId, clearAllText, false, function () {
+    return bindButtonEvent(MAP_CONTROLS.removeAllButtonId, function () {
         gtag('event', 'Button click', {'eventCategory': 'Map tools', 'eventLabel': 'Remove all button clicked'});
         MAP_UNDO.storeState();
-
         MAP_CONFIG.drawSource.clear();
-        MAP_CONTROLS.toggleDrawLayerStyle(draw_layer_styles.NONE);
-        map.removeInteraction(MAP_CONTROLS.currentInteraction);
-
-        MAP_CONTROLS.currentInteraction = null;
-
-        $('.active-control').removeClass('active-control');
-
         MAP_CONTROLS.disableReviewButtons();
     });
 };
 
 MAP_CONTROLS.undoButton = function () {
-    return createButton(MAP_CONTROLS.undoButtonId, undoText, true, function () {
+    return bindButtonEvent(MAP_CONTROLS.undoButtonId, function () {
         gtag('event', 'Button click', {'eventCategory': 'Map tools', 'eventLabel': 'Undo button clicked'});
         MAP_UNDO.undo()
     });
 };
 
 MAP_CONTROLS.snapTo = function () {
-        var snapDiv = document.createElement('div')
-        var snapText = document.createElement('label');
-        var checkBox = document.createElement('input');
-        snapDiv.setAttribute('class', 'checkbox');
-        snapDiv.setAttribute('id', 'snap-to-checkbox');
-        //setsup the checkbox
-        checkBox.setAttribute('type', 'checkbox');
-        checkBox.setAttribute('class', 'snap-checkbox');
-        checkBox.setAttribute('id', 'checkbox');
-        snapDiv.appendChild(checkBox);
-        //sets up the 'snap to text' then adds it to the div
-        snapText.setAttribute('class', 'snap-text');
-        snapText.setAttribute('for', 'checkbox');
-        snapText.innerHTML = snapToMapText;
-        snapDiv.appendChild(snapText);
-
-        checkBox.addEventListener('click', function () {
-            gtag('event', 'Button click', {'eventCategory': 'Map tools', 'eventLabel': 'Snap to button clicked'});
-            if (!MAP_HELPERS.mapIsPastZoomThreshold(map)) { 
-                return
-            }
-            if (!SNAP_TO_VECTOR_LAYER.enabled) {
-                $('#checkbox').attr('selected', 'selected');
-                SNAP_TO_VECTOR_LAYER.enable();
-                map.addInteraction(SNAP_TO_VECTOR_LAYER.interaction);
-            } else {
-                $('#checkbox').removeAttr('selected');
-                SNAP_TO_VECTOR_LAYER.disable();
-                map.removeInteraction(SNAP_TO_VECTOR_LAYER.interaction);
-            }
-        })
-
-        return snapDiv;
-    };
+    return bindButtonEvent(MAP_CONTROLS.snapToButtonId, function () {
+        gtag('event', 'Button click', {'eventCategory': 'Map tools', 'eventLabel': 'Snap to button clicked'});
+        if (!MAP_HELPERS.mapIsPastZoomThreshold(map)) { 
+            return
+        }
+        if (!SNAP_TO_VECTOR_LAYER.enabled) {
+            SNAP_TO_VECTOR_LAYER.enable();
+        } else {
+            SNAP_TO_VECTOR_LAYER.disable();
+        }
+    });
+};
 
 MAP_CONTROLS.copyButton = function () {
     var copyListenerAdded = false
-    return createButton(MAP_CONTROLS.copyButtonId, copyFromMapText, false, function () {
+    return bindButtonEvent(MAP_CONTROLS.copyButtonId, function () {
         gtag('event', 'Button click', {'eventCategory': 'Map tools', 'eventLabel': 'Copy button clicked'});
         //prevent css manipulation to enable buttons
         if (!MAP_HELPERS.mapIsPastZoomThreshold(map)) {
             return
         }
 
-        map.removeInteraction(MAP_CONTROLS.currentInteraction);
+        MAP_CONTROLS.removeActiveControl();
 
-        var activated = MAP_CONTROLS.toggleActiveControl(MAP_CONTROLS.copyButtonId);
+        var checked = $('#' + MAP_CONTROLS.copyButtonId).attr('checked');
 
-        if (activated) {
+        if (!checked) {
             COPY_VECTOR_LAYER.enable();
             MAP_CONTROLS.toggleDrawLayerStyle(draw_layer_styles.DRAW);
 
             MAP_CONTROLS.currentInteraction = COPY_VECTOR_LAYER.interaction;
+            MAP_CONTROLS.hoverInteraction = COPY_VECTOR_LAYER.hoverInteraction;
+            MAP_CONTROLS.keyboardInteraction = new KeyboardSelectCopy(map);
 
             // Only add the Copy Button event listener once.
             if (!copyListenerAdded) {
                 copyListenerAdded = true
                 MAP_CONTROLS.currentInteraction.getFeatures().on('add', function (event) {
-                    MAP_UNDO.storeState();
                     var feature = event.target.item(0).clone();
                     if (feature) {
+                        MAP_UNDO.storeState();
                         var geometry = feature.getGeometry();
                         //Convert multi polygons to features
                         if (geometry instanceof MultiPolygon) {
@@ -261,8 +193,9 @@ MAP_CONTROLS.copyButton = function () {
                     COPY_VECTOR_LAYER.interaction.getFeatures().clear();
                 });
             }
-
-            map.addInteraction(MAP_CONTROLS.currentInteraction)
+            map.addInteraction(MAP_CONTROLS.currentInteraction);
+            map.addInteraction(MAP_CONTROLS.hoverInteraction);
+            map.addInteraction(MAP_CONTROLS.keyboardInteraction);
         } else {
             COPY_VECTOR_LAYER.disable()
         }
@@ -304,17 +237,18 @@ MAP_CONTROLS.addGeometryToMap = function(geometry) {
 
 // Remove Features Button
 MAP_CONTROLS.remove_button = function() {
-    return createButton(MAP_CONTROLS.deleteButtonId, deleteAreaText, false, function(){
+    return bindButtonEvent(MAP_CONTROLS.deleteButtonId, function(){
         gtag('event', 'Button click', {'eventCategory': 'Map tools', 'eventLabel': 'Delete single polygon button clicked'});
-        map.removeInteraction(MAP_CONTROLS.currentInteraction);
-        var toggled_on = MAP_CONTROLS.toggleActiveControl(MAP_CONTROLS.deleteButtonId);
+        MAP_CONTROLS.removeActiveControl();
+        var checked = $('#' + MAP_CONTROLS.deleteButtonId).attr('checked');
 
-        if (toggled_on) {
+        if (!checked) {
             MAP_CONTROLS.toggleDrawLayerStyle(draw_layer_styles.REMOVE);
 
             MAP_CONTROLS.currentInteraction = new Select({
                 layers: [MAP_CONFIG.drawLayer]
             });
+            MAP_CONTROLS.keyboardInteraction = new KeyboardSelectDelete(map);
 
             MAP_CONTROLS.currentInteraction.getFeatures().on('add', function (event) {
                 MAP_UNDO.storeState();
@@ -329,6 +263,7 @@ MAP_CONTROLS.remove_button = function() {
             });
 
             map.addInteraction(MAP_CONTROLS.currentInteraction)
+            map.addInteraction(MAP_CONTROLS.keyboardInteraction)
         } else {
             MAP_CONTROLS.toggleDrawLayerStyle(draw_layer_styles.NONE)
         }
@@ -344,10 +279,6 @@ MAP_CONTROLS.disableReviewButtons = function () {
         MAP_CONTROLS.deleteButtonId
     ], false);
     MAP_UNDO.enableUndoButton(MAP_UNDO.undoStack.length > 0);
-
-    if(document.getElementById('map-submit')) {
-        document.getElementById('map-submit').disabled = true;
-    }
 };
 
 // When an extent has been drawn enable the edit/remove/search controls, and submit button
@@ -358,12 +289,7 @@ MAP_CONTROLS.enableReviewButtons = function () {
         MAP_CONTROLS.searchButtonId,
         MAP_CONTROLS.deleteButtonId
     ], true);
-
     MAP_UNDO.enableUndoButton(MAP_UNDO.undoStack.length > 0);
-
-    if(document.getElementById('map-submit')) {
-        document.getElementById('map-submit').disabled = false;
-    }
 };
 
 // Toggle Feature Styles on draw layer for current style
@@ -383,24 +309,13 @@ MAP_CONTROLS.toggleButtons = function (buttonIds, enable) {
 MAP_CONTROLS.toggleButton = function (buttonId, enable) {
     var jbutton = $("#" + buttonId)
     jbutton.prop('disabled', !enable);
-    // Also unset active if set and we're disabling the button
-    if (!enable && jbutton.hasClass('active-control')) {
-        jbutton.removeClass('active-control');
-    }
-};
-
-// Activate/Deactivate Control
-MAP_CONTROLS.toggleActiveControl = function (buttonId) {
-    var jbutton = $("#" + buttonId);
-    var isActiveControl = jbutton.hasClass('active-control');
-
-    if (isActiveControl) {
-        jbutton.removeClass('active-control');
-        return false
-    } else {
-        $('.active-control').removeClass('active-control');
-        jbutton.addClass('active-control');
-        return true
+    // Also unset checked if set and we're disabling the button
+    if (!enable) {
+        // if disabling the active mode then remove active control
+        if (jbutton.prop('checked') && jbutton.is(':radio')) {
+            MAP_CONTROLS.removeActiveControl();
+        }
+        jbutton.prop('checked', false);
     }
 };
 
@@ -411,10 +326,19 @@ MAP_CONTROLS.remove_selected_feature = function(id) {
 };
 
 MAP_CONTROLS.removeActiveControl = function(){
-    map.removeInteraction(MAP_CONTROLS.currentInteraction);
-    $('.active-control').removeClass('active-control');
-    COPY_VECTOR_LAYER.disable()
-    MAP_CONTROLS.toggleDrawLayerStyle(draw_layer_styles.NONE)
+    if (MAP_CONTROLS.currentInteraction != null) {
+        map.removeInteraction(MAP_CONTROLS.currentInteraction);
+        MAP_CONTROLS.currentInteraction = null;
+    }
+    if (MAP_CONTROLS.hoverInteraction != null) {
+        map.removeInteraction(MAP_CONTROLS.hoverInteraction);
+        MAP_CONTROLS.hoverInteraction = null;
+    }
+    if (MAP_CONTROLS.keyboardInteraction != null) {
+        map.removeInteraction(MAP_CONTROLS.keyboardInteraction);
+        MAP_CONTROLS.keyboardInteraction = null;
+    }
+    MAP_CONTROLS.toggleDrawLayerStyle(draw_layer_styles.NONE);
 }
 
 export { MAP_CONTROLS }

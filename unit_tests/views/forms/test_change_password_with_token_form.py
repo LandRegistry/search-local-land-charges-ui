@@ -1,8 +1,17 @@
 from unittest import TestCase
-from server.views.forms.change_password_with_token_form import ChangePasswordWithTokenForm
+
+from server.main import app
+from server.views.forms.change_password_with_token_form import (
+    ChangePasswordWithTokenForm,
+)
 
 
 class TestChangePasswordWithTokenForm(TestCase):
+    def setUp(self):
+        app.config["Testing"] = True
+        app.config["WTF_CSRF_ENABLED"] = False
+        app.testing = True
+
     def test_change_password_with_token_form_invalid_short(self):
         form = ChangePasswordWithTokenForm()
         form.passwords.password.data = "Blah"
@@ -12,8 +21,13 @@ class TestChangePasswordWithTokenForm(TestCase):
 
         self.assertFalse(form.validate())
         self.assertEqual(
-            form.errors, {'passwords': {'confirm_password': ['Enter a password in the correct format'],
-                          'password': ['Enter a password in the correct format']}}
+            form.errors,
+            {
+                "passwords": {
+                    "confirm_password": ["Enter a password in the correct format"],
+                    "password": ["Enter a password in the correct format"],
+                }
+            },
         )
 
     def test_change_password_with_token_form_invalid_all_lower(self):
@@ -25,8 +39,13 @@ class TestChangePasswordWithTokenForm(TestCase):
 
         self.assertFalse(form.validate())
         self.assertEqual(
-            form.errors, {'passwords': {'confirm_password': ['Enter a password in the correct format'],
-                          'password': ['Enter a password in the correct format']}}
+            form.errors,
+            {
+                "passwords": {
+                    "confirm_password": ["Enter a password in the correct format"],
+                    "password": ["Enter a password in the correct format"],
+                }
+            },
         )
 
     def test_change_password_with_token_form_invalid_no_num(self):
@@ -38,8 +57,13 @@ class TestChangePasswordWithTokenForm(TestCase):
 
         self.assertFalse(form.validate())
         self.assertEqual(
-            form.errors, {'passwords': {'confirm_password': ['Enter a password in the correct format'],
-                          'password': ['Enter a password in the correct format']}}
+            form.errors,
+            {
+                "passwords": {
+                    "confirm_password": ["Enter a password in the correct format"],
+                    "password": ["Enter a password in the correct format"],
+                }
+            },
         )
 
     def test_change_password_with_token_form_invalid_no_punc(self):
@@ -51,8 +75,13 @@ class TestChangePasswordWithTokenForm(TestCase):
 
         self.assertFalse(form.validate())
         self.assertEqual(
-            form.errors, {'passwords': {'confirm_password': ['Enter a password in the correct format'],
-                          'password': ['Enter a password in the correct format']}}
+            form.errors,
+            {
+                "passwords": {
+                    "confirm_password": ["Enter a password in the correct format"],
+                    "password": ["Enter a password in the correct format"],
+                }
+            },
         )
 
     def test_change_password_with_token_form_valid(self):

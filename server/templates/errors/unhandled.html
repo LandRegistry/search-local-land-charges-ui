@@ -5,7 +5,7 @@
 {% elif http_code == 403 %}
   {% set title=_("Access denied") %}
 {% else %}
-  {% set title=_("Sorry, we are experiencing technical difficulties") %}
+  {% set title=_("Sorry, there is a problem with the service") %}
 {% endif %}
 
 {% block title %}{{title}}{% endblock %}
@@ -18,6 +18,10 @@
   {% elif http_code == 403 %}
     <p class="govuk-body">{{ _('You do not have permission to access the requested resource') }}.</p>
   {% else %}
-    <p class="govuk-body">{{ _('Please try again in a few moments') }}.</p>
+    <p class="govuk-body">{{ _('Try again later') }}.</p>
+    {% set contact_link_html %}
+      <a href="{{ _('https://customerhelp.landregistry.gov.uk/contactus') }}">{{ _('contact HM Land Registry') }}</a>
+    {% endset %}
+    <p class="govuk-body">{{ _('If this problem persists, %(contact_link_html)s', contact_link_html=contact_link_html) }}.</p>
   {% endif %}
 {% endblock %}

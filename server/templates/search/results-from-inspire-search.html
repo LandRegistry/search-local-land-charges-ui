@@ -11,12 +11,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">{{ _('Search result') }}</h1>
-    <div aria-label="{{ _('Image showing search extent') }}">
+    <div>
         {% include "includes/map/map.html" %}
         <input type="hidden" name="saved-features" id="saved-features" value="{{ geometry }}">
     </div>
     <p class="govuk-body-s">
-        {{ _('The dotted line shows the extent area of the INSPIRE ID') }}
+        {{ _('The shaded area shows the extent area of the INSPIRE ID') }}
     </p>
     <h2 class="govuk-heading-m">{{ charge.format_field_for_display('charge_type') }}</h2>
     {% if charge['supplementary_information'] %}

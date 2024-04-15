@@ -1,22 +1,23 @@
-from flask_wtf import FlaskForm
-from wtforms.fields import SelectField, SubmitField
-from govuk_frontend_wtf.wtforms_widgets import GovSubmitInput, GovSelect
-from wtforms.validators import InputRequired, ValidationError
 from flask_babel import lazy_gettext as _
+from flask_wtf import FlaskForm
+from govuk_frontend_wtf.wtforms_widgets import GovSelect, GovSubmitInput
+from wtforms.fields import SelectField, SubmitField
+from wtforms.validators import InputRequired, ValidationError
 
 
 class CheckMigratedAuthoritiesForm(FlaskForm):
     organisation_search = SelectField(
-        _("Enter an authority name to search"),
+        "",
         default="",
         widget=GovSelect(),
-        validators=[InputRequired(_('Local authority is required'))],
-        validate_choice=False)
+        validators=[InputRequired(_("Enter a local authority"))],
+        validate_choice=False,
+    )
 
-    submit = SubmitField(
-        _("Check authority"),
-        widget=GovSubmitInput())
+    submit = SubmitField(_("Continue"), widget=GovSubmitInput())
 
     def validate_organisation_search(self, field):
-        if (field.data, field.data) not in field.choices:
-            raise ValidationError(_("No match found for %(search_auth)s", search_auth=field.data))
+        if field.data.lower() not in [value.lower() for value, _ in field.choices]:
+            raise ValidationError(
+                _("No match found for %(search_auth)s", search_auth=field.data)
+            )

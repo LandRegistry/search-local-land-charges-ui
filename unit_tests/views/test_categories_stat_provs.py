@@ -1,7 +1,9 @@
-from flask import url_for
-from unittest.mock import MagicMock, patch
-from server.main import app
 from unittest import TestCase
+from unittest.mock import MagicMock, patch
+
+from flask import url_for
+
+from server.main import app
 
 
 class TestStatutoryProvisions(TestCase):
@@ -35,9 +37,38 @@ class TestStatutoryProvisions(TestCase):
                 "selectable": True,
                 "created_timestamp": "2022-07-13T14:43:31.557072",
             },
-            {"title": "An old version", "display_title": "A new version", "selectable": False},
+            {
+                "title": "An old version",
+                "display_title": "A new version",
+                "selectable": False,
+            },
         ]
         response = self.client.get(url_for("categories_stat_provs.get_page_stat_prov", sort_by="last_updated"))
+        self.assertIn("A new version", response.text)
+        self.assertIn("An old version", response.text)
+        self.assertIn("13 July 2022", response.text)
+
+    @patch("server.views.categories_stat_provs.StatProvService")
+    def test_get_json_stat_prov_removed_list(self, mock_stat_prov):
+        mock_stat_prov.return_value.get_history.return_value = [
+            {
+                "title": "A new version",
+                "display_title": "A new version",
+                "selectable": False,
+                "unselectable_timestamp": "2022-07-13T14:43:31.557072",
+            },
+            {
+                "title": "An old version",
+                "display_title": "A new version",
+                "selectable": False,
+            },
+        ]
+        response = self.client.get(
+            url_for(
+                "categories_stat_provs.get_page_stat_prov_removed",
+                sort_by="date_removed",
+            )
+        )
         self.assertIn("A new version", response.text)
         self.assertIn("An old version", response.text)
         self.assertIn("13 July 2022", response.text)
@@ -84,7 +115,11 @@ class TestStatutoryProvisions(TestCase):
         mock_cat.return_value.get_sub_category.return_value = mock_response
 
         response = self.client.get(
-            url_for("categories_stat_provs.get_sub_category", category="acat", sub_category="asubcat")
+            url_for(
+                "categories_stat_provs.get_sub_category",
+                category="acat",
+                sub_category="asubcat",
+            )
         )
         self.assertEqual(response.json, {"some": "stuff"})
         self.assertEqual(response.status_code, 207)

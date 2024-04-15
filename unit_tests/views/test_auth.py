@@ -1,10 +1,11 @@
-from unittest import TestCase
-from server.app import app
-from unittest.mock import patch
-from flask import url_for, session, redirect
-from jwt_validation.models import JWTPayload, SearchPrinciple
 import base64
+from unittest import TestCase
+from unittest.mock import patch
 
+from flask import redirect, session, url_for
+from jwt_validation.models import JWTPayload, SearchPrinciple
+
+from server.app import app
 from server.views.auth import authenticated
 from unit_tests.utilities_tests import super_test_context
 
@@ -22,7 +23,8 @@ class TestAuth(TestCase):
         self.assertEqual(
             response.location,
             url_for(
-                "sign_in.handle_sign_in", redirect_uri=url_for("auth.authorized", requestedpath="anurl", _external=True)
+                "sign_in.handle_sign_in",
+                redirect_uri=url_for("auth.authorized", requestedpath="anurl", _external=True),
             ),
         )
 
@@ -42,7 +44,10 @@ class TestAuth(TestCase):
         jwt_payload = JWTPayload("iss", "aud", "exp", "iat", "sub", "source", principle)
         mock_validate.return_value = jwt_payload
         response = self.client.get(
-            url_for("auth.authorized", requestedpath=base64.urlsafe_b64encode("base64".encode()))
+            url_for(
+                "auth.authorized",
+                requestedpath=base64.urlsafe_b64encode("base64".encode()),
+            )
         )
         self.assertEqual(response.location, "base64")
 
@@ -54,7 +59,10 @@ class TestAuth(TestCase):
         jwt_payload = JWTPayload("iss", "aud", "exp", "iat", "sub", "source", principle)
         mock_validate.return_value = jwt_payload
         response = self.client.get(url_for("auth.authorized"))
-        self.assertEqual(response.location, url_for("search.search_by_post_code_address", _external=True))
+        self.assertEqual(
+            response.location,
+            url_for("search.search_by_post_code_address", _external=True),
+        )
 
     def test_authenticated_ok(self):
         @authenticated

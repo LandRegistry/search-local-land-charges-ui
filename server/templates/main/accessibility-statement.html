@@ -7,11 +7,8 @@
 {% block inner_content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <h1 class="govuk-heading-xl">{{ _('Accessibility statement for HM Land Registry – Local land charges, search service') }}</h1>
-    <p class="govuk-body">{{ _('This accessibility statement is for the') }}
-      <a class="govuk-link" href="{{ url_for('index.index_page') }}">{{ _('search for local land charges service') }}</a>.
-      <br>{{ _('HM Land Registry update this') }}.
-    </p>
+    <h1 class="govuk-heading-xl" id="sectionone">
+      {{ _('Accessibility statement for HM Land Registry – Search for local land charges') }}</h1>
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
   </div>
 </div>
@@ -20,142 +17,169 @@
     <p class="govuk-body">{{ _('Contents') }}</p>
     <ul class="govuk-list">
       <li>
-        - <a class="govuk-link" href="#sectionone">{{ _('How you can use this website') }}</a>
+        - <a class="govuk-link" href="#sectionone">{{ _('Accessibility statement for Search for local land charges')
+          }}</a>
       </li>
       <li>
-        - <a class="govuk-link" href="#sectiontwo">{{ _('How accessible this website is') }}</a>
+        - <a class="govuk-link" href="#sectiontwo">{{ _('Technical information about this website’s accessibility')
+          }}</a>
       </li>
       <li>
-        - <a class="govuk-link" href="#sectionthree">{{ _('How to get information in an accessible format') }}</a>
+        - <a class="govuk-link" href="#sectionthree">{{ _('Non-accessible content') }}</a>
       </li>
       <li>
-        - <a class="govuk-link" href="#sectionfour">{{ _('Enforcement procedure') }}</a>
+        - <a class="govuk-link" href="#sectionfour">{{ _('What we’re doing to improve accessibility') }}</a>
       </li>
       <li>
-        - <a class="govuk-link" href="#sectionfive">{{ _("Technical information about this website's accessibility") }}</a>
-      </li>
-      <li>
-        - <a class="govuk-link" href="#sectionsix">{{ _('Non-accessible content') }}</a>
-      </li>
-      <li>
-        - <a class="govuk-link" href="#sectionseven">{{ _('How we tested this website') }}</a>
-      </li>
-      <li>
-        - <a class="govuk-link" href="#sectioneight">{{ _('What we are doing to improve') }}</a>
+        - <a class="govuk-link" href="#sectionfive">{{ _('Preparation of this accessibility statement') }}</a>
       </li>
     </ul>
   </div>
   <div class="govuk-grid-column-two-thirds">
-      <h2 class="govuk-heading-l" id="sectionone">{{ _('How you can use this website') }}</h2>
-      <p class="govuk-body">{{ _('On this website you should be able to') }}:</p>
-      <ul class="govuk-list govuk-list--bullet">
-          <li>{{ _('change colours, contrast levels and fonts') }}</li>
-          <li>{{ _('zoom in up to 200%% without the text spilling off the screen') }}</li>
-          <li>{{ _('navigate most of the website using only a keyboard') }}</li>
-          <li>{{ _('navigate most of the website using speech recognition software') }}</li>
-          <li>{{ _('listen to most of the website using a screen reader (including the most recent versions of') }}
-            {{ _('JAWS (Job Access With Speech)') }},
-            {{ _('NVDA (NonVisual Desktop Access)') }}
-            {{ _('and Voiceover') }}</li>
-      </ul>
+    <p class="govuk-body">{{ _('This accessibility statement applies to the') }}
+      <a class="govuk-link" href="{{ url_for('index.index_page') }}">{{ _('Search for local land charges service')
+        }}</a>.
+    </p>
+    <p class="govuk-body">{{ _('This website is run by HM Land Registry. We want as many people as possible to be able
+      to use this website.
+      For example, that means you should be able to') }}:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>{{ _('change colours, contrast levels, fonts and font size using browser or device settings') }}</li>
+      <li>{{ _('zoom in up to 200%% without the text spilling off the screen') }}</li>
+      <li>{{ _('navigate most of this website using a keyboard or speech recognition software, excluding the map') }}
+      </li>
+      <li>{{ _('listen to most of the website using a screen reader, including the most recent versions of') }}
+        {{ _('JAWS (Job Access With Speech)') }},
+        {{ _('NVDA (NonVisual Desktop Access)') }}
+        {{ _('and Voiceover') }}</li>
+      <li>{{ _('access the website using a variety of devices, screen sizes and orientations') }}</li>
+    </ul>
 
-      <p class="govuk-body">{{ _('We have made the website text as simple as possible to understand. We only use technical terms where there is no easier wording to use without changing the meaning.') }}</p>
+    <p class="govuk-body">{{ _('We’ve also made the website text as simple as possible to understand. We only use technical terms where there is no easier wording to use without changing the meaning') }}.</p>
 
-      {% set insetHtml %}
-        <a class="govuk-link" href="https://mcmw.abilitynet.org.uk/">AbilityNet</a> {{ _('has advice on making your device easier to use if you have a disability.') }}
-      {% endset %}
-      {{ govukInsetText({"html": insetHtml })}}
+    {% set ability_net_link %}<a class="govuk-link" href="https://mcmw.abilitynet.org.uk/">AbilityNet</a>{% endset %}
+    <p class="govuk-body"> {{ _('%(ability_net_link)s has advice on making your device easier to use if you have a disability', ability_net_link=ability_net_link) }}.</p>
 
-      <h2 class="govuk-heading-l" id="sectiontwo">{{ _('How accessible this website is') }}</h2>
-      <p class="govuk-body">{{ _('We know the following parts are not accessible:') }}</p>
-      <ul class="govuk-list govuk-list--bullet">
-          <li>{{ _('some pages do not display certain error messages') }}</li>
-          <li>{{ _('some screen readers and browsers may repeat, miss, or misread text on the page when using Google Chrome and the Apple voiceover feature') }}</li>
-          <li>{{ _('users with keyboard-only control cannot access all map features') }}</li>
-          <li>{{ _('users with keyboard-only control cannot draw a search extent') }}</li>
-      </ul>
+    <h2 class="govuk-heading-l">{{ _('How accessible this website is') }}</h2>
+    <p class="govuk-body">{{ _('We know some parts of this website are not fully accessible: ') }}</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>{{ _('some screen readers and browsers may repeat, miss, or misread text on the page, for example when using
+        Google Chrome
+        and the Apple voiceover feature ') }}</li>
+      <li>{{ _('users with keyboard-only control cannot access all map features') }}</li>
+      <li>{{ _('the map has no text alternative to allow screen reader users to identify sensory information being
+        conveyed') }}</li>
+      <li>{{ _('the videos on the How to use the map page do not have audio descriptions') }}</li>
+    </ul>
 
-      <p class="govuk-body">{{ _('We are working on these issues to improve the accessibility of this website.') }}</p>
+    <h2 class="govuk-heading-l">{{ _('Feedback and contact information ') }}</h2>
+    <p class="govuk-body">{{ _('If you find any problems not listed on this page or think we’re not meeting accessibility requirements, contact us') }}.</p>
+    <p class="govuk-body">{{ _('You can also contact us to request our assisted digital service if you would like support using the service') }}.</p>
+    <p class="govuk-body">{{ _('If you need information on this website in a different format like accessible PDF, large
+      print, easy read, audio recording or braille:') }}</p>
 
-      <h2 class="govuk-heading-l" id="sectionthree">{{ _('How to get information in an accessible format') }}</h2>
-      <p class="govuk-body">{{ _('We are always looking to improve the accessibility of this website.') }}</p>
-
-      <p class="govuk-body">{{ _('You can contact us:') }}</p>
-      <ul class="govuk-list govuk-list--bullet">
-          <li>{{ _('about any problems accessing information') }}</li>
-          <li>{{ _('to request information in a different format, such as audio recordings, braille or an accessible PDF') }}</li>
-          <li>{{ _('if you find any problems that are not listed on this page') }}</li>
-          <li>{{ _('to tell us how we are not meeting accessibility requirements') }}</li>
-      </ul>
-
-      <h3 class="govuk-heading-s">{{ _('Online form') }}</h3>
-      <p class="govuk-body">
-          <a class="govuk-link" href="{{ config.CONTACT_US_URL }}">{{ _('Use this form') }}</a>
-          {{ _('to ask for information about local land charges only.') }}<br>{{ _('We aim to get back to you in 5 working days.') }}
-      </p>
-      <h3 class="govuk-heading-s">{{ _('Telephone') }}</h3>
-      <p class="govuk-body">{{ _('Telephone') }}: 0300 006 0444<br>
-      {{ _('Monday to Friday, 9am to 5pm (except public holidays)') }}</p>
+    <h3 class="govuk-heading-s">{{ _('Telephone') }}</h3>
+    {% if g.locale == 'cy' %}
       <p class="govuk-body">{{ _('Welsh language') }}: 0300 006 0422<br>
-      {{ _('Monday to Friday, 8:30am to 5pm (except public holidays)') }}</p>
-      <h2 class="govuk-heading-l" id="sectionfour">{{ _('Enforcement procedure') }}</h2>
-      <p class="govuk-body"><a class="govuk-link" href="https://www.equalityhumanrights.com/en">{{ _('The Equality and Human Rights Commission (EHRC)') }}</a> {{ _('is responsible for enforcing the accessibility regulations') }}.</p>
-      <p class="govuk-body">{{ _('If you are not happy with how we respond to your complaint') }}
-      <a class="govuk-link" href="{% if g.locale == 'cy' %}https://eass-ws.custhelp.com/app/home{% else %}https://www.equalityadvisoryservice.com/{% endif %}">{{ _('contact the Equality Advisory and Support Service (EASS)') }}</a>.</p>
-      <h2 class="govuk-heading-l" id="sectionfive">{{ _("Technical information about this website's accessibility") }}</h2>
-      <p class="govuk-body">{{ _('HM Land Registry commit to making its website accessible, in accordance with') }}
-      <a class="govuk-link" href="{% if g.locale == 'cy' %}https://www.legislation.gov.uk/cy/uksi/2018/852/contents/made{% else %}https://www.legislation.gov.uk/uksi/2018/852/contents/made{% endif %}">{{ _('the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018') }}</a>.</p>
-      <h3 class="govuk-heading-m">{{ _('Compliance status') }}</h3>
-      <p class="govuk-body">{{ _('This website is partially compliant with the') }}
-      <a class="govuk-link" href="https://www.w3.org/TR/WCAG21/">{{ _('Web Content Accessibility Guidelines version 2.1') }}</a>
-      {{ _('AA standard, due to the following non-compliances') }}.</p>
-      <h2 class="govuk-heading-l" id="sectionsix">{{ _('Non-accessible content') }}</h2>
-      <p class="govuk-body">{{ _('The following content is not accessible. We have provided an explanation and reference to the relevant WCAG section.') }}</p>
-      <h3 class="govuk-heading-m">{{ _('Error messages') }}</h3>
-      <div class="govuk-body govuk-cookie-banner govuk-!-padding-left-3 govuk-!-padding-right-3">
-      <p class="govuk-body">{{ _('Some pages do not display certain error messages. This means users are not told how to fix errors and get a ‘Something went wrong’ page.') }}</p>
-      </div>
-      <p class="govuk-body">{{ _('This fails') }} <a class="govuk-link" href="https://www.w3.org/WAI/WCAG21/Understanding/error-identification">{{ _('3.3.1 (Error Identification)') }}</a> {{ _('and') }} <a class="govuk-link" href="https://www.w3.org/WAI/WCAG21/Understanding/error-suggestion">{{ _('3.3.3 (Error Suggestion)') }}</a>. {{ _('We are investigating this issue and will aim to fix it as soon as possible') }}.</p>
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-      <h3 class="govuk-heading-m">{{ _('Google Chrome and the Apple voiceover feature') }}</h3>
-      <div class="govuk-body govuk-cookie-banner govuk-!-padding-left-3 govuk-!-padding-right-3">
-          <p class="govuk-body">{{ _('Sometimes when using Google Chrome or the Apple voiceover feature, screen readers will:') }}</p>
-          <ul class="govuk-list govuk-list--bullet">
-              <li>{{ _('not finish words or sentences') }}</li>
-              <li>{{ _('repeat some words on the page') }}</li>
-              <li>{{ _('tell users if there is an incorrect number of radio buttons') }}</li>
-          </ul>
-      </div>
-      <p class="govuk-body">{{ _('Currently this issue is not in the scope of the accessibility regulations') }}.</p>
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-      <h3 class="govuk-heading-m">{{ _('Accessing all map features') }}</h3>
-      <div class="govuk-body govuk-cookie-banner govuk-!-padding-left-3 govuk-!-padding-right-3">
-          <p class="govuk-body">{{ _('Users with keyboard-only control cannot access all map features') }}.</p>
-      </div>
-      <p class="govuk-body">{{ _('This fails') }} <a class="govuk-link" href="https://www.w3.org/WAI/WCAG21/Understanding/keyboard">{{ _('2.1.1 Keyboard Only Input') }}</a>. {{ _('Currently this issue is not in the scope of the accessibility regulations') }}.</p>
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-      <h3 class="govuk-heading-m">{{ _('Drawing a search extent') }}</h3>
-      <div class="govuk-body govuk-cookie-banner govuk-!-padding-left-3 govuk-!-padding-right-3">
-          <p class="govuk-body">{{ _('If a user has access to the Search area report page, they may notice an issue if they disable CSS. The location markers and extents do not appear on the map preview area') }}.</p>
-      </div>
-      <p class="govuk-body">{{ _('This fails') }} <a class="govuk-link" href="https://www.w3.org/WAI/WCAG21/Understanding/meaningful-sequence">{{ _('1.3.2 Meaningful Sequence') }}</a>. {{ _('Currently this issue is not in the scope of the accessibility regulations') }}.</p>
-      <p class="govuk-body">{{ _('We have provided alternative features to help users. For example, uploading a shapefile with pre-drawn extents.') }}</p>
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-      <h2 class="govuk-heading-l" id="sectionseven">{{ _('How we tested this website') }}</h2>
-      <p class="govuk-body">{{ _('We tested this website on 1 July 2020.') }}</p>
-      <p class="govuk-body">{{ _('Our internal audit team conduct all testing. This includes:') }}</p>
-      <ul class="govuk-list govuk-list--bullet">
-          <li>{{ _('internal testing against the W3C WAI Web Content Accessibility Guidelines version 2.1') }}</li>
-          <li>{{ _('logging all results and defects in Quality Center') }}</li>
-          <li>{{ _('WAVE evaluation to check for contrast detection, heading, legend and label checks') }}</li>
-          <li>{{ _('W3C Markup Validation Service (for HTML validation)') }}</li>
-          <li>{{ _('Web Developer devices to disable JavaScript and check table layout, links, field sets and images with alt text') }}</li>
-          <li>{{ _('Dragonspeak and JAWS screen readers') }}</li>
-          <li>{{ _('PAC3 (PDF Accessibility Checker 3) automated devices, to assess PDF accessibility compliance') }}</li>
-      </ul>
-      <h2 class="govuk-heading-l" id="sectioneight">{{ _('What we are doing to improve') }}</h2>
-      <p class="govuk-body">{{ _('We are aware of the accessibility issues on this website. We aim to fix them as soon as possible.') }}</p>
-      <p class="govuk-body">{{ _('This statement was prepared on %(publish)s. It was last updated on %(update)s.', publish=accessibility_publish, update=accessibility_update) }}</p>
+        {{ _('Monday to Thursday, 8am to 5pm (except public holidays)') }}</p>
+      <p class="govuk-body">{{ _('English language') }}: 0300 006 0444<br>
+        {{ _('Monday to Thursday, 8am to 5pm (except public holidays)') }}</p>
+    {% else %}
+      <p class="govuk-body">{{ _('Telephone') }}: 0300 006 0444<br>
+      {{ _('Monday to Thursday, 8am to 5pm (except public holidays)') }}</p>
+      <p class="govuk-body">{{ _('Welsh language') }}: 0300 006 0422<br>
+        {{ _('Monday to Thursday, 8am to 5pm (except public holidays)') }}</p>
+    {% endif %}
+    <p class="govuk-body">
+      <a class="govuk-link" href="{{ _('https://www.gov.uk/call-charges') }}">{{ _('Find out about call charges') }}</a>
+    <p class="govuk-body">
+
+    <h3 class="govuk-heading-s">{{ _('Online contact form') }}</h3>
+    <p class="govuk-body">{{ _('Submit an enquiry through ') }}
+      <a class="govuk-link" href="{{ config.CONTACT_US_URL }}">{{ _('our contact form') }}</a>.
+    </p>
+    <p class="govuk-body">{{ _('We’ll respond to your request within 5 working days') }}.</p>
+
+    <h3 class="govuk-heading-s">{{ _('Address') }}</h3>
+    <p class="govuk-body">
+      HMLR Local Land Charges <br>
+      Processing Team <br>
+      PO Box 326 <br>
+      Mitcheldean <br>
+      GL14 9BQ
+    </p>
+
+    <h2 class="govuk-heading-l">{{ _('Enforcement procedure') }}</h2>
+    <p class="govuk-body">{{ _('The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’). If you’re not happy with how we respond to your complaint,') }}
+      <a class="govuk-link"
+        href="{% if g.locale == 'cy' %}https://eass-ws.custhelp.com/app/home{% else %}https://www.equalityadvisoryservice.com/{% endif %}">{{
+        _('contact the Equality Advisory and Support Service (EASS)') }}</a>.
+    </p>
+
+    <h2 class="govuk-heading-l" id="sectiontwo">{{ _("Technical information about this website's accessibility") }}</h2>
+    <p class="govuk-body">{{ _('HM Land Registry is committed to making its website accessible, in accordance with the
+      Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018') }}.
+    </p>
+
+    <h3 class="govuk-heading-m">{{ _('Compliance status') }}</h3>
+    <p class="govuk-body">{{ _('The website has been tested against the Web Content Accessibility Guidelines (WCAG) 2.1
+      AA standard') }}. </p>
+    <p class="govuk-body">{{ _('This website is partially compliant with the') }}
+      <a class="govuk-link" href="https://www.w3.org/TR/WCAG21/">{{ _('Web Content Accessibility Guidelines version
+        2.1') }}</a>
+      {{ _('AA standard, due to the non-compliances and exemptions listed below') }}.
+    </p>
+
+    <h2 class="govuk-heading-l" id="sectionthree">{{ _('Non-accessible content') }}</h2>
+    <p class="govuk-body">{{ _('The content listed below is non-accessible for the following reasons') }}.</p>
+
+    <h3 class="govuk-heading-m">{{ _('Non-compliance with the accessibility regulations') }}</h3>
+    <p class="govuk-body">{{ _('The videos on the How to use the map page do not have audio descriptions. This fails WCAG 2.1 AA success criterion 1.2.5 Audio Description (Prerecorded)') }}.</p>
+    <p class="govuk-body">{{ _('We plan to add audio descriptions to these videos by the end of July 2024. When we publish new videos, we’ll make sure these have audio descriptions') }}.</p>
+
+    <h3 class="govuk-heading-m">{{ _('Disproportionate burden') }}</h3>
+    <p class="govuk-body">{{ _('There are no features in this service that are a disproportionate burden') }}.</p>
+
+    <h3 class="govuk-heading-m">{{ _('Content that’s not within the scope of the accessibility regulations ') }}</h3>
+    <h4 class="govuk-heading-s">{{ _('Some screen readers may repeat, miss or misread content') }}</h4>
+    <p class="govuk-body">{{ _('Some screen readers on some browsers may repeat, miss, or misread content on the page,
+      or tell users an incorrect number of radio buttons. For example, when using Google Chrome and the Apple voiceover
+      feature') }}.<br>
+      {{ _('This fails WCAG principle 1 – perceivable. There is no WCAG criterion naming specific screen readers') }}.
+    </p>
+
+    <h4 class="govuk-heading-s">{{ _('Text alternative on the map') }}</h4>
+    <p class="govuk-body">{{ _('The map has no text alternative to allow screen reader users to identify sensory
+      information being conveyed.
+      The text alternative does not include the search area or local land charge area that the map contains. This fails
+      WCAG 2.1 A success criterion 1.3.3 Sensory Characteristics') }}.
+    </p>
+    <p class="govuk-body">
+      {{ _('Maps do not fall within the scope of accessibility regulations') }}.
+    </p>
+
+    <h4 class="govuk-heading-s">{{ _('Keyboard-only control on maps ') }}</h4>
+    <p class="govuk-body">{{ _('You are unable to draw an area, edit an area or snap to a line on the map using only a keyboard. This fails WCAG 2.1 A success criterion 2.1.1 Keyboard') }}.</p>
+    <p class="govuk-body">{{ _('You can select an area from the map and delete an area using only a keyboard') }}.</p>
+    <p class="govuk-body">{{ _('Maps do not fall within the scope of accessibility regulations') }}.</p>
+    <p class="govuk-body">{{ _('If you need assistance using the map, contact us using the details previously outlined
+      in this accessibility statement') }}.</p>
+
+    <h2 class="govuk-heading-l" id="sectionfour">{{ _('What we’re doing to improve accessibility') }}</h2>
+    <p class="govuk-body">{{ _('We plan to add audio descriptions to the videos on the Help with the map page by the end of July 2024') }}.
+    </p>
+
+    <h2 class="govuk-heading-l" id="sectionfive">{{ _('Preparation of this accessibility statement') }}</h2>
+    <p class="govuk-body">{{ _('This statement was prepared on %(publish)s. It was last reviewed on %(update)s',
+      publish=accessibility_publish, update=accessibility_update) }}.</p>
+    <p class="govuk-body">{{ _('This website was last tested on 5 August 2023 against the WCAG 2.1 AA standard') }}.
+    </p>
+
+    <p class="govuk-body">{{ _('The test was carried out by HM Land Registry. All the pages were tested using manual and
+      automated testing tools by our website team. A further audit of some of the pages was carried out by the Digital
+      Accessibility Centre (DAC) to the WCAG 2.1 AA standard' )}}.
+    </p>
+
   </div>
 </div>
 {% endblock %}

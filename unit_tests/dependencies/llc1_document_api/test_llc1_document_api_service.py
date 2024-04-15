@@ -1,10 +1,13 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
+
 from flask import g
-from server.dependencies.llc1_document_api.llc1_document_api_service import LLC1DocumentAPIService
-from server.main import app
 from landregistry.exceptions import ApplicationError
 
+from server.dependencies.llc1_document_api.llc1_document_api_service import (
+    LLC1DocumentAPIService,
+)
+from server.main import app
 from unit_tests.utilities_tests import super_test_context
 
 

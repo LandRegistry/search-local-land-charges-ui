@@ -1,8 +1,15 @@
 from unittest import TestCase
+
+from server.main import app
 from server.views.forms.register_form import RegisterForm
 
 
 class TestRegisterForm(TestCase):
+    def setUp(self):
+        app.config["Testing"] = True
+        app.config["WTF_CSRF_ENABLED"] = False
+        app.testing = True
+
     def test_register_form_invalid_short(self):
         form = RegisterForm()
         form.first_name.data = "Blah"
@@ -20,8 +27,13 @@ class TestRegisterForm(TestCase):
 
         self.assertFalse(form.validate())
         self.assertEqual(
-            form.errors, {'passwords': {'confirm_password': ['Enter a password in the correct format'],
-                          'password': ['Enter a password in the correct format']}}
+            form.errors,
+            {
+                "passwords": {
+                    "confirm_password": ["Enter a password in the correct format"],
+                    "password": ["Enter a password in the correct format"],
+                }
+            },
         )
 
     def test_register_form_invalid_all_lower(self):
@@ -41,8 +53,13 @@ class TestRegisterForm(TestCase):
 
         self.assertFalse(form.validate())
         self.assertEqual(
-            form.errors, {'passwords': {'confirm_password': ['Enter a password in the correct format'],
-                          'password': ['Enter a password in the correct format']}}
+            form.errors,
+            {
+                "passwords": {
+                    "confirm_password": ["Enter a password in the correct format"],
+                    "password": ["Enter a password in the correct format"],
+                }
+            },
         )
 
     def test_register_form_invalid_no_num(self):
@@ -62,8 +79,13 @@ class TestRegisterForm(TestCase):
 
         self.assertFalse(form.validate())
         self.assertEqual(
-            form.errors, {'passwords': {'confirm_password': ['Enter a password in the correct format'],
-                          'password': ['Enter a password in the correct format']}}
+            form.errors,
+            {
+                "passwords": {
+                    "confirm_password": ["Enter a password in the correct format"],
+                    "password": ["Enter a password in the correct format"],
+                }
+            },
         )
 
     def test_register_form_invalid_no_punc(self):
@@ -83,8 +105,13 @@ class TestRegisterForm(TestCase):
 
         self.assertFalse(form.validate())
         self.assertEqual(
-            form.errors, {'passwords': {'confirm_password': ['Enter a password in the correct format'],
-                          'password': ['Enter a password in the correct format']}}
+            form.errors,
+            {
+                "passwords": {
+                    "confirm_password": ["Enter a password in the correct format"],
+                    "password": ["Enter a password in the correct format"],
+                }
+            },
         )
 
     def test_register_form_valid(self):

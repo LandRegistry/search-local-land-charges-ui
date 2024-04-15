@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 var pdfPollElement = document.getElementById('pdf-poll-variables')
 var pdfPollVariables = JSON.parse(pdfPollElement.innerHTML)
 

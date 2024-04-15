@@ -1,5 +1,6 @@
-from server import config
 import os
+
+from server import config
 
 os.environ["TEST_SESSION"] = "true"
 

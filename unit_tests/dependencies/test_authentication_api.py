@@ -1,15 +1,16 @@
-from landregistry.exceptions import ApplicationError
-from flask import g, current_app, session
-from unittest.mock import MagicMock
 from unittest import TestCase
+from unittest.mock import MagicMock
+
+from flask import current_app, g, session
+from jwt_validation.models import JWTPayload, SearchPrinciple
+from landregistry.exceptions import ApplicationError
+
 from server import main
 from server.dependencies.authentication_api import AuthenticationApi
 from unit_tests.utilities_tests import super_test_context
-from jwt_validation.models import JWTPayload, SearchPrinciple
 
 
 class TestAuthenticationApi(TestCase):
-
     def setUp(self):
         main.app.config["TESTING"] = True
         main.app.config["WTF_CSRF_ENABLED"] = False
@@ -55,5 +56,9 @@ class TestAuthenticationApi(TestCase):
             g.requests.request.assert_called_with(
                 "post",
                 "{}/v2.0/authentication".format(current_app.config["AUTHENTICATION_URL"]),
-                data={"username": "an@email.com", "password": "a password", "source": "search"},
+                data={
+                    "username": "an@email.com",
+                    "password": "a password",
+                    "source": "search",
+                },
             )

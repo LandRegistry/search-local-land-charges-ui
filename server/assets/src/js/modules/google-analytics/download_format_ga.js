@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 function downloadEvents(download_type){
     gtag('event', 'Download button click', {'eventCategory': 'Button click', 'eventLabel': download_type + ' download'})
 }

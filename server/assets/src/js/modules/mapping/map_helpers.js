@@ -1,3 +1,4 @@
+import $ from "jquery";
 import { linear } from 'ol/easing';
 import { GeoJSON } from 'ol/format';
 import { boundingExtent as olBoundingExtent } from 'ol/extent';
@@ -17,7 +18,7 @@ var MAP_HELPERS = {};
 
     MAP_HELPERS.zoomToBoundary = function() {
         var extent = new olBoundingExtent([[137738.0354,383.7986],[633717.1256,669903.6353]]);
-        map.getView().fit(extent, {constrainResolution: false, duration: 500, easing: linear});
+        map.getView().fit(extent, {constrainResolution: false, easing: linear});
     };
 
     MAP_HELPERS.zoom_to_authority_boundary = function(local_authority_boundary_url) {
@@ -26,11 +27,11 @@ var MAP_HELPERS = {};
                 var geojson = new GeoJSON();
                 var feature = geojson.readFeature(json);
                 var extent = feature.getGeometry().getExtent();
-                map.getView().fit(extent, {constrainResolution: false, duration: 500, easing: linear});
+                map.getView().fit(extent, {constrainResolution: false, easing: linear});
             })
             .fail(function(json) {
                 var extent = new olBoundingExtent([[137738.0354,383.7986],[633717.1256,669903.6353]]);
-                map.getView().fit(extent, {constrainResolution: false, duration: 500, easing: linear});
+                map.getView().fit(extent, {constrainResolution: false, easing: linear});
             });
     };
 
@@ -59,7 +60,7 @@ var MAP_HELPERS = {};
             }
 
             var boundingExtent = new olBoundingExtent(coordinates)
-            map.getView().fit(boundingExtent, {duration: 1000, maxZoom: 15})
+            map.getView().fit(boundingExtent, {maxZoom: 15})
         }
     };
 

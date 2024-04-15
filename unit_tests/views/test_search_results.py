@@ -1,14 +1,29 @@
 from collections import OrderedDict
 from unittest import TestCase
-from server.app import app
 from unittest.mock import MagicMock, patch
+
 from flask import url_for
-from server.models.charges import FinancialItem, LightObstructionNoticeItem, LocalLandChargeItem, LandCompensationItem
-from server.models.searches import SearchState
-from server.views.search_results import format_for_display, group_charges_format_for_display, sort_charges
-from unit_tests.test_data.mock_land_charge import mock_financial_charge, mock_land_charge, mock_land_compensation_charge
-from unit_tests.test_data.mock_lon import mock_light_obstruction_notice
 from flask_babel import lazy_gettext as _
+
+from server.app import app
+from server.models.charges import (
+    FinancialItem,
+    LandCompensationItem,
+    LightObstructionNoticeItem,
+    LocalLandChargeItem,
+)
+from server.models.searches import SearchState
+from server.views.search_results import (
+    format_for_display,
+    group_charges_format_for_display,
+    sort_charges,
+)
+from unit_tests.test_data.mock_land_charge import (
+    mock_financial_charge,
+    mock_land_charge,
+    mock_land_compensation_charge,
+)
+from unit_tests.test_data.mock_lon import mock_light_obstruction_notice
 
 
 class TestSearchResults(TestCase):
@@ -22,10 +37,10 @@ class TestSearchResults(TestCase):
         with self.client.session_transaction() as session:
             session["profile"] = {"user_id": "anuserid"}
         result = self.client.get(url_for("search_results.results"))
-        self.assertEqual(result.location, url_for('index.index_page'))
+        self.assertEqual(result.location, url_for("index.index_page"))
 
-    @patch('server.views.search_results.SearchResultsForm')
-    @patch('server.views.search_results.decode_validate_search_id')
+    @patch("server.views.search_results.SearchResultsForm")
+    @patch("server.views.search_results.decode_validate_search_id")
     def test_results_post_invalid_enc_search(self, mock_decode, mock_form):
         with self.client.session_transaction() as session:
             session["profile"] = {"user_id": "anuserid"}
@@ -37,10 +52,10 @@ class TestSearchResults(TestCase):
         result = self.client.post(url_for("search_results.results"))
         self.assertEqual(result.status_code, 500)
         mock_decode.assert_called_with("custard")
-        self.assertIn("Sorry, we are experiencing technical difficulties", result.text)
+        self.assertIn("Sorry, there is a problem with the service", result.text)
 
-    @patch('server.views.search_results.SearchResultsForm')
-    @patch('server.views.search_results.decode_validate_search_id')
+    @patch("server.views.search_results.SearchResultsForm")
+    @patch("server.views.search_results.decode_validate_search_id")
     def test_results_post_valid_enc_search(self, mock_decode, mock_form):
         with self.client.session_transaction() as session:
             session["profile"] = {"user_id": "anuserid"}
@@ -52,21 +67,26 @@ class TestSearchResults(TestCase):
         result = self.client.post(url_for("search_results.results"))
         self.assertEqual(result.status_code, 302)
         mock_decode.assert_called_with("custard")
-        self.assertEqual(result.location, url_for('paid_search.search_area_description', enc_search_id="custard"))
+        self.assertEqual(
+            result.location,
+            url_for("paid_search.search_area_description", enc_search_id="custard"),
+        )
 
-    @patch('server.views.search_results.SearchResultsForm')
-    @patch('server.views.search_results.sort_charges')
-    @patch('server.views.search_results.calculate_pagination_info')
-    @patch('server.views.search_results.Fernet')
-    @patch('server.views.search_results.group_charges_format_for_display')
+    @patch("server.views.search_results.SearchResultsForm")
+    @patch("server.views.search_results.sort_charges")
+    @patch("server.views.search_results.calculate_pagination_info")
+    @patch("server.views.search_results.Fernet")
+    @patch("server.views.search_results.group_charges_format_for_display")
     def test_results_get(self, mock_group, mock_fernet, mock_paginate, mock_sort, mock_form):
         with self.client.session_transaction() as session:
             session["profile"] = {"user_id": "anuserid"}
             test_search_state = SearchState()
             test_search_state.search_extent = "anextent"
             test_search_state.charges = [
-                mock_financial_charge(), mock_land_charge(), mock_land_compensation_charge(),
-                mock_light_obstruction_notice()
+                mock_financial_charge(),
+                mock_land_charge(),
+                mock_land_compensation_charge(),
+                mock_light_obstruction_notice(),
             ]
             test_search_state.free_search_id = "anid"
             session["search_state"] = test_search_state
@@ -75,65 +95,16 @@ class TestSearchResults(TestCase):
         mock_form.return_value.enc_search_id.data = "custard"
         mock_form.return_value.errors = []
         mock_sort.return_value = "Somecharges"
-        mock_fernet.return_value.encrypt.return_value = b'someencryptedthing'
+        mock_fernet.return_value.encrypt.return_value = b"someencryptedthing"
         mock_paginate.return_value = [], {"items": []}, 0
         mock_group.return_value = {}
 
         result = self.client.get(url_for("search_results.results"))
-        mock_fernet.return_value.encrypt.assert_called_with(b'anid')
+        mock_fernet.return_value.encrypt.assert_called_with(b"anid")
         mock_group.assert_called_with([])
-        mock_paginate.assert_called_with('Somecharges', 'search_results.results', 25, 1)
+        mock_paginate.assert_called_with("Somecharges", "search_results.results", 25, 1)
         mock_sort.assert_called()
         self.assertIn("Local land charge search results", result.text)
-
-# @search_results.route('', methods=["GET", "POST"])
-# @authenticated
-# def results():
-#     current_app.logger.info('Loading results page')
-
-#     if "search_state" not in session:
-#         return redirect(url_for('index.index_page'))
-
-#     form = SearchResultsForm()
-
-#     if form.validate_on_submit():
-#         search_state = decode_validate_search_id(form.enc_search_id.data)
-#         if not search_state:
-#             raise ApplicationError("Invalid encoded search ID", "INENC01", 500)
-
-#         return redirect(url_for('paid_search.search_area_description', enc_search_id=form.enc_search_id.data))
-
-#     search_extent = session['search_state'].search_extent
-#     unsorted_charges = []
-
-#     if session['search_state'].charges:
-#         for charge in session['search_state'].charges:
-#             if "Land compensation" in charge['charge-type']:
-#                 unsorted_charges.append(LandCompensationItem.from_json(charge))
-#             elif "Light obstruction notice" in charge['charge-type']:
-#                 unsorted_charges.append(LightObstructionNoticeItem.from_json(charge))
-#             elif "Financial" in charge['charge-type']:
-#                 unsorted_charges.append(FinancialItem.from_json(charge))
-#             else:
-#                 unsorted_charges.append(LocalLandChargeItem.from_json(charge))
-#     current_app.logger.info('Sorting Charges')
-#     charges = sort_charges(unsorted_charges)
-
-#     # Encrypt the search ID to prevent tampering
-#     f = Fernet(current_app.config['GEOSERVER_SECRET_KEY'])
-#     enc_search_id = f.encrypt(str(session['search_state'].free_search_id).encode()).decode()
-#     form.enc_search_id.data = enc_search_id
-
-#     current_page = request.args.get("page", 1, type=int)
-
-#     repeat_search = False
-#     if 'repeated_search' in session and session['repeated_search']:
-#         repeat_search = True
-
-#     display_charges, pagination_info, start_index = \
-#         calculate_pagination_info(charges, 'search_results.results', CHARGES_PER_PAGE, current_page)
-
-#     return render_template('search-results.html',
 
     @patch("server.views.search_results.CategoryService")
     def test_charge_sorting(self, mock_cat_service):
@@ -189,7 +160,13 @@ class TestSearchResults(TestCase):
         mock_format.return_value = "formattedcharge"
         result = group_charges_format_for_display(charges)
         self.assertEqual(
-            result, OrderedDict({"Aardvark": ["formattedcharge"], "Rhubarb": ["formattedcharge", "formattedcharge"]})
+            result,
+            OrderedDict(
+                {
+                    "Aardvark": ["formattedcharge"],
+                    "Rhubarb": ["formattedcharge", "formattedcharge"],
+                }
+            ),
         )
 
     def test_format_for_display_land_charge(self):
@@ -206,7 +183,11 @@ class TestSearchResults(TestCase):
                     "Originating authority": "an authority",
                     "Registration date": "01 January 2011",
                 },
-                "heading": {"creation_date": "01 January 2011", "header": "a charge type", "sub_header": ""},
+                "heading": {
+                    "creation_date": "01 January 2011",
+                    "header": "a charge type",
+                    "sub_header": "",
+                },
             },
         )
 
@@ -258,7 +239,11 @@ class TestSearchResults(TestCase):
                     "Registration date": "01 January 2011",
                     "Work done": "21",
                 },
-                "heading": {"creation_date": "01 January 2011", "header": "Land compensation", "sub_header": ""},
+                "heading": {
+                    "creation_date": "01 January 2011",
+                    "header": "Land compensation",
+                    "sub_header": "",
+                },
             },
         )
 
@@ -270,21 +255,25 @@ class TestSearchResults(TestCase):
             result,
             {
                 "content": {
-                    'Advance payment': '£1.00',
-                    'Agreed or estimated': _('Not provided'),
+                    "Advance payment": "£1.00",
+                    "Agreed or estimated": _("Not provided"),
                     "Authority reference": "a reference",
                     "HM Land Registry reference": "LLC-3Z",
-                    'Interest in land': _('Not provided'),
+                    "Interest in land": _("Not provided"),
                     "Land sold": "10",
                     "Law": "a provision",
                     "Legal document": "An instrument",
                     "Location": ["a description"],
                     "Originating authority": "an authority",
                     "Registration date": "01 January 2011",
-                    'Total compensation': _('Not provided'),
+                    "Total compensation": _("Not provided"),
                     "Work done": "21",
                 },
-                "heading": {"creation_date": "01 January 2011", "header": "Land compensation", "sub_header": ""},
+                "heading": {
+                    "creation_date": "01 January 2011",
+                    "header": "Land compensation",
+                    "sub_header": "",
+                },
             },
         )
 
@@ -304,6 +293,10 @@ class TestSearchResults(TestCase):
                     "Originating authority": "an authority",
                     "Registration date": "01 January 2011",
                 },
-                "heading": {"creation_date": "01 January 2011", "header": "Financial", "sub_header": ""},
+                "heading": {
+                    "creation_date": "01 January 2011",
+                    "header": "Financial",
+                    "sub_header": "",
+                },
             },
         )

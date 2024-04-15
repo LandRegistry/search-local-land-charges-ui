@@ -6,7 +6,11 @@ from unittest import mock
 from flask_compress import Compress
 from werkzeug.datastructures import Headers
 
-from server.custom_extensions.gzip_static_assets.main import GzipStaticAssets, gzip_cache, gzip_cache_key
+from server.custom_extensions.gzip_static_assets.main import (
+    GzipStaticAssets,
+    gzip_cache,
+    gzip_cache_key,
+)
 from server.main import app
 
 

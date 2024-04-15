@@ -1,21 +1,27 @@
+from re import UNICODE
+
+from flask_babel import lazy_gettext as _
 from flask_wtf import FlaskForm
+from govuk_frontend_wtf.wtforms_widgets import (
+    GovPasswordInput,
+    GovSubmitInput,
+    GovTextInput,
+)
+from wtforms.fields import PasswordField, StringField, SubmitField
+from wtforms.validators import Email, InputRequired, Length, Regexp, ValidationError
+
 from server.views.forms.custom_fields import FieldGroup
 from server.views.forms.validate_common import valid_password_rules
-from wtforms.fields import SubmitField, StringField, PasswordField
-from govuk_frontend_wtf.wtforms_widgets import GovSubmitInput, GovTextInput, GovPasswordInput
-from wtforms.validators import Email, InputRequired, Length, ValidationError
-from flask_babel import lazy_gettext as _
 
 
 class EmailAddressesForm(FlaskForm):
-
     email_address = StringField(
         _("Email address"),
         widget=GovTextInput(),
         validators=[
             InputRequired(message=_("Enter an email address")),
             Length(max=256, message=_("Email address must be 256 characters or fewer")),
-            Email(message=_("Enter an email address in the correct format, like name@example.com"))
+            Email(message=_("Enter an email address in the correct format, like name@example.com")),
         ],
     )
 
@@ -23,29 +29,28 @@ class EmailAddressesForm(FlaskForm):
         _("Confirm email address"),
         widget=GovTextInput(),
         validators=[
-            InputRequired(message=_("Enter an email address")),
+            InputRequired(message=_("Confirm email address")),
             Length(max=256, message=_("Email address must be 256 characters or fewer")),
-            Email(message=_("Enter an email address in the correct format, like name@example.com"))
+            Email(message=_("Enter an email address in the correct format, like name@example.com")),
         ],
     )
 
 
 class PasswordsForm(FlaskForm):
-
     password = PasswordField(
         _("Password"),
         widget=GovPasswordInput(),
         validators=[
             InputRequired(message=_("Enter a password")),
-            Length(max=256, message=_("Password must be 256 characters or fewer"))
+            Length(max=256, message=_("Password must be 256 characters or fewer")),
         ],
     )
     confirm_password = PasswordField(
         _("Confirm password"),
         widget=GovPasswordInput(),
         validators=[
-            InputRequired(message=_("Enter a password")),
-            Length(max=256, message=_("Password must be 256 characters or fewer"))
+            InputRequired(message=_("Confirm password")),
+            Length(max=256, message=_("Password must be 256 characters or fewer")),
         ],
     )
 
@@ -59,13 +64,20 @@ class PasswordsForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
-
     first_name = StringField(
         _("First name"),
         widget=GovTextInput(),
         validators=[
-            InputRequired(message=_("Enter a first name")),
-            Length(max=256, message=_("First name must be 256 characters or fewer")),
+            InputRequired(message=_("Enter your first name")),
+            Length(max=50, message=_("First name must be between 1 and 50 characters")),
+            Regexp(
+                r"^[^\n0-9_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]\.]+$",
+                flags=UNICODE,
+                message=_(
+                    "First name must only include letters, and special characters"
+                    " such as hyphens, spaces and apostrophes"
+                ),
+            ),
         ],
     )
 
@@ -73,8 +85,16 @@ class RegisterForm(FlaskForm):
         _("Last name"),
         widget=GovTextInput(),
         validators=[
-            InputRequired(message=_("Enter a last name")),
-            Length(max=256, message=_("Last name must be 256 characters or fewer")),
+            InputRequired(message=_("Enter your last name")),
+            Length(max=50, message=_("Last name must be between 1 and 50 characters")),
+            Regexp(
+                r"^[^\n0-9_!¡?÷?¿\/\\+=@#$%ˆ&*(){}|~<>;:[\]\.]+$",
+                flags=UNICODE,
+                message=_(
+                    "Last name must only include letters, and special characters"
+                    " such as hyphens, spaces and apostrophes"
+                ),
+            ),
         ],
     )
 

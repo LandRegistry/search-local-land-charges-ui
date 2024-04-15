@@ -1,8 +1,8 @@
-from flask_wtf import FlaskForm
-from wtforms.fields import StringField, SubmitField
-from govuk_frontend_wtf.wtforms_widgets import GovSubmitInput, GovTextInput
-from wtforms.validators import InputRequired, ValidationError
 from flask_babel import lazy_gettext as _
+from flask_wtf import FlaskForm
+from govuk_frontend_wtf.wtforms_widgets import GovSubmitInput, GovTextInput
+from wtforms.fields import StringField, SubmitField
+from wtforms.validators import InputRequired, ValidationError
 
 
 class SearchByCoordinatesForm(FlaskForm):
@@ -10,29 +10,25 @@ class SearchByCoordinatesForm(FlaskForm):
         _("Enter X coordinates (Eastings)"),
         description=_("Coordinates must be of a numerical value"),
         widget=GovTextInput(),
-        validators=[
-            InputRequired(message=_('Enter X coordinates'))
-        ])
+        validators=[InputRequired(message=_("Enter X coordinates"))],
+    )
 
     northings = StringField(
         _("Enter Y coordinates (Northings)"),
         description=_("Coordinates must be of a numerical value"),
         widget=GovTextInput(),
-        validators=[
-            InputRequired(message=_('Enter Y coordinates'))
-        ])
+        validators=[InputRequired(message=_("Enter Y coordinates"))],
+    )
 
-    submit = SubmitField(
-        _("Search"),
-        widget=GovSubmitInput())
+    submit = SubmitField(_("Search"), widget=GovSubmitInput())
 
     def validate_eastings(self, field):
         if not is_valid_coord(field.data):
-            raise ValidationError(_('Enter coordinates in the correct format'))
+            raise ValidationError(_("Enter coordinates in the correct format"))
 
     def validate_northings(self, field):
         if not is_valid_coord(field.data):
-            raise ValidationError(_('Enter coordinates in the correct format'))
+            raise ValidationError(_("Enter coordinates in the correct format"))
 
 
 def is_valid_coord(coord):

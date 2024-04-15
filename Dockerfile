@@ -1,5 +1,5 @@
 # Set the base image to the s2i image
-FROM docker-registry/stp/stp-s2i-python-extended:3.9
+FROM docker-registry/stp/stp-s2i-python-extended:3.11
 
 # Switch from s2i's non-root user back to root for the following commmands
 USER root
@@ -56,24 +56,24 @@ ENV APP_MODULE='server.main:app' \
   STORAGE_API_ROOT="http://storage-api:8080" \
   LLC1_API_URL="http://llc1-document-api:8080/v1.0" \
   LLC1_API_ROOT="http://llc1-document-api:8080" \
-  WFS_SERVER_URL="https://wfs.viaeuropa.uk.com" \
-  GOV_PAY_URL="https://publicapi.payments.service.gov.uk/v1/payments" \
-  WMTS_SERVER_URL="https://tile.viaeuropa.uk.com" \
+  WFS_SERVER_URL="wfs-server-url" \
+  GOV_PAY_URL="gov-pay-url" \
+  WMTS_SERVER_URL="wmts-server-url" \
   GEOSERVER_URL="https://localhost:8081" \
   SEARCH_LOCAL_LAND_CHARGE_API_URL="http://search-local-land-charge-api:8080" \
   SEARCH_FEE_IN_PENCE=1500 \
-  OS_TERMS_CONDITIONS_LINK="https://www.ordnancesurvey.co.uk/business-government/licensing-agreements/terms-hmlr-scotland" \
+  OS_TERMS_CONDITIONS_LINK="os-terms-conditions-link" \
   MASTERMAP_API_KEY="dummy-mastermap-api-key" \
   MAP_BASE_LAYER_VIEW_NAME="map-base-layer-view-name" \
   SECRET_KEY=dummy-secret-key \
   GOV_PAY_API_KEY=dummy-gov-pay-api-key \
   MAX_HEALTH_CASCADE=6 \
   DEFAULT_PAGE_SIZE=10 \
-  FEEDBACK_URL="https://forms.office.com/Pages/ResponsePage.aspx?id=qAljI0soV06ns_x2dzb2ndpkPp2GFRdNvViFXghN4kNUMzc5N1FEWDI5QVgyNlBNVkpGMUw2Rk1TQyQlQCN0PWcu" \
+  FEEDBACK_URL="feedback-url" \
   LOCAL_AUTHORITY_API_URL=http://local-authority-api:8080 \
   SEARCH_API_MAX_RESULTS=200 \
-  CONTACT_US_URL="https://customerhelp.landregistry.gov.uk/local-land-charges" \
-  CONTACT_US_WELSH_URL="https://customerhelp.landregistry.gov.uk/local-land-charges-cy" \
+  CONTACT_US_URL="contact-us-url" \
+  CONTACT_US_WELSH_URL="contact-us-url-cy" \
   REPORT_API_BASE_URL="http://report-api:8080" \
   AUTHENTICATION_URL="http://dev-search-authentication-api:8080" \
   ACCESSIBILITY_STATEMENT_PUBLISH="07/12/2022" \

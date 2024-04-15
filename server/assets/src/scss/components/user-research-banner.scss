@@ -1,0 +1,55 @@
+.hmrc-user-research-banner {
+  position: relative;
+  color: govuk-colour("white");
+  background-color: $govuk-brand-colour;
+  box-sizing: border-box;
+
+  @include govuk-clearfix;
+  @include govuk-responsive-padding(6, "top");
+  @include govuk-responsive-padding(6, "bottom");
+  @include govuk-font($size: 19);
+
+
+  &__container {
+    position: relative;
+    /* Added since seems to get margins wrong with our toolkit, maybe fixed with v5-based toolkit */
+    @media (min-width: 40.0625em) {
+      margin-left: max(30px,calc(15px + env(safe-area-inset-left)));
+      margin-right: max(30px,calc(15px + env(safe-area-inset-right)));
+    }
+    margin-left: max(15px,calc(15px + env(safe-area-inset-left)));
+    margin-right: max(15px,calc(15px + env(safe-area-inset-right)));
+    /* end add */
+
+    @include govuk-media-query($from: tablet) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  &__text {
+    float: left;
+    margin-bottom: govuk-spacing(1);
+  }
+
+  &__title {
+    @include govuk-responsive-margin(1, "bottom");
+
+    color: govuk-colour("white");
+  }
+
+  &__link {
+    @include govuk-link-common;
+    @include govuk-link-style-inverse;
+  }
+
+  &__close {
+    float: right;
+    margin-bottom: 0;
+  }
+
+  &--show {
+    display: block;
+  }
+}

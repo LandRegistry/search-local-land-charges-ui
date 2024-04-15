@@ -1,0 +1,80 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
+
+{% block title %}{{ _('Get help with Search for local land charges') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">{{ _('Get help with Search for local land charges') }}</h1>
+    <h2 class="govuk-heading-m">{{ _('Questions about local land charge search results') }}</h2>
+    <p class="govuk-body">
+      {{ _('Contact the originating authority shown on your search result for all queries about local land charge search results. This includes missing local land charges and the separate CON29 service. The organisation is usually a local authority (local council).') }}
+    </p>
+    {% if g.locale != 'cy'%}
+      <p class="govuk-body">
+        <a class="govuk-link" href="{{ _('https://www.gov.uk/find-local-council') }}">{{ _('Find your local council') }}</a>
+      </p>
+      <p class="govuk-body">
+        <a class="govuk-link" href="{{ _('https://www.gov.uk/guidance/hm-land-registry-local-land-charges-search-results') }}">{{ _('View the local land charges search results guidance') }}</a>
+      </p>
+    {% else %}
+      <p class="govuk-body">
+        <a class="govuk-link" href="{{ _('https://www.gov.uk/find-local-council') }}">{{ _('Find your local council') }} ({{ _('English') }})</a>
+      </p>
+    {% endif %}
+    <h2 class="govuk-heading-m">{{ _('Help using this service') }}</h2>
+    <p class="govuk-body">
+      {{ _('Contact HM Land Registry if you need help using this service or have technical queries.')  }}
+    </p>
+    <h3 class="govuk-heading-s">{{ _('Telephone') }}</h3>
+    <p class="govuk-body">
+      {{ _('Telephone: 0300 006 0444') }}<br>
+      {{ _('Monday to Thursday, 8am to 5pm (except public holidays)') }}
+    </p>
+    <p class="govuk-body">
+      {{ _('Welsh language: 0300 006 0422') }}<br>
+      {{ _('Monday to Thursday, 8am to 5pm (except public holidays)') }}
+    </p>
+    <p class="govuk-body">
+      <a class="govuk-link" href="{{ _('https://www.gov.uk/call-charges') }}">{{ _('Find out about call charges') }}</a>
+    </p>
+    <h3 class="govuk-heading-s">{{ _('Online contact form') }}</h3>
+    <p class="govuk-body">
+      {% set contact_link_html %}<a href="{{ _('https://customerhelp.landregistry.gov.uk/llc_webform/') }}" class="govuk-link">{{ _('online contact form') }}</a>{% endset %}
+      {{ _('Request help through our %(contact_link_html)s.', contact_link_html=contact_link_html) }}
+    </p>
+    {% if g.locale != 'cy' %}
+      <p class="govuk-body">
+        {% set customers_needs_html %}<a href="{{ _('https://customerhelp.landregistry.gov.uk/guide-page-external/?stepid=428dc568-5a72-ed11-81ac-002248425ec7&setanswer=68afec09-ec96-eb11-b1ac-002248413956') }}" class="govuk-link">{{ _('customers with particular needs, conditions or circumstances') }}</a>{% endset %}
+        {{ _('View more about how we can help %(customers_needs_html)s.', customers_needs_html=customers_needs_html) }}
+      </p>
+    {% else %}
+      <p class="govuk-body">
+        {{ _('You can also contact us if you need support with:') }}
+      </p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><a class="govuk-link" href="{{ _('https://www.gov.uk/guidance/hm-land-registry-local-land-charges-search-results') }}">{{ _('local land charges search results guidance') }} ({{ _('English') }})</a></li>
+        <li><a class="govuk-link" href="{{ _('https://customerhelp.landregistry.gov.uk/guide-page-external/?stepid=428dc568-5a72-ed11-81ac-002248425ec7&setanswer=68afec09-ec96-eb11-b1ac-002248413956') }}">{{ _('how we can help customers with particular needs, conditions or circumstances') }} ({{ _('English') }})</a></li>
+      </ul>
+    {% endif %}
+    <h2 class="govuk-heading-m">{{ _('HM Land Registry general enquiries') }}</h2>
+    {% if g.locale != 'cy' %}
+      <p class="govuk-body">
+        {% set general_enquiries_html %}<a href="{{ _('https://customerhelp.landregistry.gov.uk/contactus') }}" class="govuk-link">{{ _('general enquiries') }}</a>{% endset %}
+        {{ _('For other HM Land Registry queries, including land charges, use our %(general_enquiries_html)s contact us form.', general_enquiries_html=general_enquiries_html) }}
+      </p>
+    {% else %}
+      <p class="govuk-body">
+        {% set online_contact_html %}<a href="{{ _('https://customerhelp.landregistry.gov.uk/contactus') }}" class="govuk-link">{{ _('online contact form') }}</a>{% endset %}
+        {{ _('For other HM Land Registry queries, including land charges, use our %(online_contact_html)s', online_contact_html=online_contact_html) }}.
+      </p>
+    {% endif %}
+    <p class="govuk-body">
+      {% set gov_uk_lr_html %}<a href="{{ _('https://gov.uk/land-registry') }}" class="govuk-link">{{ _('gov.uk/land-registry') }}</a>{% endset %}
+      {{ _('You can also visit %(gov_uk_lr_html)s.', gov_uk_lr_html=gov_uk_lr_html) }}
+    </p>
+  </div>
+</div>
+{% endblock %}

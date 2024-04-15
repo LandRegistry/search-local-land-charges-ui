@@ -2,10 +2,13 @@ import os
 import unittest
 from unittest import mock
 
-from flask import render_template_string, g
+from flask import g, render_template_string
 from freezegun import freeze_time
 
-from server.custom_extensions.cachebust_static_assets.main import CachebustStaticAssets, md5_for_file
+from server.custom_extensions.cachebust_static_assets.main import (
+    CachebustStaticAssets,
+    md5_for_file,
+)
 from server.main import app
 
 
@@ -17,7 +20,7 @@ class TestCachebustStaticAssets(unittest.TestCase):
         ctx = app.test_request_context("/")
         ctx.push()
         ctx.request.cookies
-        g.locale = 'en'
+        g.locale = "en"
 
     @mock.patch("server.custom_extensions.cachebust_static_assets.main.CachebustStaticAssets.init_app")
     def test_extension_alternative_init(self, mock_init_app):

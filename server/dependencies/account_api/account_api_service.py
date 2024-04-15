@@ -1,7 +1,8 @@
-from flask import g, session
-from landregistry.exceptions import ApplicationError
 import json
 import urllib
+
+from flask import g, session
+from landregistry.exceptions import ApplicationError
 
 
 class AccountApiService(object):
@@ -13,7 +14,12 @@ class AccountApiService(object):
         self.url = current_app.config["ACCOUNT_API_URL"]
 
     def register(self, first_name, surname, email, password):
-        body = {"first_name": first_name, "surname": surname, "email": email, "password": password}
+        body = {
+            "first_name": first_name,
+            "surname": surname,
+            "email": email,
+            "password": password,
+        }
 
         url = self.url + "/users"
         self.logger.info("Calling Account API at {}".format(url))
@@ -21,23 +27,36 @@ class AccountApiService(object):
 
         if response.status_code == 409:
             self.logger.warning("Account already exists for this email address")
-            return {"status": response.status_code, "message": "Account already exists for this email address"}
+            return {
+                "status": response.status_code,
+                "message": "Account already exists for this email address",
+            }
 
         if response.status_code == 400 and "Password is blacklisted" in response.text:
             self.logger.warning("Password is blacklisted")
-            return {"status": response.status_code, "message": "Password is blacklisted"}
+            return {
+                "status": response.status_code,
+                "message": "Password is blacklisted",
+            }
 
         if response.status_code != 201:
             self.logger.error("Error registering user")
             raise ApplicationError(response.status_code)
 
         self.logger.info("Successfully registered user")
-        return {"status": response.status_code, "message": "Account successfully created", "data": response.json()}
+        return {
+            "status": response.status_code,
+            "message": "Account successfully created",
+            "data": response.json(),
+        }
 
     def set_password(self, token, user_id, password):
         url = "{}/users/{}".format(self.url, urllib.parse.quote_plus(user_id))
         payload = json.dumps({"password": password, "status": self.config["NEW_USER_STATUS"]})
-        headers = {"Content-Type": "application/merge-patch+json", "X-reset-token": token}
+        headers = {
+            "Content-Type": "application/merge-patch+json",
+            "X-reset-token": token,
+        }
 
         response = g.requests.patch(url, data=payload, headers=headers)
 
@@ -85,7 +104,8 @@ class AccountApiService(object):
         if reset_password_email_request.status_code != 201:
             self.logger.error(
                 "Error requesting password token: code: {} message: {}".format(
-                    str(reset_password_email_request.status_code), reset_password_email_request.text
+                    str(reset_password_email_request.status_code),
+                    reset_password_email_request.text,
                 )
             )
 
@@ -94,7 +114,10 @@ class AccountApiService(object):
     def activate_user(self, activate_token, user_id):
         url = "{}/users/{}".format(self.url, urllib.parse.quote_plus(user_id))
         payload = json.dumps({"status": "Active"})
-        headers = {"Content-Type": "application/merge-patch+json", "X-reset-token": activate_token}
+        headers = {
+            "Content-Type": "application/merge-patch+json",
+            "X-reset-token": activate_token,
+        }
 
         response = g.requests.patch(url, data=payload, headers=headers)
 

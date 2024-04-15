@@ -1,0 +1,51 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
+{% from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
+
+{% block title %}
+{% if maintenance %}
+  {{ _('%(org_name)s is on the register but information for this area is temporarily not available', org_name=org_name) }}
+{% elif migrated %}
+  {{ _('%(org_name)s is available on this service', org_name=org_name) }}
+{% else %}
+  {{ _('%(org_name)s is not yet available on this service', org_name=org_name) }}
+{% endif %}
+{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {% if maintenance %}
+      <h1 class="govuk-heading-xl">{{ _('%(org_name)s is on the register but information for this area is temporarily not available', org_name=org_name) }}</h1>
+      <p class="govuk-body-l">{{ _("We're currently working on making this information available again. You'll be able to search this area once we've done that.") }}</p>
+      <div class="govuk-button-group">{{ govukButton({
+          "text": _("Return to start"),
+          "type": "button",
+          "href": url_for('index.index_page')
+        }) }}
+        <a class="govuk-link" href="{{ url_for('check_migrated_authorities.check_authorities') }}">{{ _('Check another local authority') }}</a>
+      </p>
+    {% elif migrated %}
+      <h1 class="govuk-heading-xl">{{ _('%(org_name)s is available on this service', org_name=org_name) }}</h1>
+      <div class="govuk-button-group">{{ govukButton({
+          "text": _("Continue with search"),
+          "type": "button",
+          "href": url_for('search.search_by_post_code_address'),
+        }) }}
+        <a class="govuk-link" href="{{ url_for('check_migrated_authorities.check_authorities') }}">{{ _('Check another local authority') }}</a>
+      </div>
+    {% else %}
+      <h1 class="govuk-heading-xl">{{ _('%(org_name)s is not yet available on this service', org_name=org_name) }}</h1>
+      <p class="govuk-body-l">{{ _('Contact the local authority for local land charges information.') }}</p>
+      <div class="govuk-button-group">{{ govukButton({
+          "text": _("Return to start"),
+          "type": "button",
+          "href": url_for('index.index_page')
+        }) }}
+        <a class="govuk-link" href="{{ url_for('check_migrated_authorities.check_authorities') }}">{{ _('Check another local authority') }}</a>
+      </p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

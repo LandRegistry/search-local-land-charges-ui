@@ -1,10 +1,14 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
-from flask import g, current_app
-from unit_tests.utilities import Utilities
-from server.dependencies.local_authority_api.local_authority_api_service import LocalAuthorityAPIService
-from server.main import app
+
+from flask import current_app, g
 from landregistry.exceptions import ApplicationError
+
+from server.dependencies.local_authority_api.local_authority_api_service import (
+    LocalAuthorityAPIService,
+)
+from server.main import app
+from unit_tests.utilities import Utilities
 from unit_tests.utilities_tests import super_test_context
 
 
@@ -16,7 +20,11 @@ class TestLocalAuthorityAPISerivice(TestCase):
         with super_test_context(app):
             Utilities.mock_request()
             g.requests.get.return_value = Utilities.mock_response(
-                status_code=200, json=[{"title": "org1", "migrated": False}, {"title": "org2", "migrated": False}]
+                status_code=200,
+                json=[
+                    {"title": "org1", "migrated": False},
+                    {"title": "org2", "migrated": False},
+                ],
             )
             get_response = LocalAuthorityAPIService.get_organisations()
 
@@ -93,7 +101,11 @@ class TestLocalAuthorityAPISerivice(TestCase):
 
             g.requests.post.return_value = response
 
-            self.assertRaises(ApplicationError, LocalAuthorityAPIService.get_authorities_by_extent, {"test": "test"})
+            self.assertRaises(
+                ApplicationError,
+                LocalAuthorityAPIService.get_authorities_by_extent,
+                {"test": "test"},
+            )
 
             args, kwargs = g.requests.post.call_args_list[0]
 

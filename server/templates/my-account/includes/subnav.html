@@ -1,18 +1,39 @@
       <ul class="govuk-list">
         <li class="subnav-item {% if request.path == url_for('my_account.my_account_page') %}subnav-item-current{% endif %}">
-          <a href="{{ url_for('my_account.my_account_page') }}" class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.my_account_page') %}subnav-item-current-link{% endif %} govuk-link--no-visited-state">{{ _('Manage account') }}</a>
+          <a href="{{ url_for('my_account.my_account_page') }}" class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.my_account_page') %}govuk-!-font-weight-bold{% endif %} govuk-link--no-visited-state">{{ _('Manage account') }}</a>
         </li>
       </ul>
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
       <h2 class="govuk-heading-s">{{ _('My searches') }}</h2>
       <ul class="govuk-list">
         <li class="subnav-item {% if request.path == url_for('my_account.active_searches') %}subnav-item-current{% endif %}">
-          <a class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.active_searches') %}subnav-item-current-link{% endif %} govuk-link--no-visited-state" href="{{ url_for('my_account.active_searches') }}">{{ _('Active searches') }}</a>
+          <a class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.active_searches') %}govuk-!-font-weight-bold{% endif %} govuk-link--no-visited-state" href="{{ url_for('my_account.active_searches') }}">{{ _('Active searches') }}</a>
         </li>
         <li class="subnav-item {% if request.path == url_for('my_account.expired_searches') %}subnav-item-current{% endif %}">
-          <a class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.expired_searches') %}subnav-item-current-link{% endif %} govuk-link--no-visited-state" href="{{ url_for('my_account.expired_searches') }}">{{ _('Expired searches') }}</a>
+          <a class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.expired_searches') %}govuk-!-font-weight-bold{% endif %} govuk-link--no-visited-state" href="{{ url_for('my_account.expired_searches') }}">{{ _('Expired searches') }}</a>
         </li>
         <li class="subnav-item {% if request.path == url_for('my_account.free_searches') %}subnav-item-current{% endif %}">
-          <a class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.free_searches') %}subnav-item-current-link{% endif %} govuk-link--no-visited-state" href="{{ url_for('my_account.free_searches') }}">{{ _('Free searches') }}</a>
+          <a class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.free_searches') %}govuk-!-font-weight-bold{% endif %} govuk-link--no-visited-state" href="{{ url_for('my_account.free_searches') }}">{{ _('Free searches') }}</a>
         </li>
+        {% set has_paid_repeats = has_paid_searches_to_repeat() %}
+        {% set has_free_repeats = has_free_searches_to_repeat() %}
+        {% if has_free_repeats or has_paid_repeats or request.path in [url_for('my_account.searches_to_repeat_top'), url_for('my_account.paid_searches_to_repeat'), url_for('my_account.free_searches_to_repeat')] %}
+          <li class="subnav-item {% if request.path == url_for('my_account.searches_to_repeat_top') %}subnav-item-current{% endif %}">
+            <a class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.searches_to_repeat_top') %}govuk-!-font-weight-bold{% endif %} govuk-link--no-visited-state" href="{{ url_for('my_account.searches_to_repeat_top') }}">{{ _('Searches we recommend you repeat') }}</a>
+            {% if (request.path == url_for('my_account.searches_to_repeat_top') and (has_free_repeats or has_paid_repeats)) or request.path in [url_for('my_account.paid_searches_to_repeat'), url_for('my_account.free_searches_to_repeat')] %}
+              <ul class="govuk-list govuk-!-margin-bottom-0">
+                {% if has_paid_repeats or request.path == url_for('my_account.paid_searches_to_repeat') %}
+                  <li class="subnav-sub-item {% if request.path == url_for('my_account.paid_searches_to_repeat') %}subnav-sub-item-current{% endif %}">
+                    <a class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.paid_searches_to_repeat') %}govuk-!-font-weight-bold{% endif %} govuk-link--no-visited-state" href="{{ url_for('my_account.paid_searches_to_repeat') }}">{{ _('Official searches we recommend you repeat') }}</a>
+                  </li>
+                {% endif %}
+                {% if has_free_repeats or request.path == url_for('my_account.free_searches_to_repeat') %}
+                  <li class="subnav-sub-item {% if request.path == url_for('my_account.free_searches_to_repeat') %}subnav-sub-item-current{% endif %}">
+                    <a class="govuk-link govuk-link--no-underline {% if request.path == url_for('my_account.free_searches_to_repeat') %}govuk-!-font-weight-bold{% endif %} govuk-link--no-visited-state" href="{{ url_for('my_account.free_searches_to_repeat') }}">{{ _('Free searches we recommend you repeat') }}</a>
+                  </li>
+                {% endif %}
+              </ul>
+            {% endif %}
+          </li>
+        {% endif %}
       </ul>

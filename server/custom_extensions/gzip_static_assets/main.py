@@ -14,7 +14,6 @@ class GzipStaticAssets(object):
             self.init_app(app)
 
     def init_app(self, app):
-
         app.config.setdefault("COMPRESS_MIMETYPES", ["text/css", "application/javascript"])
         app.config.setdefault("COMPRESS_CACHE_BACKEND", gzip_cache)
         app.config.setdefault("COMPRESS_CACHE_KEY", gzip_cache_key)

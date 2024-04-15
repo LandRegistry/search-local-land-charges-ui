@@ -1,5 +1,5 @@
-import json
 import base64
+import json
 
 
 def check_valid_base64_json_cookie(cookie_base64):
@@ -11,4 +11,4 @@ def check_valid_base64_json_cookie(cookie_base64):
 
 
 def encode_base64_json_cookie(cookie_json):
-    return base64.b64encode(json.dumps(cookie_json).encode())
+    return base64.b64encode(json.dumps(cookie_json).encode()).decode()

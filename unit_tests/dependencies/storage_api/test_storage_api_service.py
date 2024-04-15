@@ -1,9 +1,12 @@
 from unittest import TestCase
-from flask import g
 from unittest.mock import MagicMock
+
+from flask import g
+from landregistry.exceptions import ApplicationError
+
 from server import main
 from server.dependencies.storage_api.storage_api_service import StorageAPIService
-from landregistry.exceptions import ApplicationError
+from unit_tests.utilities_tests import super_test_context
 
 STORAGE_API_SERVICE_PATH = "maintain_frontend.dependencies.storage_api.storage_api_service"
 
@@ -24,7 +27,7 @@ class TestStorageApiService(TestCase):
         return storage_api_service
 
     def test_get_external_url_success(self):
-        with main.app.test_request_context():
+        with super_test_context(main.app):
             mock_file_id = "mock file id"
             mock_bucket = "test_bucket"
 
@@ -37,11 +40,12 @@ class TestStorageApiService(TestCase):
 
             self.assertEqual(result, "mock_report_url")
             g.requests.get.assert_called_with(
-                "{}/{}/{}/external-url".format("anurl", mock_bucket, mock_file_id), params={}
+                "{}/{}/{}/external-url".format("anurl", mock_bucket, mock_file_id),
+                params={},
             )
 
     def test_get_external_url_success_with_subdirectories(self):
-        with main.app.test_request_context():
+        with super_test_context(main.app):
             mock_file_id = "mock file id"
             mock_bucket = "test_bucket"
 
@@ -61,7 +65,7 @@ class TestStorageApiService(TestCase):
             )
 
     def test_get_external_url_error_404(self):
-        with main.app.test_request_context():
+        with super_test_context(main.app):
             mock_file_id = "mock file id"
             mock_bucket = "test_bucket"
 
@@ -74,7 +78,7 @@ class TestStorageApiService(TestCase):
             self.assertEqual(raises_context.exception.code, "STORE03")
 
     def test_get_external_url_error_500(self):
-        with main.app.test_request_context():
+        with super_test_context(main.app):
             mock_file_id = "mock file id"
             mock_bucket = "test_bucket"
 
@@ -87,7 +91,7 @@ class TestStorageApiService(TestCase):
             self.assertEqual(raises_context.exception.code, "STORE04")
 
     def test_get_external_url_for_document_url_200(self):
-        with main.app.test_request_context():
+        with super_test_context(main.app):
             mock_file_id = "mock file id"
             mock_bucket = "test_bucket"
 
@@ -102,7 +106,7 @@ class TestStorageApiService(TestCase):
             g.requests.get.assert_called_with("{}{}/{}/external-url".format("anurl", mock_bucket, mock_file_id))
 
     def test_get_external_url_for_document_url_404(self):
-        with main.app.test_request_context():
+        with super_test_context(main.app):
             mock_file_id = "mock file id"
             mock_bucket = "test_bucket"
 
@@ -118,7 +122,7 @@ class TestStorageApiService(TestCase):
             g.requests.get.assert_called_with("{}{}/{}/external-url".format("anurl", mock_bucket, mock_file_id))
 
     def test_get_external_url_for_document_url_500(self):
-        with main.app.test_request_context():
+        with super_test_context(main.app):
             mock_file_id = "mock file id"
             mock_bucket = "test_bucket"
 

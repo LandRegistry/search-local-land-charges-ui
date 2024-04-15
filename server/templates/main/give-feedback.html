@@ -1,0 +1,29 @@
+{% from "govuk_frontend_jinja/components/button/macro.html" import govukButton %}
+
+{% extends 'base-templates/base.html' %}
+
+{% block title %}{{ _('Give feedback on Search for local land charges') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">{{ _('Give feedback on Search for local land charges') }}</h1>
+    <p class="govuk-body">
+      {{ _('This form is to give feedback only. We are unable to reply to comments individually, but we do use your feedback to help improve our service') }}.
+    </p>
+    <p class="govuk-body">
+      {{ _('Do not include personal or financial information, like your National Insurance number or credit card details') }}.
+    </p>
+    <p class="govuk-body">
+      {{ _('This form should take around 5 minutes to complete') }}.
+    </p>
+    {% set get_help_html %}<a href="{{ url_for('main.get_help_sllc') }}" class="govuk-link">{{ _('Get help with Search for local land charges') }}</a>{% endset %}
+    <p class="govuk-body">
+      {{ _('If you need support using the service or have technical queries, visit %(get_help_html)s', get_help_html=get_help_html) }}.
+    </p>
+    <p class="govuk-body govuk-!-padding-top-7">
+      {{ govukButton({"text": _('Give feedback'), "href": feedback_url}) }}
+    </p>
+  </div>
+</div>
+{% endblock %}

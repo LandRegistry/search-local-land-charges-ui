@@ -1,14 +1,17 @@
 import re
 
-from server.dependencies.search_api.address_service import AddressesService
-from server.dependencies.search_api.local_land_charge_service import LocalLandChargeService
-from server.dependencies.search_api.search_type import SearchType
-from landregistry.exceptions import ApplicationError
 from flask_babel import gettext
+from landregistry.exceptions import ApplicationError
 
-POSTCODE_REGEX = '^[A-Z]{1,2}[0-9][A-Z0-9]? [0-9][ABD-HJLNP-UW-Z]{2}$'
-UPRN_REGEX = '^[0-9]{6,12}$'
-CHARGE_NUMBER_REGEX = '^(llc|LLC)(-)?([0123456789BCDFGHJKLMNPQRSTVWXYZ]){1,6}$'
+from server.dependencies.search_api.address_service import AddressesService
+from server.dependencies.search_api.local_land_charge_service import (
+    LocalLandChargeService,
+)
+from server.dependencies.search_api.search_type import SearchType
+
+POSTCODE_REGEX = "^[A-Z]{1,2}[0-9][A-Z0-9]? [0-9][ABD-HJLNP-UW-Z]{2}$"
+UPRN_REGEX = "^[0-9]{6,12}$"
+CHARGE_NUMBER_REGEX = "^(llc|LLC)(-)?([0123456789BCDFGHJKLMNPQRSTVWXYZ]){1,6}$"
 
 
 class SearchByText(object):
@@ -44,17 +47,14 @@ class SearchByText(object):
         if response.status_code == 200:
             self.logger.info("Search results found")
 
-            response_data = {
-                "data": response.json(),
-                "status": "success"
-            }
+            response_data = {"data": response.json(), "status": "success"}
 
             return response_data
         elif response.status_code == 404:
             self.logger.info("Valid search format but no results found")
             response_data = {
                 "search_message": gettext("Enter a valid postcode or location"),
-                "status": "error"
+                "status": "error",
             }
 
             return response_data
@@ -66,7 +66,7 @@ class SearchByText(object):
             self.logger.info("No search query provided")
             response_data = {
                 "search_message": gettext("Enter a postcode or location"),
-                "status": "error"
+                "status": "error",
             }
 
             return response_data

@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
-from flask import Blueprint, redirect, url_for, make_response, request
+
+from flask import Blueprint, make_response, redirect, request, url_for
 
 from server import config
 
@@ -10,9 +11,10 @@ language = Blueprint("language", __name__, url_prefix="/language")
 @language.route('<any("en", "cy"):language>')
 def change_language(language):
     # Just so locally we don't end up on the english home page when switching to welsh and visa versa
-    if request.referrer.endswith(config.HOME_PAGE_CY_URL) or \
-            request.referrer.endswith(config.HOME_PAGE_EN_URL):
-        response = make_response(redirect(url_for('index.index_page')))
+    if (request.referrer and request.referrer.endswith(config.HOME_PAGE_CY_URL)) or (
+        request.referrer and request.referrer.endswith(config.HOME_PAGE_EN_URL)
+    ):
+        response = make_response(redirect(url_for("index.index_page")))
     else:
         response = make_response(redirect(request.referrer))
 
@@ -21,5 +23,5 @@ def change_language(language):
 
 def set_language_cookie(response, language):
     cookie_expiry_date = datetime.now() + timedelta(days=365)
-    response.set_cookie('language', value=language, expires=cookie_expiry_date, httponly=True)
+    response.set_cookie("language", value=language, expires=cookie_expiry_date, httponly=True)
     return response

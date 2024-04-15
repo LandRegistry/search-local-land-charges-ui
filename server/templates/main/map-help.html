@@ -10,250 +10,242 @@
         <h1 class="govuk-heading-xl">
             {{ _('How to use the map') }}
         </h1>
-        <h2 class="govuk-heading-m">{{ _('How to draw your search area') }}</h2>
+        <h2 class="govuk-heading-m">{{ _('How to select an area from the map') }}</h2>
         <p class="govuk-body">
-            {{ _('Click the add area button') }}
+            {{ _('You can only select an area from the map when you are zoomed in to a location (seeing a place close-up). This option will be inactive until you are zoomed in enough. Make sure you can see building outlines on the map.') }}
         </p>
-        <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('choose a location on the map and click to start drawing') }}</li>
-            <li>{{ _('keep clicking around the edge of your search area to draw the extent') }}</li>
-            <li>{{ _('to complete your shape, join the ends up or double click') }}</li>
-        </ul>
+        <ol class="govuk-list govuk-list--number">
+            <li>{{ _('Select the select area from map radio button.') }}</li>
+            <li>{{ _('Select the part of the map where you want to conduct a search. This will create a search area. You can select more than once to combine several features together.') }}</li>
+        </ol>
         <p class="govuk-body">
-            {{ _('To draw curves') }}
-        </p>
-        <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('hold down the SHIFT key and click') }}</li>
-            <li>{{ _('release the SHIFT key and mouse button to stop drawing') }}</li>
-            <li>{{ _('or release only SHIFT to continue drawing a straight edge') }}</li>
-        </ul>
-        <p class="govuk-body">
-            {{ _('Before confirming, ensure the search area captured includes all of the properties and land you want to search against, including (if necessary) driveways, alleys or gardens, etc. ') }}
+            {{ _('Before confirming, ensure your search area includes all of the properties and land you want to search against, including any driveways, alleys or gardens, etc. Using the select area from map feature once may not capture all of your search area.') }}
         </p>
         {% set sub_details_html %}
-            <p class="govuk-body">{{ _('This video shows how to draw your search area using the add area button') }}.</p>
-            <p class="govuk-body">{{ _('In the video, to draw an extent with straight edges, a user') }}:</p>
+            <p class="govuk-body">{{ _('This video shows how to select an area from the map.') }}</p>
+            <p class="govuk-body">{{ _('In the video, a user:') }}</p>
             <ol class="govuk-list govuk-list--number">
-                <li>{{ _('clicks the add area button') }}</li>
-                <li>{{ _('selects a place to start drawing') }}</li>
-                <li>{{ _('clicks the cursor on their start point') }}</li>
-                <li>{{ _('keeps clicking around the edges of the search area') }}</li>
-                <li>{{ _('double-clicks to finish drawing') }}</li>
-            </ol>
-            <p class="govuk-body">{{ _('In the video, to draw an extent with curved edges, a user') }}:</p>
-            <ol class="govuk-list govuk-list--number">
-                <li>{{ _('clicks the add area button') }}</li>
-                <li>{{ _('selects a place to start drawing') }}</li>
-                <li>{{ _('clicks the cursor on their start point') }}</li>
-                <li>{{ _('keeps clicking around the edges of the search area') }}</li>
-                <li>{{ _('holds the SHIFT key to draw a curved extent edge') }}</li>
-                <li>{{ _('releases SHIFT and continues by drawing a straight edge') }}</li>
-                <li>{{ _('double-clicks to finish drawing') }}</li>
+                <li>{{ _('Selects the select area from map radio button.') }}</li>
+                <li>{{ _('Selects different map areas one after the other to create a combined search area.') }}</li>
             </ol>
         {% endset %}
         {% set details_html %}
-            <video controls loop class="govuk-grid-column-three-quarters" id="draw_area_video">
-                <source src="{{ url_for('static', filename='images/mapping/add-area.mp4') }}" type="video/mp4">
+            <video controls loop id="copy_base_map_video" data-ga-video-play="yes" width="100%">
+                <source src="{{ url_for('static', filename='images/mapping/select_area.mp4') }}" type="video/mp4">
+            </video>
+            {{ govukDetails({"summaryText": _('Transcript for: How to select an area from the map'),
+                             "html": sub_details_html}) }}
+        {% endset %}
+
+        {{ govukDetails({"summaryText": _('How to select an area from the map (video)'),
+                         "html": details_html}) }}
+
+        <h2 class="govuk-heading-m">{{ _('How to draw your search area') }}</h2>
+        <ol class="govuk-list govuk-list--number">
+            <li>{{ _('Select the draw area radio button.') }}</li>
+            <li>{{ _('Select a point on the map to start drawing.') }}</li>
+            <li>{{ _('Keep selecting points to draw your search area.') }}</li>
+            <li>{{ _('Select the first point again, or double click anywhere, to complete your search area.') }}</li>
+        </ol>
+        <h3 class="govuk-heading-s">
+            {{ _('To draw curves') }}
+        </h3>
+        <ol class="govuk-list govuk-list--number">
+            <li>{{ _('Hold down the SHIFT key and select.') }}</li>
+            <li>{{ _('Release the SHIFT key and mouse button to stop drawing, or release only SHIFT to continue drawing a straight edge.') }}</li>
+        </ol>
+        <p class="govuk-body">
+            {{ _('Before confirming, ensure your search area includes all of the properties and land you want to search against, including any driveways, alleys or gardens, etc.') }}
+        </p>
+        {% set sub_details_html %}
+            <p class="govuk-body">{{ _('This video shows how to draw your search area using the draw area radio button.') }}</p>
+            <p class="govuk-body">{{ _('In the video, to draw a search area with straight edges, a user:') }}</p>
+            <ol class="govuk-list govuk-list--number">
+                <li>{{ _('Selects the draw area radio button.') }}</li>
+                <li>{{ _('Selects a place on the map to start drawing.') }}</li>
+                <li>{{ _('Keeps selecting around the edges of the search area.') }}</li>
+                <li>{{ _('Joins the points to stop drawing.') }}</li>
+            </ol>
+            <p class="govuk-body">{{ _('In the video, to draw an extent with curved edges, a user:') }}</p>
+            <ol class="govuk-list govuk-list--number">
+                <li>{{ _('Selects the draw area radio button.') }}</li>
+                <li>{{ _('Selects a place on the map to start drawing.') }}</li>
+                <li>{{ _('Hold the SHIFT key and drag the cursor to draw a curved search area.') }}</li>
+                <li>{{ _('Release the SHIFT key and mouse button to stop drawing.') }}</li>
+            </ol>
+        {% endset %}
+        {% set details_html %}
+            <video controls loop id="draw_area_video" data-ga-video-play="yes" width="100%">
+                <source src="{{ url_for('static', filename='images/mapping/draw_area.mp4') }}" type="video/mp4">
             </video>
             {{ govukDetails({"summaryText": _('Transcript for: How to draw your search area'),
                              "html": sub_details_html}) }}
         {% endset %}
-            
+
         {{ govukDetails({"summaryText": _('How to draw your search area (video)'),
                          "html": details_html}) }}
 
         <h2 class="govuk-heading-m">{{ _('How to edit your search area') }}</h2>
-        <p class="govuk-body">
-            {{ _('Click the edit area button') }}
-        </p>
-        <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('you will see your search area turn yellow') }}</li>
-            <li>{{ _('click and drag the outline of your search area to edit it') }}</li>
-            <li>{{ _('click the edit area button again to finish editing') }}</li>
-        </ul>
+        <ol class="govuk-list govuk-list--number">
+            <li>{{ _('Select the edit area radio button. You will see your search area turn green.') }}</li>
+            <li>{{ _('Select and drag the outline of your search area to edit it.') }}</li>
+        </ol>
         {% set sub_details_html %}
-            <p class="govuk-body">{{ _('This video shows how to edit your search area using the edit area button') }}.</p>
-            <p class="govuk-body">{{ _('In the video, a user') }}:</p>
+            <p class="govuk-body">{{ _('This video shows how to edit your search area using the edit area radio button.') }}</p>
+            <p class="govuk-body">{{ _('In the video, a user:') }}</p>
             <ol class="govuk-list govuk-list--number">
-                <li>{{ _('clicks the edit area button') }}</li>
-                <li>{{ _('sees the search area turn yellow') }}</li>
-                <li>{{ _('clicks the cursor on one of the points') }}</li>
-                <li>{{ _('drags the point to change the search area') }}</li>
-                <li>{{ _('holds ALT whilst clicking another point to delete it') }}</li>
-                <li>{{ _('clicks the edit area button again to finish editing') }}</li>
+                <li>{{ _('Selects the edit area radio button.') }}</li>
+                <li>{{ _('Sees the search area turn green.') }}</li>
+                <li>{{ _('Selects one of the points.') }}</li>
+                <li>{{ _('Drags the point to change the search area.') }}</li>
+                <li>{{ _('Holds ALT key while selecting another point to delete it.') }}</li>
             </ol>
         {% endset %}
         {% set details_html %}
-            <video controls loop class="govuk-grid-column-three-quarters" id="edit_area_video">
-                <source src="{{ url_for('static', filename='images/mapping/edit-area.mp4') }}" type="video/mp4">
+            <video controls loop id="edit_area_video" data-ga-video-play="yes" width="100%">
+                <source src="{{ url_for('static', filename='images/mapping/edit_area.mp4') }}" type="video/mp4">
             </video>
             {{ govukDetails({"summaryText": _('Transcript for: How to edit your search area'),
                              "html": sub_details_html}) }}
         {% endset %}
-            
+
         {{ govukDetails({"summaryText": _('How to edit your search area (video)'),
                          "html": details_html}) }}
 
-        <h2 class="govuk-heading-m">{{ _('How to copy a building from the map') }}</h2>
+        <h2 class="govuk-heading-m">{{ _('How to draw a search area with snap to line on map') }}</h2>
         <p class="govuk-body">
-            {{ _('You can only copy from the map when you are zoomed in to a location (seeing a place close-up). Make sure you can see building outlines on the map') }}.
+            {{ _('You can only use snap to line on map when you are zoomed into a location (seeing a place close-up). This option will be inactive until you are zoomed in enough.') }}
         </p>
+        <ol class="govuk-list govuk-list--number">
+            <li>{{ _('Select the draw area radio button.') }}</li>
+            <li>{{ _('Select the snap to line on map checkbox.') }}</li>
+            <li>{{ _('Hover your cursor near the line or point you want to snap to.') }}</li>
+            <li>{{ _('The cursor will jump to that point automatically.') }}</li>
+        </ol>
         <p class="govuk-body">
-            {{ _('Click the copy from map button') }}
-        </p>
-        <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('click on the building you want to copy') }}</li>
-            <li>{{ _('the building will be highlighted') }}</li>
-        </ul>
-        <p class="govuk-body">
-            {{ _('Before confirming, ensure the search area captured includes all of the properties and land you want to search against, including (if necessary) driveways, alleys or gardens, etc. ') }}
-            {{ _('Using this feature once on a property may not always be enough to capture the whole affected area') }}.
+            {{ _('This feature can also be used during other map interactions, like edit area.') }}
         </p>
         {% set sub_details_html %}
-            <p class="govuk-body">{{ _('This video shows how to copy a building from the map using the copy from map button') }}.</p>
-            <p class="govuk-body">{{ _('In the video, a user') }}:</p>
+            <p class="govuk-body">{{ _('This video shows how to draw a search area with snap to line on map.') }}</p>
+            <p class="govuk-body">{{ _('In the video, a user:') }}</p>
             <ol class="govuk-list govuk-list--number">
-                <li>{{ _('clicks the copy from map button') }}</li>
-                <li>{{ _('clicks the property outline they want to copy') }}</li>
+                <li>{{ _('Selects the draw area radio button.') }}</li>
+                <li>{{ _('Selects the snap to line on map checkbox.') }}</li>
+                <li>{{ _('Hovers the cursor near where they want to begin drawing their search area.') }}</li>
+                <li>{{ _('Sees the point snapping to a line on the map as they hover close to it.') }}</li>
+                <li>{{ _('Selects to add multiple points to draw their search area.') }}</li>
+                <li>{{ _('Joins the points to stop drawing.') }}</li>
             </ol>
         {% endset %}
         {% set details_html %}
-            <video controls loop class="govuk-grid-column-three-quarters" id="copy_base_map_video">
-                <source src="{{ url_for('static', filename='images/mapping/copy-map.mp4') }}" type="video/mp4">
+            <video controls loop id="snapto_video" data-ga-video-play="yes" width="100%">
+                <source src="{{ url_for('static', filename='images/mapping/snap_to_line.mp4') }}" type="video/mp4">
             </video>
-            {{ govukDetails({"summaryText": _('Transcript for: How to copy a building from the map'),
+            {{ govukDetails({"summaryText": _('Transcript for: How to draw a search area with snap to line on map'),
                              "html": sub_details_html}) }}
         {% endset %}
-            
-        {{ govukDetails({"summaryText": _('How to copy a building from the map (video)'),
+
+        {{ govukDetails({"summaryText": _('How to draw a search area with snap to line on map (video)'),
                          "html": details_html}) }}
 
-        <h2 class="govuk-heading-m">{{ _('How to draw a shape with snap to') }}</h2>
-        <p class="govuk-body">
-            {{ _('You can only use snap-to when you are zoomed into a location (seeing a place close-up)') }}.
-        </p>
-        <p class="govuk-body">
-            {{ _('Click the add area button') }}
-        </p>
-        <p class="govuk-body">
-            {{ _('Click the snap to map box') }}
-        </p>
-        <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('hover your cursor near the line or point you want to snap to') }}</li>
-            <li>{{ _('the cursor will jump to that point automatically') }}</li>
-        </ul>
-        <p class="govuk-body">
-            {{ _('This feature can also be used during other map interactions, like editing') }}.
-        </p>
+        <h2 class="govuk-heading-m">{{ _('How to delete a search area') }}</h2>
+        <ol class="govuk-list govuk-list--number">
+            <li>{{ _('Select the delete area radio button.') }}</li>
+            <li>{{ _('Your search area will turn red.') }}</li>
+            <li>{{ _('Select the search area you want to delete.') }}</li>
+        </ol>
         {% set sub_details_html %}
-            <p class="govuk-body">{{ _('This video shows how to draw a shape with snap to') }}.</p>
-            <p class="govuk-body">{{ _('In the video, a user') }}:</p>
+            <p class="govuk-body">{{ _('This video shows how to delete a search area using the delete area radio button.') }}</p>
+            <p class="govuk-body">{{ _('In the video, a user:') }}</p>
             <ol class="govuk-list govuk-list--number">
-                <li>{{ _('clicks the snap to check box') }}</li>
-                <li>{{ _('clicks the add area button') }}</li>
-                <li>{{ _('places their cursor along the edge of their search area') }}</li>
-                <li>{{ _('sees the cursor snapping to the edges as they hover close to them') }}</li>
-                <li>{{_('closes the shape by joining up to their starting point') }}</li>
-                <li>{{ _('clicks to finish drawing') }}</li>
+                <li>{{ _('Selects the delete area radio button.') }}</li>
+                <li>{{ _('Sees the search area turn red.') }}</li>
+                <li>{{ _('Selects two parts of the search area to remove them.') }}</li>
             </ol>
         {% endset %}
         {% set details_html %}
-            <video controls loop class="govuk-grid-column-three-quarters" id="snapto_video">
-                <source src="{{ url_for('static', filename='images/mapping/snap-to.mp4') }}" type="video/mp4">
+            <video controls loop id="delete_one_video" data-ga-video-play="yes" width="100%">
+                <source src="{{ url_for('static', filename='images/mapping/delete_area.mp4') }}" type="video/mp4">
             </video>
-            {{ govukDetails({"summaryText": _('Transcript for: How to draw a shape with snap to'),
+            {{ govukDetails({"summaryText": _('Transcript for: How to delete a search area'),
                              "html": sub_details_html}) }}
         {% endset %}
-            
-        {{ govukDetails({"summaryText": _('How to draw a shape with snap to (video)'),
+
+        {{ govukDetails({"summaryText": _('How to delete a search area (video)'),
                          "html": details_html}) }}
 
-        <h2 class="govuk-heading-m">{{ _('How to delete one search area') }}</h2>
+        <h2 class="govuk-heading-m">{{ _('How to clear all') }}</h2>
         <p class="govuk-body">
-            {{ _('Click the delete area button') }}
+            {{ _('Select the clear all button.') }}
         </p>
-        <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('your search area will turn red') }}</li>
-            <li>{{ _('click the search area you want to delete') }}</li>
-        </ul>
+        <p class="govuk-body">
+            {{ _('This deletes everything you have drawn on the map.') }}
+        </p>
         {% set sub_details_html %}
-            <p class="govuk-body">{{ _('This video shows how to delete one search area using the delete area button') }}.</p>
-            <p class="govuk-body">{{ _('In the video, a user') }}:</p>
+            <p class="govuk-body">{{ _('This video shows how to delete everything you have drawn on the map using the clear all button.') }}</p>
+            <p class="govuk-body">{{ _('In the video, a user:') }}</p>
             <ol class="govuk-list govuk-list--number">
-                <li>{{ _('clicks the delete area button') }}</li>
-                <li>{{ _('sees the search area go red') }}</li>
-                <li>{{ _('clicks a search area to remove it') }}</li>
+                <li>{{ _('Selects the clear all button.') }}</li>
+                <li>{{ _('Sees everything they have drawn on the map being deleted.') }}</li>
             </ol>
         {% endset %}
         {% set details_html %}
-            <video controls loop class="govuk-grid-column-three-quarters" id="delete_one_video">
-                <source src="{{ url_for('static', filename='images/mapping/delete-area.mp4') }}" type="video/mp4">
+            <video controls loop id="delete_video" data-ga-video-play="yes" width="100%">
+                <source src="{{ url_for('static', filename='images/mapping/clear_all.mp4') }}" type="video/mp4">
             </video>
-            {{ govukDetails({"summaryText": _('Transcript for: How to delete one search area'),
+            {{ govukDetails({"summaryText": _('Transcript for: How to clear all'),
                              "html": sub_details_html}) }}
         {% endset %}
-            
-        {{ govukDetails({"summaryText": _('How to delete one search area (video)'),
-                         "html": details_html}) }}
 
-        <h2 class="govuk-heading-m">{{ _('How to delete your search area') }}</h2>
-        <p class="govuk-body">
-            {{ _('Click the clear all button') }}
-        </p>
-        <p class="govuk-body">
-            {{ _('By clicking the remove button it deletes everything you have drawn on the map') }}.
-        </p>
-        {% set sub_details_html %}
-            <p class="govuk-body">{{ _('This video shows how to delete your search area using the clear all button') }}.</p>
-            <p class="govuk-body">{{ _('In the video, a user') }}:</p>
-            <ol class="govuk-list govuk-list--number">
-                <li>{{ _('clicks the clear all button') }}</li>
-                <li>{{ _('sees everything they have drawn on the map being deleted') }}</li>
-            </ol>
-        {% endset %}
-        {% set details_html %}
-            <video controls loop class="govuk-grid-column-three-quarters" id="delete_video">
-                <source src="{{ url_for('static', filename='images/mapping/clear.mp4') }}" type="video/mp4">
-            </video>
-            {{ govukDetails({"summaryText": _('Transcript for: How to delete your search area'),
-                             "html": sub_details_html}) }}
-        {% endset %}
-            
-        {{ govukDetails({"summaryText": _('How to delete your search area (video)'),
+        {{ govukDetails({"summaryText": _('How to clear all (video)'),
                          "html": details_html}) }}
 
 
         <h2 class="govuk-heading-m">{{ _('How to undo your last map interaction') }}</h2>
         <p class="govuk-body">
-            {{ _('Click the undo button') }}
+            {{ _('Select the undo button.') }}
         </p>
         <p class="govuk-body">
-            {{ _('Your last interaction(s) with the map will be reverted') }}.
+            {{ _('Your last interaction with the map will be undone.') }}
         </p>
         <p class="govuk-body">
-            {{ _('You can click undo as many times as necessary to undo multiple actions in sequence') }}.
+            {{ _('You can undo multiple actions in sequence.') }}
         </p>
         {% set sub_details_html %}
-            <p class="govuk-body">{{ _('This video shows how to undo your last interactions with the map') }}.</p>
+            <p class="govuk-body">{{ _('This video shows how to undo interactions with the map.') }}</p>
             <p class="govuk-body">{{ _('In the video, a user:') }}</p>
             <ol class="govuk-list govuk-list--number">
-                <li>{{ _('makes two changes to the map') }}</li>
-                <li>{{ _('clicks the undo button twice') }}</li>
-                <li>{{ _('sees those last changes being reverted') }}</li>
+                <li>{{ _('Draws an area on the map.') }}</li>
+                <li>{{ _('Deletes an area.') }}</li>
+                <li>{{ _('Selects the undo button to undo deleting an area.') }}</li>
+                <li>{{ _('Selects the undo button again to undo drawing an area.') }}</li>
             </ol>
         {% endset %}
         {% set details_html %}
-            <video controls loop class="govuk-grid-column-three-quarters" id="undo_video">
-                <source src="{{ url_for('static', filename='images/mapping/undo.mp4') }}" type="video/mp4">
+            <video controls loop id="undo_video" data-ga-video-play="yes" width="100%">
+                <source src="{{ url_for('static', filename='images/mapping/undo_changes.mp4') }}" type="video/mp4">
             </video>
             {{ govukDetails({"summaryText": _('Transcript for: How to undo your last map interaction'),
                              "html": sub_details_html}) }}
         {% endset %}
-            
+
         {{ govukDetails({"summaryText": _('How to undo your last map interaction (video)'),
                          "html": details_html}) }}
 
+        <h2 class="govuk-heading-m">{{ _('How to use the map with a keyboard only') }}</h2>
+        <p class="govuk-body">{{ _('Select an area from the map and delete areas using a keyboard only. The keyboard focus needs to be on the map to do this.') }}</p>
+        <p class="govuk-body">{{ _('You cannot draw or edit an area using a keyboard.') }}</p>
+        <h3 class="govuk-heading-s">{{ _('Keyboard controls') }}</h3>
+        <p class="govuk-body">{{ _('Arrow keys to move the map up, down, left and right.') }}</p>
+        <p class="govuk-body">{{ _('SHIFT key with arrows to fine-tune the position.') }}</p>
+        <p class="govuk-body">{{ _('Plus sign (+) to zoom in and Minus sign (-) to zoom out.') }}</p>
+        <p class="govuk-body">{{ _('SPACE bar or ENTER key to select the area at the centre of the map.') }}</p>
     </div>
 </div>
 
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='js/help-videos-ga.js') }}"> </script>
 {% endblock %}

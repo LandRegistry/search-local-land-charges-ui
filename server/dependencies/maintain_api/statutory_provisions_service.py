@@ -6,19 +6,20 @@ class StatProvService(object):
 
     def __init__(self, config):
         self.config = config
-        self.base_url = "{}/statutory-provisions".format(config['MAINTAIN_API_URL'])
+        self.base_url = "{}/statutory-provisions".format(config["MAINTAIN_API_URL"])
 
     def get(self, selectable):
         url = self.base_url
         current_app.logger.info("Calling maintain api via this URL: %s", url)
 
-        return g.requests.get("{}".format(url),
-                              headers={'Content-Type': 'application/json'},
-                              params={'selectable': selectable}).json()
+        return g.requests.get(
+            "{}".format(url),
+            headers={"Content-Type": "application/json"},
+            params={"selectable": selectable},
+        ).json()
 
     def get_history(self):
-        url = self.base_url + '/history'
+        url = self.base_url + "/history"
         current_app.logger.info("Calling maintain api via this URL: %s", url)
 
-        return g.requests.get("{}".format(url),
-                              headers={'Content-Type': 'application/json'}).json()
+        return g.requests.get("{}".format(url), headers={"Content-Type": "application/json"}).json()

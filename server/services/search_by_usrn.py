@@ -1,11 +1,12 @@
 import re
 
+from flask_babel import gettext
+from landregistry.exceptions import ApplicationError
+
 from server.dependencies.search_api.address_service import AddressesService
 from server.dependencies.search_api.search_type import SearchType
-from landregistry.exceptions import ApplicationError
-from flask_babel import gettext
 
-USRN_REGEX = r'^\d+$'
+USRN_REGEX = r"^\d+$"
 
 
 class SearchByUsrn(object):
@@ -29,7 +30,7 @@ class SearchByUsrn(object):
             self.logger.info("Invalid usrn provided: %s", search_query)
             response_data = {
                 "search_message": gettext("Invalid usrn, please try again"),
-                "status": "error"
+                "status": "error",
             }
 
             return response_data
@@ -45,17 +46,14 @@ class SearchByUsrn(object):
         if response.status_code == 200:
             self.logger.info("Search results found")
 
-            response_data = {
-                "data": response.json(),
-                "status": "success"
-            }
+            response_data = {"data": response.json(), "status": "success"}
 
             return response_data
         elif response.status_code == 404:
             self.logger.info("Valid search format but no results found")
             response_data = {
                 "search_message": gettext("No results found"),
-                "status": "error"
+                "status": "error",
             }
 
             return response_data
@@ -67,7 +65,7 @@ class SearchByUsrn(object):
             self.logger.info("No search query provided")
             response_data = {
                 "search_message": gettext("Enter a usrn"),
-                "status": "error"
+                "status": "error",
             }
 
             return response_data

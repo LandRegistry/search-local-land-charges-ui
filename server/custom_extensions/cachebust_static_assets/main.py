@@ -19,7 +19,6 @@ class CachebustStaticAssets(object):
 
 
 def hashed_url_for(endpoint, **values):
-
     """Cachebusting
 
     Use the md5 hash of the file on disk to perform cachebusting duties.

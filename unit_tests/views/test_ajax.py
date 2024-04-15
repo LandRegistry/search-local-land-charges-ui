@@ -1,8 +1,9 @@
-from flask import url_for
-from unittest.mock import MagicMock, patch
-from server.main import app
 from unittest import TestCase
+from unittest.mock import MagicMock, patch
 
+from flask import url_for
+
+from server.main import app
 from server.models.searches import SearchState
 
 
@@ -24,7 +25,7 @@ class TestCheckMigratedAuthorities(TestCase):
         mock_response.status_code = 211
         mock_local_auth.get_bounding_box.return_value = mock_response
         response = self.client.get(url_for("ajax.local_authority_service_boundingbox", authority="Anauthority"))
-        self.assertEqual(response.json, {'aard': 'vark'})
+        self.assertEqual(response.json, {"aard": "vark"})
         self.assertEqual(response.status_code, 211)
         mock_local_auth.get_bounding_box.assert_called_with("Anauthority")
 

@@ -7,7 +7,7 @@ class StorageAPIService(object):
 
     def __init__(self, config):
         self.config = config
-        self.url = config['STORAGE_API_URL']
+        self.url = config["STORAGE_API_URL"]
 
     def get_external_url_for_document_url(self, document_url):
         current_app.logger.info("Generate external URL for document_url {}".format(document_url))
@@ -20,17 +20,17 @@ class StorageAPIService(object):
 
         if response.status_code == 200:
             json = response.json()
-            return json['external_reference']
+            return json["external_reference"]
         if response.status_code == 404:
             current_app.logger.warning("Failed to find external document url for url {}".format(document_url))
             raise ApplicationError("Failed to find external document url", "STORE01", 404)
 
         current_app.logger.warning(
-            'Failed to get external url - TraceID : {} - Status: {}, Message: {}'.format(
-                g.trace_id,
-                response.status_code,
-                response.text))
-        raise ApplicationError('Failed to get external url', "STORE02", 500)
+            "Failed to get external url - TraceID : {} - Status: {}, Message: {}".format(
+                g.trace_id, response.status_code, response.text
+            )
+        )
+        raise ApplicationError("Failed to get external url", "STORE02", 500)
 
     def get_external_url(self, file, bucket, subdirectories=None):
         current_app.logger.info("Generate external URL for {}".format(file))
@@ -47,14 +47,14 @@ class StorageAPIService(object):
 
         if response.status_code == 200:
             json = response.json()
-            return json['external_reference']
+            return json["external_reference"]
         if response.status_code == 404:
             current_app.logger.warning("Failed to find external document url for file {}".format(file))
-            raise ApplicationError('Failed to find external document url', "STORE03", 404)
+            raise ApplicationError("Failed to find external document url", "STORE03", 404)
 
         current_app.logger.warning(
-            'Failed to get external url - TraceID : {} - Status: {}, Message: {}'.format(
-                g.trace_id,
-                response.status_code,
-                response.text))
-        raise ApplicationError('Failed to get external url', "STORE04", 500)
+            "Failed to get external url - TraceID : {} - Status: {}, Message: {}".format(
+                g.trace_id, response.status_code, response.text
+            )
+        )
+        raise ApplicationError("Failed to get external url", "STORE04", 500)

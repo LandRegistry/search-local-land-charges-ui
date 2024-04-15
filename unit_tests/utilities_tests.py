@@ -1,14 +1,15 @@
 import contextlib
-from flask import g, current_app
-from unittest.mock import MagicMock, patch
 import logging
 import sys
+from unittest.mock import MagicMock, patch
+
+from flask import current_app, g
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 handler = logging.StreamHandler(sys.stdout)
 handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
@@ -26,7 +27,7 @@ def super_test_context(app, **kwargs):
             current_app.logger.exception.side_effect = log_exception
             current_app.logger.critical.side_effect = log_critical
             current_app.logger.debug.side_effect = log_debug
-            with patch('server.main.RequestsSessionTimeout') as mock_requests:
+            with patch("server.main.RequestsSessionTimeout") as mock_requests:
                 g.requests = mock_requests.return_value
                 yield None
 

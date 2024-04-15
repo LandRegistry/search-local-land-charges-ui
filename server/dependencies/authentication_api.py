@@ -15,10 +15,8 @@ class AuthenticationApi(ApiClient):
         current_app.logger.info("Calling Authentication API")
         api_endpoint = self.get_endpoint(controller="authentication", method="post")
         if not user_id:
-            user_id = session['jwt_payload'].principle.email
-        payload = {"username": user_id,
-                   "password": password,
-                   "source": "search"}
+            user_id = session["jwt_payload"].principle.email
+        payload = {"username": user_id, "password": password, "source": "search"}
         req = self.make_request(api_endpoint, "post", data=payload)
 
         if req.status_code == 200:

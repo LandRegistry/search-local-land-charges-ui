@@ -18,8 +18,8 @@ MAP_UNDO.storeState = function() {
 };
 
 MAP_UNDO.enableUndoButton = function(enable) {
-    if(document.getElementById('map-button-undo')){
-        document.getElementById('map-button-undo').disabled = !enable;
+    if(document.getElementById(MAP_CONTROLS.undoButtonId)){
+        document.getElementById(MAP_CONTROLS.undoButtonId).disabled = !enable;
     }
 };
 
@@ -40,11 +40,9 @@ MAP_UNDO.removeUndo = function() {
         MAP_UNDO.putGeometries(MAP_UNDO.undoStack.pop());
     }
 
-    MAP_CONTROLS.removeActiveControl();
-
     if (MAP_CONFIG.drawSource.getFeatures().length === 0){
         MAP_CONTROLS.disableReviewButtons();
-    }else{
+    } else {
         MAP_CONTROLS.enableReviewButtons();
     }
 };

@@ -46,4 +46,7 @@ def application_error_renderer(description, code, http_code, e=None):
             #     ),
             #     http_code,
             # )
-            return render_template("errors/unhandled.html", http_code=http_code), http_code
+            return (
+                render_template("errors/unhandled.html", http_code=http_code),
+                http_code,
+            )

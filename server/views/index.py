@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, redirect, current_app, g
+from flask import Blueprint, current_app, g, redirect, render_template
+
 from server import config
 from server.services.back_link_history import clear_history
 
@@ -6,7 +7,8 @@ from server.services.back_link_history import clear_history
 index = Blueprint("index", __name__)
 
 
-if config.HOME_PAGE_EN_URL == '/dummy-english' and config.HOME_PAGE_CY_URL == '/dummy-welsh':
+if config.HOME_PAGE_EN_URL == "/dummy-english" and config.HOME_PAGE_CY_URL == "/dummy-welsh":
+
     @index.route("/dummy-<any(english, welsh):language>")
     def dummy_gds_index_page(language):
         clear_history()
@@ -17,7 +19,7 @@ if config.HOME_PAGE_EN_URL == '/dummy-english' and config.HOME_PAGE_CY_URL == '/
 @index.route("/")
 def index_page():
     clear_history()
-    if g.locale == 'cy':
-        return redirect(current_app.config['HOME_PAGE_CY_URL'])
+    if g.locale == "cy":
+        return redirect(current_app.config["HOME_PAGE_CY_URL"])
     else:
-        return redirect(current_app.config['HOME_PAGE_EN_URL'])
+        return redirect(current_app.config["HOME_PAGE_EN_URL"])
