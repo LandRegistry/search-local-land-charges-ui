@@ -5,6 +5,12 @@
 
 {% block title %}{{ _('Download light obstruction notice documents') }}{% endblock %}
 
+{% block metaExtension %}
+  {% if redirect_url %}
+    <meta http-equiv="refresh" content="0; URL={{ redirect_url }}" />
+  {% endif %}
+{% endblock %}
+
 {% block inner_content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -15,7 +21,7 @@
     {% set table_rows = [] %}
     {% for charge in charges %}
       {% set link_html %}
-        <a class="govuk-link" href="{{ url_for('paid_search.charge_supporting_documents', charge_id=charge, enc_search_id=enc_search_id) }}">{{ _('Download') }}</a>
+        <a class="govuk-link" data-s3-redirect="yes" href="{{ url_for('paid_search.charge_supporting_documents', charge_id=charge, enc_search_id=enc_search_id) }}">{{ _('Download') }}</a>
       {% endset %}
       {% do table_rows.append([{"text": charge}, {"html": link_html}]) %}
     {% endfor %}
@@ -34,4 +40,9 @@
     </p>
   </div>
 </div>
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='js/s3-redirect.js') }}"> </script>
 {% endblock %}

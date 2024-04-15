@@ -1,3 +1,4 @@
+import $ from "jquery";
 import { loadPreviousData, populateGeometries } from "./save_load_geometries";
 import { MAP_HELPERS } from "./map_helpers";
 

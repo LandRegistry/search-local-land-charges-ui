@@ -12,6 +12,9 @@
     <p class="govuk-body">
       {{ _("Use the list to check if a new statutory provision is available or if an existing one has changed.") }}
     </p>
+    <p class="govuk-body">
+      <a href="{{ url_for('categories_stat_provs.get_page_stat_prov_removed') }}" class="govuk-link">{{ _("View removed statutory provisions") }}</a>
+    </p>
     {% set stat_prov_rows = [] %}
     {% for stat_prov in stat_provs_list %}
       {% if "last_updated" in stat_prov %}
@@ -19,9 +22,16 @@
       {% else %}
         {% set last_updated = "" %}
       {% endif %}
+      {% if stat_prov['previous_titles']|length == 0 %}
+        {% set changes_text = "Added" %}
+      {% elif stat_prov['previous_titles']|length == 1 %}
+        {% set changes_text = "Edited from "%}
+      {% else %}
+        {% set changes_text = "Edited. Previously:<br>"%}
+      {% endif %}
       {% do stat_prov_rows.append([{"text": stat_prov['title']},
-                                   {"text": last_updated},
-                                   {"html": "<br>".join(stat_prov['previous_titles'])}]) %}
+                                   {"text": last_updated, "classes": "nowrap-whitespace"},
+                                   {"html": changes_text + "<br><br>".join(stat_prov['previous_titles'])}]) %}
     {% endfor %}
     {% set select_items = [] %}
     <div class="language-switcher">
@@ -48,16 +58,18 @@
       </form>
     </div>
     {{ govukTable({
+        "caption": _("Current statutory provisions"),
+        "captionClasses": "govuk-table__caption--l govuk-!-padding-bottom-9",
         "firstCellIsHeader": true,
         "head": [
           {
-            "text": _("Statutory provision")
+            "text": _("Statutory provisions")
           },
           {
             "text": _("Last updated")
           },
           {
-            "text": _("Previous names")
+            "text": _("Changes")
           }
         ],
         "rows": stat_prov_rows

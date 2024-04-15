@@ -96,10 +96,30 @@
     padding-bottom: 5px;
 }
 
-.subnav-item-current-link {
-    font-weight: bold;
+.subnav-sub-item-current {
+    margin-left: -4px;
+    border-left: 4px solid $govuk-brand-colour;
+}
+
+.subnav-sub-item {
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 20px;
 }
 
 .span-as-link {
     color: $govuk-link-colour;
+}
+
+.hidden-when-small,
+input[data-hidden-when-small^="yes"] {
+    display: None;
+}
+
+@media (min-width: 40.0625em) {
+    .hidden-when-small,
+    input[data-hidden-when-small^="yes"] {
+            display: inherit;
+    }
 }

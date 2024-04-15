@@ -1,7 +1,9 @@
+import itertools
+
 from wtforms.fields.core import Field
 from wtforms.utils import unset_value
+
 from server.views.forms.custom_widgets import FieldGroupWidget
-import itertools
 
 
 class FieldGroup(Field):
@@ -17,26 +19,18 @@ class FieldGroup(Field):
 
     widget = FieldGroupWidget()
 
-    def __init__(
-        self, form_class, label=None, validators=None, separator="-", **kwargs
-    ):
+    def __init__(self, form_class, label=None, validators=None, separator="-", **kwargs):
         super().__init__(label, validators, **kwargs)
         self.form_class = form_class
         self.separator = separator
         self.errors = []
         self._obj = None
         if self.filters:
-            raise TypeError(
-                "FormField cannot take filters, as the encapsulated"
-                " data is not mutable."
-            )
+            raise TypeError("FormField cannot take filters, as the encapsulated" " data is not mutable.")
 
     def process(self, formdata, data=unset_value, extra_filters=None):
         if extra_filters:
-            raise TypeError(
-                "FormField cannot take filters, as the encapsulated"
-                "data is not mutable."
-            )
+            raise TypeError("FormField cannot take filters, as the encapsulated" "data is not mutable.")
 
         if data is unset_value:
             try:
@@ -54,7 +48,6 @@ class FieldGroup(Field):
             self.form = self.form_class(formdata=formdata, obj=data, prefix=prefix)
 
     def validate(self, form, extra_validators=()):
-
         self.errors = []
 
         chain = itertools.chain(self.validators, extra_validators)
@@ -62,7 +55,7 @@ class FieldGroup(Field):
 
         if len(self.errors) > 0:
             self.errors = {self.name: self.errors}
-            self.errors['first_child_name'] = next(iter(self.form)).name
+            self.errors["first_child_name"] = next(iter(self.form)).name
         else:
             self.errors = {}
             if not self.form.validate():
@@ -75,8 +68,7 @@ class FieldGroup(Field):
         if candidate is None:
             if self._obj is None:
                 raise TypeError(
-                    "populate_obj: cannot find a value to populate from"
-                    " the provided obj or input data/defaults"
+                    "populate_obj: cannot find a value to populate from" " the provided obj or input data/defaults"
                 )
             candidate = self._obj
 

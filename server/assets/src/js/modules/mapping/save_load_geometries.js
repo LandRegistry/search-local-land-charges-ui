@@ -38,7 +38,6 @@ function loadPreviousData(information) {
             var extent = feature[0].getGeometry().getExtent().slice(0);
 
             map.getView().fit(extent, {
-                duration: 1000,
                 maxZoom: 15
             })
 

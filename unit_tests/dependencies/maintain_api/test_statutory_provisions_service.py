@@ -1,8 +1,12 @@
 from unittest import TestCase
-from server import main
 from unittest.mock import MagicMock
-from flask import g, current_app
-from server.dependencies.maintain_api.statutory_provisions_service import StatProvService
+
+from flask import current_app, g
+
+from server import main
+from server.dependencies.maintain_api.statutory_provisions_service import (
+    StatProvService,
+)
 from unit_tests.utilities_tests import super_test_context
 
 
@@ -19,8 +23,9 @@ class TestStatProvService(TestCase):
             result = stat_prov_service.get(True)
 
             g.requests.get.assert_called_with(
-                "{}/statutory-provisions".format(current_app.config['MAINTAIN_API_URL']),
-                headers={'Content-Type': 'application/json'}, params={'selectable': True}
+                "{}/statutory-provisions".format(current_app.config["MAINTAIN_API_URL"]),
+                headers={"Content-Type": "application/json"},
+                params={"selectable": True},
             )
             self.assertEqual(result, g.requests.get.return_value.json.return_value)
 
@@ -33,7 +38,7 @@ class TestStatProvService(TestCase):
             result = stat_prov_service.get_history()
 
             g.requests.get.assert_called_with(
-                "{}/statutory-provisions/history".format(current_app.config['MAINTAIN_API_URL']),
-                headers={'Content-Type': 'application/json'}
+                "{}/statutory-provisions/history".format(current_app.config["MAINTAIN_API_URL"]),
+                headers={"Content-Type": "application/json"},
             )
             self.assertEqual(result, g.requests.get.return_value.json.return_value)

@@ -1,13 +1,16 @@
 import re
 
+from flask_babel import gettext
+from landregistry.exceptions import ApplicationError
+
 from server.dependencies.search_api.address_service import AddressesService
 from server.dependencies.search_api.search_type import SearchType
-from landregistry.exceptions import ApplicationError
-from flask_babel import gettext
 
-POSTCODE_REGEX = '^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z]' \
-                 '[A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|' \
-                 '([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})$'
+POSTCODE_REGEX = (
+    "^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z]"
+    "[A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|"
+    "([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})$"
+)
 
 
 class SearchByPostcode(object):
@@ -30,7 +33,7 @@ class SearchByPostcode(object):
             self.logger.info("Invalid postcode provided: %s", search_query)
             response_data = {
                 "search_message": gettext("Invalid postcode. Try again"),
-                "status": "error"
+                "status": "error",
             }
 
             return response_data
@@ -49,7 +52,7 @@ class SearchByPostcode(object):
             address = {
                 "address": item["address"],
                 "geometry": item["geometry"],
-                "uprn": item["uprn"]
+                "uprn": item["uprn"],
             }
             addresses.append(address)
 
@@ -61,24 +64,21 @@ class SearchByPostcode(object):
 
             addresses = self.build_response_data(response.json())
 
-            response_data = {
-                "data": addresses,
-                "status": "success"
-            }
+            response_data = {"data": addresses, "status": "success"}
 
             return response_data
         elif response.status_code == 400:
             self.logger.info("Invalid search. {0}".format(response.json()))
             response_data = {
                 "search_message": gettext("Invalid postcode. Try again"),
-                "status": "error"
+                "status": "error",
             }
             return response_data
         elif response.status_code == 404:
             self.logger.info("Valid search format but no results found")
             response_data = {
                 "search_message": gettext("No results found"),
-                "status": "error"
+                "status": "error",
             }
 
             return response_data
@@ -90,7 +90,7 @@ class SearchByPostcode(object):
             self.logger.info("No search query provided")
             response_data = {
                 "search_message": gettext("Enter a postcode"),
-                "status": "error"
+                "status": "error",
             }
 
             return response_data

@@ -5,19 +5,27 @@
 {% from "govuk_frontend_jinja/components/accordion/macro.html" import govukAccordion %}
 {% from "govuk_frontend_jinja/components/pagination/macro.html" import govukPagination %}
 {% from "govuk_frontend_jinja/components/details/macro.html" import govukDetails %}
+{% from "components/user-research-banner/macro.html" import hmrcUserResearchBanner %}
 
 {% set map_style = "search-results-map-large" %}
 
 {% block title %}{{ _('Local land charge search results') }}{% endblock %}
 
+{% block researchBanner %}
+  {% set researchHtml %}
+    <a class="govuk-link hmrc-user-research-banner__link" href="{{ url_for('main.give_feedback') }}" target="_blank">{{ _("Give feedback on Search for local land charges") }} {{ _("(opens in new tab)") }}</a>
+  {% endset %}
+  {{ hmrcUserResearchBanner ({"titleText": _("Help make this service better"), "html": researchHtml}) }}
+{% endblock %}
+
 {% block inner_content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">{{ _('Local land charge search results') }}</h1>
-    <div aria-label="{{ _('Image showing search extent') }}">
+    <div>
       {% include "includes/map/map.html" %}
     </div>
-    <p class="govuk-body-xs">{{ _('The dotted line shows the area you have searched') }}</p>
+    <p class="govuk-body">{{ _('The shaded area shows your search.') }}</p>
     {% set total_charges_html %}<span class="govuk-!-font-weight-bold">{{ _('%(total_charges)s local land charges', total_charges=total_charges) }}</span>{% endset %}
     <p class="govuk-body">{{ _('There are %(total_charges_html)s for your search area.', total_charges_html=total_charges_html) }}</p>
     <p class="govuk-body">{{ _('Not the right area?') }} <a class="govuk-link" href="{{ url_for('search.search_by_post_code_address') }}">{{ _('Search again') }}.</a></p>
@@ -63,7 +71,7 @@
                 {% if value is iterable and (value is not string and value is not mapping and value.__class__.__name__ != "LazyString") %}
                   {{ "<br>".join(value)|safe }}
                 {% else %}
-                  {{ value }}
+                  {{ value|safe }}
                 {% endif %}
               </div>
             {% endfor %}
@@ -120,8 +128,12 @@
       <form action="{{ url_for('search_results.results') }}" method="post">
         {{ form.csrf_token }}
         {{ form.enc_search_id }}
-        {{ form.submit(params={"classes": "full-width" }) }}
+        {{ form.submit(params={"classes": "full-width"}, aria_label=_('Continue to confirm exact search area')) }}
       </form>
+      <h2 class="govuk-heading-s govuk-!-static-margin-top-8">{{ _('Get help') }}</h2>
+      <p class="govuk-body-s">
+          <a class="govuk-link" href="{{ url_for('main.get_help_sllc') }}">{{ _('Get help with this service') }}</a>
+      </p>
     </div>
   </div>
 </div>

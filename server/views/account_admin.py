@@ -1,12 +1,23 @@
-from flask import flash, redirect, render_template, current_app, Blueprint, session, url_for
+from flask import (
+    Blueprint,
+    current_app,
+    flash,
+    redirect,
+    render_template,
+    session,
+    url_for,
+)
+from flask_babel import lazy_gettext as _
+from landregistry.exceptions import ApplicationError
+
 from server.dependencies.account_api.account_api_service import AccountApiService
 from server.dependencies.audit_api.audit_api_service import AuditAPIService
 from server.services.paid_search_utils import PaidSearchUtils
-from server.views.forms.change_password_with_token_form import ChangePasswordWithTokenForm
+from server.views.forms.change_password_with_token_form import (
+    ChangePasswordWithTokenForm,
+)
 from server.views.forms.expired_activation_form import ExpiredActivationForm
 from server.views.forms.register_form import RegisterForm
-from landregistry.exceptions import ApplicationError
-from flask_babel import lazy_gettext as _
 from server.views.forms.reset_password_form import ResetPasswordForm
 
 account_admin = Blueprint("account_admin", __name__, template_folder="../templates/account-admin")
@@ -33,8 +44,13 @@ def register():
         if register_response.get("status") == 409:
             current_app.logger.info("Email address already in use")
             form.email_addresses.errors = {
-                "email_addresses": [_("There is an existing account for %(email)s, try again",
-                                      email=form.email_addresses.email_address.data.strip())]}
+                "email_addresses": [
+                    _(
+                        "There is an existing account for %(email)s, try again",
+                        email=form.email_addresses.email_address.data.strip(),
+                    )
+                ]
+            }
         elif register_response.get("status") == 400 and register_response.get("message") == "Password is blacklisted":
             form.passwords.errors = {"passwords": [_("This password is not secure enough")]}
             current_app.logger.info("Password is blacklisted")
@@ -81,12 +97,16 @@ def activate_account(activate_token):
             return render_template("account-activated.html")
         else:
             raise ApplicationError("Account activation failed", "ACAC01", 500)
-    elif token_info and token_info["status"] == "Used" and token_info["action"] == "activation" and \
-            token_info["user_status"] == "Active":
+    elif (
+        token_info
+        and token_info["status"] == "Used"
+        and token_info["action"] == "activation"
+        and token_info["user_status"] == "Active"
+    ):
         return render_template("account-activated.html")
     elif token_info and token_info["status"] == "Expired":
-        return redirect(url_for("account_admin.expired_activation", page_type='expired-activation'))
-    return redirect(url_for('account_admin.expired_activation', page_type='invalid-activation'))
+        return redirect(url_for("account_admin.expired_activation", page_type="expired-activation"))
+    return redirect(url_for("account_admin.expired_activation", page_type="invalid-activation"))
 
 
 @account_admin.route("/account/password-check-your-email")
@@ -109,7 +129,10 @@ def resend_reset_password():
     return redirect(url_for("account_admin.password_check_your_email"))
 
 
-@account_admin.route("/account/<any('expired-activation', 'invalid-activation'):page_type>", methods=["GET", "POST"])
+@account_admin.route(
+    "/account/<any('expired-activation', 'invalid-activation'):page_type>",
+    methods=["GET", "POST"],
+)
 def expired_activation(page_type):
     current_app.logger.info("Expired or invalid activation")
     form = ExpiredActivationForm()
@@ -124,7 +147,10 @@ def expired_activation(page_type):
             raise ApplicationError("Failed to send email", "EXPACTRE01", 500)
         else:
             session["registered_email"] = form.email_address.data.strip()
-            AuditAPIService.audit_event("Account activation submitted", origin_id=form.email_address.data.strip())
+            AuditAPIService.audit_event(
+                "Account activation submitted",
+                origin_id=form.email_address.data.strip(),
+            )
 
             return redirect(url_for("account_admin.check_your_email"))
 
@@ -146,7 +172,9 @@ def change_password_with_token(password_token):
             current_app.logger.info("Valid change password with token form")
 
             password_response = account_service.set_password(
-                password_token, token_info["user_id"], form.passwords.password.data.strip()
+                password_token,
+                token_info["user_id"],
+                form.passwords.password.data.strip(),
             )
 
             if password_response.status_code == 400 and "Password is blacklisted" in password_response.text:
@@ -171,8 +199,10 @@ def change_password_with_token(password_token):
     return render_template("change-password-with-token.html", form=form)
 
 
-@account_admin.route("/account/<any('expired-password-link', 'reset-password', 'invalid-password-link'):page_type>",
-                     methods=["GET", "POST"])
+@account_admin.route(
+    "/account/<any('expired-password-link', 'reset-password', 'invalid-password-link'):page_type>",
+    methods=["GET", "POST"],
+)
 def reset_password(page_type):
     current_app.logger.info("Reset password link expired")
     form = ResetPasswordForm()

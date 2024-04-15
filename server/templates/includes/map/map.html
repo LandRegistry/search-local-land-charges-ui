@@ -1,11 +1,11 @@
 <noscript>
     <div id="nojs" class="nojs-content">
         <div id="nojs-message" class="notification-summary">
-            <p>
-                {{ _('You need to turn on JavaScript to use this service. Or, for assistance, please use the following link') }} -
-                <a id=“assistance-link” href="{{ config.CONTACT_US_URL }}">{{ config.CONTACT_US_URL }}</a>
+            <p class="govuk-body">
+                {% set contact_html %}<a class="govuk-link" id=“assistance-link” href="{% if g.locale == 'cy' %}{{ config.CONTACT_US_WELSH_URL }}{% else %}{{ config.CONTACT_US_URL }}{% endif %}">{{ _('contact local land charges support') }}</a>{% endset %}
+                {{ _('You need to turn on JavaScript to use this service. For assistance, %(contact_html)s.', contact_html=contact_html) }}
             </p>
         </div>
     </div>
 </noscript>
-<div id="map" class="{{ map_style }} govuk-body govuk-!-margin-bottom-0"></div>
+<div id="map" class="{{ map_style }} govuk-body govuk-!-margin-bottom-0"{% if map_focus %} tabindex="0"{% endif %}></div>

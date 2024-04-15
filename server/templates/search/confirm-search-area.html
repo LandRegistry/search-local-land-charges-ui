@@ -8,16 +8,20 @@
 
 {% block inner_content %}
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-third">
+  <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">{{ _('Confirm search area') }}</h1>
-    {% set confirm_area_html %}<span class="govuk-!-font-weight-bold">‘{{ _('Confirm area') }}’</span>{% endset %}
-    <p class="govuk-body">{{ _('The dotted line shows the area of your search. If this is correct, click %(confirm_area_html)s.', confirm_area_html=confirm_area_html) }}</p>
+  </div>
+</div>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div id="{{ map_style }}">
+      {% include "includes/map/map.html" %}
+    </div>
     {% set edit_search_area_html %}<a class="govuk-link" href="{{ url_for('search.define_search_area', page_style='edit') }}">{{ _('edit the search area') }}</a>{% endset %}
-    <p class="govuk-body">{{ _('You can also %(edit_search_area_html)s.', edit_search_area_html=edit_search_area_html) }}</p>
+    <p class="govuk-body govuk-!-margin-top-6 govuk-!-margin-bottom-6">{{ _('The shaded area shows your search. You can also %(edit_search_area_html)s.', edit_search_area_html=edit_search_area_html) }}</p>
     {% if warning %}
         {% set inset_html %}
-            <p class="govuk-body">{{ _('This search area is near a local authority’s boundary, not available on the register yet.') }}</p>
-            <p class="govuk-body">{{ _('Your results will not include any charges for this authority.') }}</p>
+            <p class="govuk-body">{{ _('This search area is near a local authority area that is not yet available on this service. Your results will not include any local land charges for this local authority.') }}</p>
         {% endset %}
         {{ govukInsetText({
         "html": inset_html
@@ -28,11 +32,16 @@
       {{ form.csrf_token }}
       {{ form.submit }}
     </form>
+    <p class="govuk-body">
+      {% set os_link_html %}<a class="govuk-link" href="{{ config.OS_TERMS_CONDITIONS_LINK | string() }}" target="_blank">{{ _('Ordnance Survey Licence Terms and Conditions') }} {{ _('(opens in new tab)') }}</a>{% endset %}
+      {{ _('Use of address and mapping data is subject to %(os_link_html)s', os_link_html=os_link_html) }}. {{ _('This includes the link between the address and its location') }}.
+    </p>
   </div>
-  <div class="govuk-grid-column-two-thirds">
-    <div id="{{ map_style }}" aria-label="{{ _('Image showing search extent') }}">
-      {% include "includes/map/map.html" %}
-    </div>
+  <div class="govuk-grid-column-one-third">
+      <h2 class="govuk-heading-m">{{ _('Get help') }}</h2>
+      <p class="govuk-body-m">
+          <a class="govuk-link" href="{{ url_for('main.get_help_sllc') }}" target="_blank">{{ _('Get help with this service') }} ({{ _('opens in new tab') }})</a>
+      </p>
   </div>
 </div>
 {% endblock %}

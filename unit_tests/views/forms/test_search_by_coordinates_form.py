@@ -1,8 +1,15 @@
 from unittest import TestCase
+
+from server.main import app
 from server.views.forms.search_by_coordinates_form import SearchByCoordinatesForm
 
 
 class TestSearchByCoordinatesForm(TestCase):
+    def setUp(self):
+        app.config["Testing"] = True
+        app.config["WTF_CSRF_ENABLED"] = False
+        app.testing = True
+
     def test_search_by_coordinates_form_invalid(self):
         form = SearchByCoordinatesForm()
         form.eastings.data = "notanumber"
@@ -11,8 +18,11 @@ class TestSearchByCoordinatesForm(TestCase):
         form.northings.raw_data = "1232132132132132132132131232132131"
         self.assertFalse(form.validate())
         self.assertEqual(
-            form.errors, {'eastings': ['Enter coordinates in the correct format'],
-                          'northings': ['Enter coordinates in the correct format']}
+            form.errors,
+            {
+                "eastings": ["Enter coordinates in the correct format"],
+                "northings": ["Enter coordinates in the correct format"],
+            },
         )
 
     def test_search_by_coordinates_form_valid(self):

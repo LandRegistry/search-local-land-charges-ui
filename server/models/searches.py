@@ -1,9 +1,11 @@
-from marshmallow import fields, post_load, EXCLUDE
+from marshmallow import EXCLUDE, fields, post_load
+
 from server.models.common import BaseSchema, jsonnamedlist
 
 
 class SearchStateSchema(BaseSchema):
     """Schema for a free search"""
+
     search_extent = fields.Dict(allow_none=True)
     charges = fields.List(fields.Dict(), allow_none=True)
     address = fields.Str(allow_none=True)
@@ -19,6 +21,7 @@ class SearchStateSchema(BaseSchema):
 
 class PaymentStateSchema(BaseSchema):
     """Schema for a gov pay transaction"""
+
     payment_id = fields.Str()
     description = fields.Str()
     state = fields.Dict()
@@ -38,6 +41,7 @@ class PaymentStateSchema(BaseSchema):
 
 class BasePaidSearchItemSchema(BaseSchema):
     """Schema for a paid search"""
+
     search_id = fields.Int()
     parent_search_id = fields.Int(allow_none=True)
     user_id = fields.UUID(allow_none=True)
@@ -52,6 +56,7 @@ class BasePaidSearchItemSchema(BaseSchema):
     card_brand = fields.Str(allow_none=True)
     amount = fields.Int(allow_none=True)
     reference = fields.Str(allow_none=True)
+    request_repeat = fields.Bool(allow_none=True)
 
     @post_load
     def create_state(self, data, **kwargs):
@@ -60,6 +65,7 @@ class BasePaidSearchItemSchema(BaseSchema):
 
 class PaidSearchItemSchema(BasePaidSearchItemSchema):
     """Schema for a paid search"""
+
     repeat_searches = fields.List(fields.Nested(BasePaidSearchItemSchema), allow_none=True)
 
     @post_load
@@ -71,7 +77,8 @@ search_state_class = jsonnamedlist(
     SearchStateSchema(),
     "SearchState",
     "search_extent, charges, address, parent_search, search_reference, previously_completed, free_search_id",
-    default=None)
+    default=None,
+)
 
 
 class SearchState(search_state_class):
@@ -79,8 +86,12 @@ class SearchState(search_state_class):
 
 
 payment_state_class = jsonnamedlist(
-    PaymentStateSchema(), "PaymentState", "payment_id, description, state, reference, amount, \
-                                           payment_provider, card_brand", default=None)
+    PaymentStateSchema(),
+    "PaymentState",
+    "payment_id, description, state, reference, amount, \
+                                           payment_provider, card_brand",
+    default=None,
+)
 
 
 class PaymentState(payment_state_class):
@@ -89,10 +100,12 @@ class PaymentState(payment_state_class):
 
 paid_search_item_class = jsonnamedlist(
     PaidSearchItemSchema(),
-    "PaidSearch", "search_id, parent_search_id, user_id, payment_id, charges, \
+    "PaidSearch",
+    "search_id, parent_search_id, user_id, payment_id, charges, \
                     search_extent, search_area_description, search_date, document_url, lapsed_date, repeat_searches, \
-                    payment_provider, card_brand, amount, reference",
-    default=None)
+                    payment_provider, card_brand, amount, reference, request_repeat",
+    default=None,
+)
 
 
 class PaidSearchItem(paid_search_item_class):

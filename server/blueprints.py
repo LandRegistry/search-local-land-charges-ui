@@ -1,6 +1,20 @@
 # Import every blueprint file
-from server.views import index, main, language, auth, my_account, sign_in, check_migrated_authorities, search, ajax, \
-    search_results, paid_search, categories_stat_provs, account_admin, originating_authorities
+from server.views import (
+    account_admin,
+    ajax,
+    auth,
+    categories_stat_provs,
+    check_migrated_authorities,
+    index,
+    language,
+    main,
+    my_account,
+    originating_authorities,
+    paid_search,
+    search,
+    search_results,
+    sign_in,
+)
 
 
 def register_blueprints(app):

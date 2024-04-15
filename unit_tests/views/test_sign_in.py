@@ -1,9 +1,10 @@
 from unittest import TestCase
-from server.app import app
 from unittest.mock import MagicMock, patch
-from flask import current_app, redirect, url_for
-from server.views.sign_in import check_user
 
+from flask import current_app, redirect, url_for
+
+from server.app import app
+from server.views.sign_in import check_user
 from unit_tests.utilities_tests import super_test_context
 
 
@@ -49,7 +50,8 @@ class TestSignIn(TestCase):
             mock_form.return_value.redirect_uri.data = current_app.config["HOME_PAGE_CY_URL"]
             mock_sllc.return_value.get_service_messages.return_value = "Some messages"
             result = self.client.get(
-                url_for("sign_in.handle_sign_in"), headers={"Referer": current_app.config["HOME_PAGE_CY_URL"]}
+                url_for("sign_in.handle_sign_in"),
+                headers={"Referer": current_app.config["HOME_PAGE_CY_URL"]},
             )
             mock_flash.assert_called_with("Some messages", "service_message")
             mock_force_locale.assert_called_with("cy")
@@ -65,7 +67,8 @@ class TestSignIn(TestCase):
             mock_form.return_value.redirect_uri.data = "an URI"
             mock_sllc.return_value.get_service_messages.return_value = "Some messages"
             result = self.client.get(
-                url_for("sign_in.handle_sign_in"), headers={"Referer": current_app.config["HOME_PAGE_EN_URL"]}
+                url_for("sign_in.handle_sign_in"),
+                headers={"Referer": current_app.config["HOME_PAGE_EN_URL"]},
             )
             mock_flash.assert_called_with("Some messages", "service_message")
             mock_force_locale.assert_called_with("en")
@@ -80,9 +83,7 @@ class TestSignIn(TestCase):
             mock_form.return_value.validate_on_submit.return_value = False
             mock_form.return_value.redirect_uri.data = "an URI"
             mock_sllc.return_value.get_service_messages.return_value = "Some messages"
-            result = self.client.get(
-                url_for("sign_in.handle_sign_in")
-            )
+            result = self.client.get(url_for("sign_in.handle_sign_in"))
             mock_flash.assert_called_with("Some messages", "service_message")
             self.assertIn("Sign in", result.text)
 
@@ -92,7 +93,7 @@ class TestSignIn(TestCase):
         with super_test_context(app):
             mock_auth.return_value.authenticate.return_value = (True, "a result")
             mock_userinfo = MagicMock()
-            mock_userinfo.principle.status = 'Invited'
+            mock_userinfo.principle.status = "Invited"
             mock_validate.return_value = mock_userinfo
             result = check_user(MagicMock())
             self.assertEqual(result.location, url_for("account_admin.resend_activation_email"))
@@ -103,7 +104,7 @@ class TestSignIn(TestCase):
         with super_test_context(app):
             mock_auth.return_value.authenticate.return_value = (True, "a result")
             mock_userinfo = MagicMock()
-            mock_userinfo.principle.status = 'Active'
+            mock_userinfo.principle.status = "Active"
             mock_validate.return_value = mock_userinfo
             mock_form = MagicMock()
             mock_form.redirect_uri.data = "Anurl"
@@ -117,27 +118,42 @@ class TestSignIn(TestCase):
         with super_test_context(app):
             mock_auth.return_value.authenticate.return_value = (False, {"locked": True})
             mock_userinfo = MagicMock()
-            mock_userinfo.principle.status = 'Active'
+            mock_userinfo.principle.status = "Active"
             mock_validate.return_value = mock_userinfo
             mock_form = MagicMock()
             mock_form.redirect_uri.data = "Anurl"
             result = check_user(mock_form)
-            self.assertEqual(mock_form.username_password.errors, {
-                'username_password': ['You tried to log in using an invalid username or password. For security '
-                                      'reasons, your account status has been changed to inactive']})
+            self.assertEqual(
+                mock_form.username_password.errors,
+                {
+                    "username_password": [
+                        "You tried to log in using an invalid username or password. For security "
+                        "reasons, your account status has been changed to inactive"
+                    ]
+                },
+            )
             self.assertIsNone(result)
 
     @patch("server.views.sign_in.validate")
     @patch("server.views.sign_in.AuthenticationApi")
-    def test_check_user_fail(self, mock_auth, mock_validate,):
+    def test_check_user_fail(
+        self,
+        mock_auth,
+        mock_validate,
+    ):
         with super_test_context(app):
-            mock_auth.return_value.authenticate.return_value = (False, {"locked": False})
+            mock_auth.return_value.authenticate.return_value = (
+                False,
+                {"locked": False},
+            )
             mock_userinfo = MagicMock()
-            mock_userinfo.principle.status = 'Active'
+            mock_userinfo.principle.status = "Active"
             mock_validate.return_value = mock_userinfo
             mock_form = MagicMock()
             mock_form.redirect_uri.data = "Anurl"
             result = check_user(mock_form)
-            self.assertEqual(mock_form.username_password.errors, {
-                'username_password': ['Email address and password do not match, try again or reset your password']})
+            self.assertEqual(
+                mock_form.username_password.errors,
+                {"username_password": ["Email address and password do not match, try again or reset your password"]},
+            )
             self.assertIsNone(result)

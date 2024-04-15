@@ -26,7 +26,13 @@
             </li>
         {% endif %}
         </ul>
-        {% set phone_html %}<span class="govuk-!-font-weight-bold">{{ _('0300 006 0444') }}</span>{% endset %}
-        <span class="govuk-body-s">{{ _('Contact HM Land Registry on %(phone_html)s if you are struggling to use this service', phone_html=phone_html|safe) }}</span>
+        <h2 class="govuk-heading-s govuk-!-static-margin-top-8">{{ _('Get help') }}</h2>
+        <p class="govuk-body-s">
+            <a class="govuk-link govuk-body-s" href="{{ url_for('main.get_help_sllc') }}">{{ _('Get help with this service') }}</a>
+        </p>
+        <h2 class="govuk-heading-s govuk-!-static-margin-top-8">{{ _('Service updates') }}</h2>
+        <p class="govuk-body-s">
+            <a class="govuk-link govuk-body-s" href="{{ url_for('main.release_notices') }}">{{ _('View release notices') }}</a>
+        </p>
     </div>
 </div>

@@ -1,10 +1,13 @@
 import re
 
-from server.dependencies.search_api.local_land_charge_service import LocalLandChargeService
-from landregistry.exceptions import ApplicationError
 from flask_babel import gettext
+from landregistry.exceptions import ApplicationError
 
-CHARGE_NUMBER_REGEX = '^(llc|LLC)(-)?([0123456789BCDFGHJKLMNPQRSTVWXYZ]){1,6}$'
+from server.dependencies.search_api.local_land_charge_service import (
+    LocalLandChargeService,
+)
+
+CHARGE_NUMBER_REGEX = "^(llc|LLC)(-)?([0123456789BCDFGHJKLMNPQRSTVWXYZ]){1,6}$"
 
 
 class SearchByChargeId(object):
@@ -27,7 +30,7 @@ class SearchByChargeId(object):
             self.logger.info("Invalid charge id provided: %s", search_query)
             response_data = {
                 "search_message": gettext("Invalid charge id. Try again"),
-                "status": "error"
+                "status": "error",
             }
 
             return response_data
@@ -38,17 +41,14 @@ class SearchByChargeId(object):
         if response.status_code == 200:
             self.logger.info("Search results found")
 
-            response_data = {
-                "data": response.json(),
-                "status": "success"
-            }
+            response_data = {"data": response.json(), "status": "success"}
 
             return response_data
         elif response.status_code == 404:
             self.logger.info("Valid search format but no results found")
             response_data = {
                 "search_message": gettext("Enter a valid postcode or location"),
-                "status": "error"
+                "status": "error",
             }
 
             return response_data
@@ -60,7 +60,7 @@ class SearchByChargeId(object):
             self.logger.info("No search query provided")
             response_data = {
                 "search_message": gettext("Enter a postcode or location"),
-                "status": "error"
+                "status": "error",
             }
 
             return response_data

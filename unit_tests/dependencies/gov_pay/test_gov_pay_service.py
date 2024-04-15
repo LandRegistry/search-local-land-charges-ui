@@ -1,23 +1,24 @@
 from unittest import TestCase
-from server.main import app
 from unittest.mock import MagicMock
-from flask import g, current_app, url_for
-from server.dependencies.gov_pay.gov_pay_service import GovPayService
+
+from flask import current_app, g, url_for
 from landregistry.exceptions import ApplicationError
+
+from server.dependencies.gov_pay.gov_pay_service import GovPayService
+from server.main import app
 from unit_tests.utilities_tests import super_test_context
 
 
 class TestGovPayService(TestCase):
-
     def setUp(self):
-        app.config['Testing'] = True
-        app.config['WTF_CSRF_ENABLED'] = False
+        app.config["Testing"] = True
+        app.config["WTF_CSRF_ENABLED"] = False
         app.testing = True
 
     def test_request_payment_contents(self):
         with super_test_context(app):
             g.requests = MagicMock()
-            g.locale = 'en'
+            g.locale = "en"
             response = MagicMock()
             response.status_code = 201
 
@@ -30,22 +31,25 @@ class TestGovPayService(TestCase):
             test_description = "test description"
 
             expected_request_body = {
-                'amount': test_payment_amount,
-                'reference': test_reference,
-                'description': test_description,
-                'return_url': url_for('paid_search.process_pay', enc_search_id='anencid', _external=True),
-                'language': 'en'
+                "amount": test_payment_amount,
+                "reference": test_reference,
+                "description": test_description,
+                "return_url": url_for("paid_search.process_pay", enc_search_id="anencid", _external=True),
+                "language": "en",
             }
 
             expected_headers = {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': "Bearer {}".format(current_app.config['GOV_PAY_API_KEY'])
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": "Bearer {}".format(current_app.config["GOV_PAY_API_KEY"]),
             }
 
             gov_pay_service.request_payment(test_payment_amount, test_reference, test_description, "anencid")
-            g.requests.post.assert_called_with(current_app.config['GOV_PAY_URL'],
-                                               json=expected_request_body, headers=expected_headers)
+            g.requests.post.assert_called_with(
+                current_app.config["GOV_PAY_URL"],
+                json=expected_request_body,
+                headers=expected_headers,
+            )
 
     def test_get_payment_contents(self):
         with super_test_context(app):
@@ -60,14 +64,16 @@ class TestGovPayService(TestCase):
             payment_id = "test_id"
 
             expected_headers = {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': "Bearer {}".format(current_app.config['GOV_PAY_API_KEY'])
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "Authorization": "Bearer {}".format(current_app.config["GOV_PAY_API_KEY"]),
             }
 
             gov_pay_service.get_payment(payment_id)
-            g.requests.get.assert_called_with("{}/{}".format(current_app.config['GOV_PAY_URL'], payment_id),
-                                              headers=expected_headers)
+            g.requests.get.assert_called_with(
+                "{}/{}".format(current_app.config["GOV_PAY_URL"], payment_id),
+                headers=expected_headers,
+            )
 
     def test_get_payment_raises_error(self):
         with super_test_context(app):
@@ -86,7 +92,7 @@ class TestGovPayService(TestCase):
     def test_payment_failure_raises_error(self):
         with app.test_request_context():
             g.requests = MagicMock()
-            g.locale = 'en'
+            g.locale = "en"
             response = MagicMock()
             response.status_code = 400
 

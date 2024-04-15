@@ -83,10 +83,10 @@
   </div>
   <div class="govuk-grid-column-one-half">
     <input type="hidden" name="saved-features" id="saved-features" value="{{ geometry }}">
-    <div id="{{ map_style}}" aria-label="{{ _('Image showing search extent') }}">
+    <div id="{{ map_style}}">
       {% include "includes/map/map.html" %}
     </div>
-    <p class="govuk-body-s">{{ _("The dotted line shows your search area.") }}</p>
+    <p class="govuk-body-s">{{ _("The shaded area shows your search.") }}</p>
   </div>
 </div>
 {% endblock %}

@@ -1,4 +1,16 @@
-import {Style, Stroke, Circle, Fill} from 'ol/style';
+import { Style, Stroke, Circle, Fill } from 'ol/style';
+import { MultiPoint } from 'ol/geom';
+
+var add_colour = '#1d70b8';
+var edit_colour = '#00703c';
+var delete_colour = '#d4351c';
+
+var add_fill = [29, 112, 184, 0.2];
+var edit_fill = [0, 112, 60, 0.2];
+var delete_fill = [212, 53, 28, 0.2];
+
+var fill_none = new Fill();
+fill_none.setColor([29, 112, 184, 0.1]);
 
 var draw_layer_styles = {
     // Draw Interactions
@@ -11,65 +23,81 @@ var draw_layer_styles = {
     NONE: 3,
     // Hidden
     HIDDEN: 4,
+    // Hover
+    HOVER: 5,
     // Associated Feature Styles for mode
     style: {
+        // DRAW | add
         0: new Style({
             fill: new Fill({
-                color: [6, 88, 229, 0.1]
+                color: add_fill
             }),
             stroke: new Stroke({
-                color: '#0658e5',
-                width: 2,
-                lineDash: [1, 5]
+                color: add_colour,
+                width: 2
             }),
             image: new Circle({
                 radius: 5,
                 fill: new Fill({
-                    color: '#0658e5'
+                    color: add_colour
                 })
             })
         }),
-        1: new Style({
+        // EDIT
+        1: [new Style({
             fill: new Fill({
-                color: [244, 203, 66, 0.3]
+                color: edit_fill
             }),
             stroke: new Stroke({
-                color: '#ffcc33',
-                width: 2,
-                lineDash: [1, 5]
+                color: edit_colour,
+                width: 2
             }),
             image: new Circle({
                 radius: 5,
                 fill: new Fill({
-                    color: '#ffcc33'
+                    color: edit_colour
                 })
             })
         }),
+        new Style({ // second style for the dots on the edge
+            image: new Circle({
+                radius: 5,
+                fill: new Fill({
+                    color: edit_colour
+                })
+            }),
+            geometry: function (feature) { // creating a custom geometry to draw points on
+                var coordinates = feature.getGeometry().getCoordinates()[0];
+                if (Array.isArray(coordinates)) {
+                    return new MultiPoint(coordinates);
+                }
+            }
+        })],
+        // delete | remove
         2: new Style({
             stroke: new Stroke({
-                color: [255,0,0,0.4],
-                width: 2,
-                lineDash: [1, 5]
+                color: delete_colour,
+                width: 2
             }),
             fill: new Fill({
-                color: [255,0,0,0.2]
+                color: delete_fill
             }),
             image: new Circle({
                 radius: 5,
                 fill: new Fill({
-                    color: '#ff0000'
+                    color: delete_colour
                 })
             }),
             zIndex: 1
         }),
+        // NONE
         3: new Style({
             fill: new Fill({
                 color: [6, 88, 229, 0.1]
             }),
             stroke: new Stroke({
                 color: '#0658e5',
-                width: 2,
-                lineDash: [1, 5]
+                width: 2
             }),
             image: new Circle({
                 radius: 5,
@@ -78,6 +106,7 @@ var draw_layer_styles = {
                 })
             })
         }),
+        // HIDDEN
         4: new Style({
             stroke: new Stroke({
                 color: 'rgba(0, 0, 255, 0)',
@@ -86,8 +115,19 @@ var draw_layer_styles = {
             fill: new Fill({
                 color: 'rgba(0, 0, 255, 0)'
             })
-        })
+        }),
+        // HOVER
+        5: new Style({
+            fill: new Fill({
+                color: 'rgba(0,48,120,0.3)'
+            }),
+            stroke: new Stroke({
+                color: 'rgba(0,48,120,1)',
+                width: 2
+            }),
+            radius: 5
+        }),
     }
 }
 
-export {draw_layer_styles}
+export { draw_layer_styles }

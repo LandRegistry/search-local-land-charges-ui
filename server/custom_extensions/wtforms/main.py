@@ -33,14 +33,16 @@ def flatten_errors(errors, prefix=""):
     if isinstance(errors, dict):
         # if the error dict has a first_child_name, override prefix so first child is used in summary link
         if "first_child_name" in errors.keys():
-            error_prefix = errors.pop('first_child_name')
+            error_prefix = errors.pop("first_child_name")
         else:
             error_prefix = None
         for key, value in errors.items():
             # Recurse to handle subforms.
             if not error_prefix:
-                error_prefix = f"{prefix}{key}-"
-            error_list += flatten_errors(value, prefix=error_prefix)
+                sub_prefix = f"{prefix}{key}-"
+            else:
+                sub_prefix = error_prefix
+            error_list += flatten_errors(value, prefix=sub_prefix)
     elif isinstance(errors, list) and isinstance(errors[0], dict):
         for idx, error in enumerate(errors):
             error_list += flatten_errors(error, prefix=f"{prefix}{idx}-")

@@ -1,14 +1,15 @@
 from unittest import TestCase
 from unittest.mock import patch
 
+from flask import session, url_for
+
+from server.main import app
 from server.services.search_utilities import (
     calculate_pagination_info,
     decode_validate_search_id,
     get_charge_items,
     start_new_search,
 )
-from server.main import app
-from flask import session, url_for
 from unit_tests.utilities import Utilities
 from unit_tests.utilities_tests import super_test_context
 
@@ -19,6 +20,9 @@ class TestSearchUtilities(TestCase):
         app.config["WTF_CSRF_ENABLED"] = False
         app.testing = True
         self.client = app.test_client()
+        self.context = self.client.application.test_request_context()
+        self.context.push()
+        self.context.session = {"profile": {"user_id": "mock_user"}}
 
     @patch("server.services.search_utilities.reset_history")
     def test_start_new_search(self, mock_reset):
@@ -82,10 +86,19 @@ class TestSearchUtilities(TestCase):
             self.assertIsNone(result)
 
     def test_get_charge_items(self):
-        mock_results = [{"item": {"some": "result"}, "adjoining": True}, {"item": {"some": "result"}}]
+        mock_results = [
+            {"item": {"some": "result"}, "adjoining": True},
+            {"item": {"some": "result"}},
+        ]
 
         result = get_charge_items(mock_results)
-        self.assertEqual([{"some": "result", "adjoining": True}, {"some": "result", "adjoining": False}], result)
+        self.assertEqual(
+            [
+                {"some": "result", "adjoining": True},
+                {"some": "result", "adjoining": False},
+            ],
+            result,
+        )
 
     def test_calculate_pagination_info_no_items(self):
         display_items, pagination_info, start_index = calculate_pagination_info(
@@ -96,16 +109,38 @@ class TestSearchUtilities(TestCase):
             pagination_info,
             {
                 "items": [
-                    {"href": url_for("search_results.results", some="arg"), "number": 1},
+                    {
+                        "href": url_for("search_results.results", some="arg"),
+                        "number": 1,
+                    },
                     {"ellipsis": True},
-                    {"href": url_for("search_results.results", page=4, some="arg"), "number": 4},
-                    {"current": True, "href": url_for("search_results.results", page=5, some="arg"), "number": 5},
-                    {"href": url_for("search_results.results", page=6, some="arg"), "number": 6},
+                    {
+                        "href": url_for("search_results.results", page=4, some="arg"),
+                        "number": 4,
+                    },
+                    {
+                        "current": True,
+                        "href": url_for("search_results.results", page=5, some="arg"),
+                        "number": 5,
+                    },
+                    {
+                        "href": url_for("search_results.results", page=6, some="arg"),
+                        "number": 6,
+                    },
                     {"ellipsis": True},
-                    {"href": url_for("search_results.results", page=10, some="arg"), "number": 10},
+                    {
+                        "href": url_for("search_results.results", page=10, some="arg"),
+                        "number": 10,
+                    },
                 ],
-                "next": {"href": url_for("search_results.results", page=6, some="arg"), "text": "Next"},
-                "previous": {"href": url_for("search_results.results", page=4, some="arg"), "text": "Previous"},
+                "next": {
+                    "href": url_for("search_results.results", page=6, some="arg"),
+                    "text": "Next",
+                },
+                "previous": {
+                    "href": url_for("search_results.results", page=4, some="arg"),
+                    "text": "Previous",
+                },
             },
         )
         self.assertEqual(start_index, 40)
@@ -122,13 +157,23 @@ class TestSearchUtilities(TestCase):
                     {"href": url_for("search_results.results"), "number": 1},
                     {"ellipsis": True},
                     {"href": url_for("search_results.results", page=4), "number": 4},
-                    {"current": True, "href": url_for("search_results.results", page=5), "number": 5},
+                    {
+                        "current": True,
+                        "href": url_for("search_results.results", page=5),
+                        "number": 5,
+                    },
                     {"href": url_for("search_results.results", page=6), "number": 6},
                     {"ellipsis": True},
                     {"href": url_for("search_results.results", page=10), "number": 10},
                 ],
-                "next": {"href": url_for("search_results.results", page=6), "text": "Next"},
-                "previous": {"href": url_for("search_results.results", page=4), "text": "Previous"},
+                "next": {
+                    "href": url_for("search_results.results", page=6),
+                    "text": "Next",
+                },
+                "previous": {
+                    "href": url_for("search_results.results", page=4),
+                    "text": "Previous",
+                },
             },
         )
         self.assertEqual(start_index, 40)

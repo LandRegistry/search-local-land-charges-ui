@@ -1,0 +1,10 @@
+{% extends 'base-templates/base.html' %}
+
+{% set title=_("You’ve submitted this form too many times") %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block inner_content %}
+  <h1 class="govuk-heading-l">{{title}}</h1>
+  <p class="govuk-body">{{ _('Try again later') }}.</p>
+{% endblock %}

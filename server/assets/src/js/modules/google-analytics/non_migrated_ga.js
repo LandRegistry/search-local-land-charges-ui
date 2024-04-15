@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 function nonMigratedButtonClick(button){
     gtag('event', button + ' button clicked', {'eventCategory': 'Non migrated page'});
 }

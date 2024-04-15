@@ -1,0 +1,32 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/pagination/macro.html" import govukPagination %}
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+
+{% block title %}{{ _('Searches we recommend you repeat') }}{% endblock %}
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    {% include 'includes/subnav.html' %}
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-xl">{{ _('Searches we recommend you repeat') }}</h1>
+    {% if paid_searches_count + free_searches_count == 0 %}
+      <p class="govuk-body">{{ _('You currently have no searches we recommend you repeat.') }}</p>
+      <br><br>
+    {% else %}
+      <p class="govuk-body">{{ _('Some search results we have provided you with may not have contained all the relevant local land charge information.') }}</p>
+      <p class="govuk-body">{{ _('We recommend you repeat these searches.') }}</p>
+      <p class="govuk-body">
+        <a class="govuk-link" href="{{ url_for('my_account.paid_searches_to_repeat') }}">{{ _('Official searches we recommend you repeat') }} ({{ paid_searches_count }})</a>
+      </p>
+      <p class="govuk-body">
+        <a class="govuk-link" href="{{ url_for('my_account.free_searches_to_repeat') }}">{{ _('Free searches we recommend you repeat') }} ({{ free_searches_count }})</a>
+      </p>
+    {% endif %}
+    <p class="govuk-body">
+      <a class="govuk-link" href="{{ url_for('search.search_by_post_code_address') }}">{{ _('Start a new search') }}</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

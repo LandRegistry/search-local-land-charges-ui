@@ -1,36 +1,39 @@
-.two-thirds-map {
-    width: 66%;
+@import 'node_modules/govuk-frontend/dist/govuk/all';
+
+.map-key-image {
+    vertical-align: middle;
+    padding-bottom: 3px;
+    padding-right: 5px;
 }
 
-/*
-.map-error {
-    background-image: url('../images/map-error.png');
-    height: 400px;
-    border: 2px solid black;
+.map-key-column-3 {
+    display: flex;
+    float: left;
+    padding: 0 10px 10px 0;
+    margin-top: 15px;
 }
-*/
-
-.full-screen-map {
-    width: calc(100% - 2vw);
-    height: calc(94vh - 106px);
-    float: right;
-    position: relative;
+.map-key-column-4 {
+    display: flex;
+    float: left;
+    padding: 0 10px 10px 0;
+    margin-top: 15px;
 }
-
-/* Remove the bottom padding on the full screen map pages to give as much space as possible. */
-.full-screen-map-main {
-    padding-bottom: 0 !important;
+.map-key-column-5 {
+    display: flex;
+    float: left;
+    padding: 0 10px 10px 0;
+    margin-top: 15px;
 }
-
-/* Container for the full screen map and sidebar. */
-#full-screen-map-container {
-    position: relative;
+.map-key-row {
+    display: flex;
 }
 
-.ol-viewport .ol-zoom {
-    top: 2%;
-    right: 2%;
-    left: auto;
+.map-key-row .govuk-heading-s {
+    margin-top: -3px;
+}
+
+.map-key-row > div:first-of-type { 
+    width: 5em;
 }
 
 .search-results-map, #search-results-map {
@@ -40,8 +43,7 @@
 }
 
 .address-search-results-map, #address-search-results-map {
-    height: 600px;
-    // margin-top: 1.25em;
+    height: 720px;
 }
 
 .search-results-map-large {
@@ -53,4 +55,103 @@
 .area-confirm-map {
     width: 100%;
     height: 450px;
+}
+
+.map-sub-grid-container {
+    display: grid;
+    grid-template-columns: 100%;
+}
+
+@media (min-width: 55em) {
+    .map-sub-grid-container {
+        display: grid;
+        grid-template-columns: 75% 25%;
+    }
+
+    .map-sub-grid-map {
+        grid-column: 1;
+    }
+
+    .map-sub-grid-map-options {
+        grid-column: 2;
+        grid-row: 1 / 4;
+    }
+
+    .map-sub-grid-howto-tandcs {
+        grid-column: 1;
+        grid-row: 2 / 3;
+    }
+}
+
+.ol-zoom {
+    top: 1em;
+    right: 1em;
+    left: auto;
+    border-radius: 0px;
+}
+
+.ol-zoom .ol-zoom-in, .ol-zoom .ol-zoom-out {
+    position: relative;
+    border: 0px;
+    height: 40px;
+    width: 40px;
+    padding: 0px;
+    cursor: pointer;
+    background-color: govuk-colour("white");
+    background-size: 30px;
+    background-position: 5px 5px;
+    margin: 0px;
+    border-image-width: 0px;
+    border-radius: 0px;
+}
+
+.ol-zoom .ol-zoom-in:hover,
+.ol-zoom .ol-zoom-out:hover {
+    background-color: $govuk-border-colour;
+    outline: none;
+    margin: 0px;
+    border-radius: 0px;
+}
+
+.ol-zoom .ol-zoom-in:focus,
+.ol-zoom .ol-zoom-out:focus {
+  box-shadow: 0 0 0 2px govuk-colour("white"), inset 0 0 0 0 $govuk-input-border-colour, 0 0 0 5px $govuk-input-border-colour, 0 0 0 8px $govuk-focus-colour;
+  outline: 3px solid $govuk-input-border-colour;
+  z-index: 99;
+}
+
+.ol-zoom .ol-zoom-in:disabled,
+.ol-zoom .ol-zoom-out:disabled {
+    cursor: not-allowed;
+    opacity: .5;
+    outline: none;
+    margin: 0px;
+    border-radius: 0px;
+    border: 0px;
+}
+
+.ol-zoom .ol-zoom-in {
+    background-image: url('../images/mapping/zoom-in.svg');
+}
+
+.ol-zoom .ol-zoom-out {
+    background-image: url('../images/mapping/zoom-out.svg');
+}
+
+#map:focus {
+    box-shadow: 0 0 0 2px govuk-colour("white"), inset 0 0 0 0 $govuk-input-border-colour, 0 0 0 5px $govuk-input-border-colour, 0 0 0 8px $govuk-focus-colour;
+    outline: 3px solid $govuk-input-border-colour;
+    z-index: 99;
+}
+
+.crosshair {
+    background-image: url(../images/mapping/crosshair.svg);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: 50px;
+    height: 50px;
+    position: relative;
+    width: 50px;
+    left: calc(50% - 25px);
+    top: calc(50% - 25px);
 }

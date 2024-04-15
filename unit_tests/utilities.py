@@ -1,6 +1,7 @@
 from unittest.mock import MagicMock
-from flask import g, current_app
+
 from cryptography.fernet import Fernet
+from flask import current_app, g
 
 
 class Utilities(object):
@@ -18,12 +19,12 @@ class Utilities(object):
 
     @staticmethod
     def mock_request():
-        g.trace_id = '333'
+        g.trace_id = "333"
         g.session = MagicMock()
         g.requests = MagicMock()
 
     @staticmethod
-    def mock_response(status_code=200, text='', json=None):
+    def mock_response(status_code=200, text="", json=None):
         response = MagicMock()
         response.status_code = status_code
         response.text = text
@@ -33,5 +34,5 @@ class Utilities(object):
 
     @staticmethod
     def create_enc_search_id(search_id):
-        f = Fernet(current_app.config['GEOSERVER_SECRET_KEY'])
+        f = Fernet(current_app.config["GEOSERVER_SECRET_KEY"])
         return f.encrypt(str(search_id).encode()).decode()

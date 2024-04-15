@@ -1,10 +1,11 @@
+from flask_babel import lazy_gettext as _
 from flask_wtf import FlaskForm
+from govuk_frontend_wtf.wtforms_widgets import GovPasswordInput, GovSubmitInput
+from wtforms.fields import PasswordField, SubmitField
+from wtforms.validators import InputRequired, Length, ValidationError
+
 from server.views.forms.custom_fields import FieldGroup
 from server.views.forms.validate_common import valid_password_rules
-from wtforms.fields import SubmitField, PasswordField
-from govuk_frontend_wtf.wtforms_widgets import GovSubmitInput, GovPasswordInput
-from wtforms.validators import InputRequired, Length, ValidationError
-from flask_babel import lazy_gettext as _
 
 
 class NewPasswordsForm(FlaskForm):
@@ -13,7 +14,7 @@ class NewPasswordsForm(FlaskForm):
         widget=GovPasswordInput(),
         validators=[
             InputRequired(message=_("Enter a password")),
-            Length(max=256, message=_("Password must be 256 characters or fewer"))
+            Length(max=256, message=_("Password must be 256 characters or fewer")),
         ],
     )
     confirm_new_password = PasswordField(
@@ -21,7 +22,7 @@ class NewPasswordsForm(FlaskForm):
         widget=GovPasswordInput(),
         validators=[
             InputRequired(message=_("Enter a password")),
-            Length(max=256, message=_("Password must be 256 characters or fewer"))
+            Length(max=256, message=_("Password must be 256 characters or fewer")),
         ],
     )
 
@@ -40,7 +41,7 @@ class ChangePasswordForm(FlaskForm):
         widget=GovPasswordInput(),
         validators=[
             InputRequired(message=_("Enter a password")),
-            Length(max=256, message=_("Password must be 256 characters or fewer"))
+            Length(max=256, message=_("Password must be 256 characters or fewer")),
         ],
     )
 

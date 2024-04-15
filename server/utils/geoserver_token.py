@@ -1,6 +1,7 @@
 from cryptography.fernet import Fernet
-from server import config
 from flask import session
+
+from server import config
 
 
 def geoserver_token():

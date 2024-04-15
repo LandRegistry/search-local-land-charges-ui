@@ -1,9 +1,11 @@
-from marshmallow import fields, post_load, post_dump
-from server.models.common import BaseSchema, jsonnamedlist, default_text
+from marshmallow import fields, post_dump, post_load
+
+from server.models.common import BaseSchema, default_text, jsonnamedlist
 
 
 class LocalLandChargeItemSchema(BaseSchema):
     """Local Land Charge schema object."""
+
     geometry = fields.Dict()
     local_land_charge = fields.Int()
     registration_date = fields.Date()
@@ -34,10 +36,7 @@ class LocalLandChargeItemSchema(BaseSchema):
     # For charges don't serialize null fields (but do serialize booleans)
     @post_dump
     def postdump_process(self, data, **kwargs):
-        return {
-            key.replace('_', '-'): value for key, value in data.items()
-            if value or isinstance(value, bool)
-        }
+        return {key.replace("_", "-"): value for key, value in data.items() if value or isinstance(value, bool)}
 
     # Create LLC object
     @post_load
@@ -91,20 +90,20 @@ def local_land_charge_named_list(schema, name, members, **kwargs):
     def format_charge_address_for_display(self):
         if self.charge_address:
             address = []
-            if 'line-1' in self.charge_address and self.charge_address['line-1']:
-                address.append(self.charge_address['line-1'])
-            if 'line-2' in self.charge_address and self.charge_address['line-2']:
-                address.append(self.charge_address['line-2'])
-            if 'line-3' in self.charge_address and self.charge_address['line-3']:
-                address.append(self.charge_address['line-3'])
-            if 'line-4' in self.charge_address and self.charge_address['line-4']:
-                address.append(self.charge_address['line-4'])
-            if 'line-5' in self.charge_address and self.charge_address['line-5']:
-                address.append(self.charge_address['line-5'])
-            if 'line-6' in self.charge_address and self.charge_address['line-6']:
-                address.append(self.charge_address['line-6'])
-            if 'postcode' in self.charge_address and self.charge_address['postcode']:
-                address.append(self.charge_address['postcode'])
+            if "line-1" in self.charge_address and self.charge_address["line-1"]:
+                address.append(self.charge_address["line-1"])
+            if "line-2" in self.charge_address and self.charge_address["line-2"]:
+                address.append(self.charge_address["line-2"])
+            if "line-3" in self.charge_address and self.charge_address["line-3"]:
+                address.append(self.charge_address["line-3"])
+            if "line-4" in self.charge_address and self.charge_address["line-4"]:
+                address.append(self.charge_address["line-4"])
+            if "line-5" in self.charge_address and self.charge_address["line-5"]:
+                address.append(self.charge_address["line-5"])
+            if "line-6" in self.charge_address and self.charge_address["line-6"]:
+                address.append(self.charge_address["line-6"])
+            if "postcode" in self.charge_address and self.charge_address["postcode"]:
+                address.append(self.charge_address["postcode"])
 
             return address
 
@@ -131,34 +130,34 @@ def financial_named_list(schema, name, members, **kwargs):
 def format_applicants_for_display(self):
     display_applicants = []
     if not self.applicants:
-        return {"applicant_name": default_text, 'applicant_address': []}
+        return {"applicant_name": default_text, "applicant_address": []}
     for applicant in self.applicants:
         display_applicant = {}
-        if applicant['applicant-name']:
-            display_applicant['applicant_name'] = applicant['applicant-name']
+        if applicant["applicant-name"]:
+            display_applicant["applicant_name"] = applicant["applicant-name"]
         else:
-            display_applicant['applicant_name'] = default_text
-        if applicant['applicant-address']:
+            display_applicant["applicant_name"] = default_text
+        if applicant["applicant-address"]:
             address = []
-            if 'line-1' in applicant['applicant-address'] and applicant['applicant-address']['line-1']:
-                address.append(applicant['applicant-address']['line-1'])
-            if 'line-2' in applicant['applicant-address'] and applicant['applicant-address']['line-2']:
-                address.append(applicant['applicant-address']['line-2'])
-            if 'line-3' in applicant['applicant-address'] and applicant['applicant-address']['line-3']:
-                address.append(applicant['applicant-address']['line-3'])
-            if 'line-4' in applicant['applicant-address'] and applicant['applicant-address']['line-4']:
-                address.append(applicant['applicant-address']['line-4'])
-            if 'line-5' in applicant['applicant-address'] and applicant['applicant-address']['line-5']:
-                address.append(applicant['applicant-address']['line-5'])
-            if 'line-6' in applicant['applicant-address'] and applicant['applicant-address']['line-6']:
-                address.append(applicant['applicant-address']['line-6'])
-            if 'postcode' in applicant['applicant-address'] and applicant['applicant-address']['postcode']:
-                address.append(applicant['applicant-address']['postcode'])
-            if 'country' in applicant['applicant-address'] and applicant['applicant-address']['country']:
-                address.append(applicant['applicant-address']['country'])
-            display_applicant['applicant_address'] = address
+            if "line-1" in applicant["applicant-address"] and applicant["applicant-address"]["line-1"]:
+                address.append(applicant["applicant-address"]["line-1"])
+            if "line-2" in applicant["applicant-address"] and applicant["applicant-address"]["line-2"]:
+                address.append(applicant["applicant-address"]["line-2"])
+            if "line-3" in applicant["applicant-address"] and applicant["applicant-address"]["line-3"]:
+                address.append(applicant["applicant-address"]["line-3"])
+            if "line-4" in applicant["applicant-address"] and applicant["applicant-address"]["line-4"]:
+                address.append(applicant["applicant-address"]["line-4"])
+            if "line-5" in applicant["applicant-address"] and applicant["applicant-address"]["line-5"]:
+                address.append(applicant["applicant-address"]["line-5"])
+            if "line-6" in applicant["applicant-address"] and applicant["applicant-address"]["line-6"]:
+                address.append(applicant["applicant-address"]["line-6"])
+            if "postcode" in applicant["applicant-address"] and applicant["applicant-address"]["postcode"]:
+                address.append(applicant["applicant-address"]["postcode"])
+            if "country" in applicant["applicant-address"] and applicant["applicant-address"]["country"]:
+                address.append(applicant["applicant-address"]["country"])
+            display_applicant["applicant_address"] = address
         else:
-            display_applicant['applicant_address'] = []
+            display_applicant["applicant_address"] = []
         display_applicants.append(display_applicant)
     return display_applicants
 
@@ -166,16 +165,16 @@ def format_applicants_for_display(self):
 def format_height_pos_for_display(self, key):
     pos_dim = self.structure_position_and_dimension
     if pos_dim:
-        if key == 'height':
-            if 'units' in pos_dim and 'height' in pos_dim:
-                return '{} {}'.format(pos_dim['height'], pos_dim['units'])
-            elif 'height' in pos_dim:
-                return pos_dim['height']
-        elif key == 'position':
-            if 'part-explanatory-text' in pos_dim:
-                return pos_dim['part-explanatory-text']
-            elif 'extent-covered' in pos_dim:
-                return pos_dim['extent-covered']
+        if key == "height":
+            if "units" in pos_dim and "height" in pos_dim:
+                return "{} {}".format(pos_dim["height"], pos_dim["units"])
+            elif "height" in pos_dim:
+                return pos_dim["height"]
+        elif key == "position":
+            if "part-explanatory-text" in pos_dim:
+                return pos_dim["part-explanatory-text"]
+            elif "extent-covered" in pos_dim:
+                return pos_dim["extent-covered"]
 
     return default_text
 
@@ -198,7 +197,8 @@ local_land_charge_item_class = local_land_charge_named_list(
     charge_address, instrument, statutory_provision, further_information_location, \
     further_information_reference, expiry_date, supplementary_information, start_date, \
     end_date, author, originating_authority, unique_property_reference_numbers, adjoining, bulk_update_reason",
-    default=None)
+    default=None,
+)
 
 
 class LocalLandChargeItem(local_land_charge_item_class):
@@ -215,7 +215,9 @@ land_compensation_item_class = local_land_charge_named_list(
     further_information_reference, expiry_date, supplementary_information, start_date, \
     end_date, author, originating_authority, unique_property_reference_numbers, \
     land_works_particulars, land_sold_description, land_compensation_amount_type, land_capacity_description, \
-    land_compensation_paid, amount_of_compensation, adjoining, bulk_update_reason", default=None)
+    land_compensation_paid, amount_of_compensation, adjoining, bulk_update_reason",
+    default=None,
+)
 
 
 class LandCompensationItem(land_compensation_item_class):
@@ -233,7 +235,9 @@ light_obstruction_notice_item_class = light_obstruction_notice_named_list(
     end_date, author, originating_authority, unique_property_reference_numbers, applicants, \
     servient_land_interest_description, structure_position_and_dimension, \
     tribunal_definitive_certificate_date, documents_filed, tribunal_temporary_certificate_date, \
-    tribunal_temporary_certificate_expiry_date, adjoining, bulk_update_reason", default=None)
+    tribunal_temporary_certificate_expiry_date, adjoining, bulk_update_reason",
+    default=None,
+)
 
 
 class LightObstructionNoticeItem(light_obstruction_notice_item_class):
@@ -249,7 +253,9 @@ financial_item_class = financial_named_list(
     charge_address, instrument, statutory_provision, further_information_location, \
     further_information_reference, expiry_date, supplementary_information, start_date, \
     end_date, author, unique_property_reference_numbers, originating_authority, amount_originally_secured, \
-    rate_of_interest, adjoining, bulk_update_reason", default=None)
+    rate_of_interest, adjoining, bulk_update_reason",
+    default=None,
+)
 
 
 class FinancialItem(financial_item_class):

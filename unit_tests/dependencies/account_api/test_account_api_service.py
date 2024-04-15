@@ -1,10 +1,12 @@
-from landregistry.exceptions import ApplicationError
 import base64
 import json
-from unittest.mock import MagicMock
 import urllib
-from flask import current_app, g, session
 from unittest import TestCase
+from unittest.mock import MagicMock
+
+from flask import current_app, g, session
+from landregistry.exceptions import ApplicationError
+
 from server import main
 from server.dependencies.account_api.account_api_service import AccountApiService
 from unit_tests.utilities_tests import super_test_context
@@ -34,8 +36,12 @@ class TestAccountApiService(TestCase):
             account_service = AccountApiService(mock_current_app)
             register_response = account_service.register(first_name, surname, email, password)
 
-            expected_request_body = {"first_name": first_name, "surname": surname, "email": email,
-                                     'password': password}
+            expected_request_body = {
+                "first_name": first_name,
+                "surname": surname,
+                "email": email,
+                "password": password,
+            }
 
             g.requests.post.assert_called_with(url + "/users", json=expected_request_body)
             response.json.assert_called()
@@ -59,12 +65,19 @@ class TestAccountApiService(TestCase):
             account_service = AccountApiService(mock_current_app)
             register_response = account_service.register(first_name, surname, email, password)
 
-            expected_request_body = {"first_name": first_name, "surname": surname, "email": email,
-                                     'password': password}
+            expected_request_body = {
+                "first_name": first_name,
+                "surname": surname,
+                "email": email,
+                "password": password,
+            }
 
             g.requests.post.assert_called_with(url + "/users", json=expected_request_body)
             self.assertEqual(register_response.get("status"), response.status_code)
-            self.assertEqual(register_response.get("message"), "Account already exists for this email address")
+            self.assertEqual(
+                register_response.get("message"),
+                "Account already exists for this email address",
+            )
 
     def test_register_fail(self):
         with super_test_context(main.app):
@@ -98,9 +111,20 @@ class TestAccountApiService(TestCase):
             account_api_service.set_password(mock_token, mock_user_id, mock_password)
 
             g.requests.patch.assert_called_with(
-                "{}/users/{}".format(current_app.config["ACCOUNT_API_URL"], urllib.parse.quote_plus(mock_user_id)),
-                data=json.dumps({"password": mock_password, "status": current_app.config["NEW_USER_STATUS"]}),
-                headers={"Content-Type": "application/merge-patch+json", "X-reset-token": mock_token},
+                "{}/users/{}".format(
+                    current_app.config["ACCOUNT_API_URL"],
+                    urllib.parse.quote_plus(mock_user_id),
+                ),
+                data=json.dumps(
+                    {
+                        "password": mock_password,
+                        "status": current_app.config["NEW_USER_STATUS"],
+                    }
+                ),
+                headers={
+                    "Content-Type": "application/merge-patch+json",
+                    "X-reset-token": mock_token,
+                },
             )
 
     def test_change_password(self):
@@ -116,7 +140,10 @@ class TestAccountApiService(TestCase):
             account_api_service.change_password(mock_password)
 
             g.requests.patch.assert_called_with(
-                "{}/users/{}".format(current_app.config["ACCOUNT_API_URL"], urllib.parse.quote_plus(mock_user_id)),
+                "{}/users/{}".format(
+                    current_app.config["ACCOUNT_API_URL"],
+                    urllib.parse.quote_plus(mock_user_id),
+                ),
                 data=json.dumps({"password": mock_password}),
                 headers={"Content-Type": "application/merge-patch+json"},
             )
@@ -132,7 +159,10 @@ class TestAccountApiService(TestCase):
             account_api_service.change_name("first", "last")
 
             g.requests.patch.assert_called_with(
-                "{}/users/{}".format(current_app.config["ACCOUNT_API_URL"], urllib.parse.quote_plus(mock_user_id)),
+                "{}/users/{}".format(
+                    current_app.config["ACCOUNT_API_URL"],
+                    urllib.parse.quote_plus(mock_user_id),
+                ),
                 data=json.dumps({"first_name": "first", "surname": "last"}),
                 headers={"Content-Type": "application/merge-patch+json"},
             )
@@ -205,7 +235,11 @@ class TestAccountApiService(TestCase):
             g.requests.patch.assert_called_with(
                 f"{current_app.config['ACCOUNT_API_URL']}/users/auserid",
                 data='{"status": "Active"}',
-                headers={'Content-Type': 'application/merge-patch+json', 'X-reset-token': 'atoken'})
+                headers={
+                    "Content-Type": "application/merge-patch+json",
+                    "X-reset-token": "atoken",
+                },
+            )
 
     def test_resend_email_ok(self):
         with super_test_context(main.app):
@@ -217,7 +251,8 @@ class TestAccountApiService(TestCase):
             self.assertEqual(result, mock_response)
             g.requests.post.assert_called_with(
                 f"{current_app.config['ACCOUNT_API_URL']}/users/resend-email",
-                json={"username": "anemail"})
+                json={"username": "anemail"},
+            )
 
     def test_resend_email_fail(self):
         with super_test_context(main.app):
@@ -229,7 +264,8 @@ class TestAccountApiService(TestCase):
             self.assertEqual(result, mock_response)
             g.requests.post.assert_called_with(
                 f"{current_app.config['ACCOUNT_API_URL']}/users/resend-email",
-                json={"username": "anemail"})
+                json={"username": "anemail"},
+            )
             current_app.logger.error.assert_called()
 
 

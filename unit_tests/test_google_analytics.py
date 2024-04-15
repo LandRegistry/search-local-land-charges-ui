@@ -4,12 +4,12 @@ import re
 import unittest
 from unittest import mock
 
-from flask import render_template, g
+from flask import g, render_template
 from flask_wtf import FlaskForm
 from govuk_frontend_wtf.wtforms_widgets import GovTextInput
+from werkzeug.http import dump_cookie
 from wtforms.fields import StringField
 from wtforms.validators import InputRequired
-from werkzeug.http import dump_cookie
 
 from server.custom_extensions.google_analytics.main import build_form_errors
 from server.main import app
@@ -32,11 +32,11 @@ class TestGoogleAnalytics(unittest.TestCase):
         app.config["WTF_CSRF_ENABLED"] = True
 
     def render_form(self):
-        cookie = dump_cookie("cookies_policy", base64.b64encode('{"analytics": "yes"}'.encode()))
-        ctx = app.test_request_context("/", headers={'Cookie': cookie})
+        cookie = dump_cookie("cookies_policy", base64.b64encode('{"analytics": "yes"}'.encode()).decode())
+        ctx = app.test_request_context("/", headers={"Cookie": cookie})
         ctx.push()
         ctx.request.cookies
-        g.locale = 'en'
+        g.locale = "en"
 
         form = ExampleForm()
         form.validate()
@@ -46,7 +46,7 @@ class TestGoogleAnalytics(unittest.TestCase):
         return html
 
     def test_raised_form_errors_appear_in_script_block(self):
-        with mock.patch('server.custom_extensions.google_analytics.main.config') as mock_config:
+        with mock.patch("server.custom_extensions.google_analytics.main.config") as mock_config:
             mock_config.GOOGLE_ANALYTICS_KEY = "123"
             html = self.render_form()
 
@@ -72,7 +72,7 @@ class TestGoogleAnalytics(unittest.TestCase):
     def test_raised_form_errors_dont_appear_in_script_block_when_analytics_disabled(
         self,
     ):
-        with mock.patch('server.custom_extensions.google_analytics.main.config') as mock_config:
+        with mock.patch("server.custom_extensions.google_analytics.main.config") as mock_config:
             mock_config.GOOGLE_ANALYTICS_KEY = False
             html = self.render_form()
 
@@ -83,7 +83,7 @@ class TestGoogleAnalytics(unittest.TestCase):
         )
 
     def test_google_analytics_snippet_present(self):
-        with mock.patch('server.custom_extensions.google_analytics.main.config') as mock_config:
+        with mock.patch("server.custom_extensions.google_analytics.main.config") as mock_config:
             mock_config.GOOGLE_ANALYTICS_KEY = "123"
             html = self.render_form()
 
@@ -92,7 +92,7 @@ class TestGoogleAnalytics(unittest.TestCase):
         self.assertIn("window.dataLayer = window.dataLayer || [];", html)
 
     def test_google_analytics_snippet_absent_when_no_key_specified(self):
-        with mock.patch('server.custom_extensions.google_analytics.main.config') as mock_config:
+        with mock.patch("server.custom_extensions.google_analytics.main.config") as mock_config:
             mock_config.GOOGLE_ANALYTICS_KEY = False
             html = self.render_form()
 

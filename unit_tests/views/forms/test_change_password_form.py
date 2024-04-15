@@ -1,8 +1,15 @@
 from unittest import TestCase
+
+from server.main import app
 from server.views.forms.change_password_form import ChangePasswordForm
 
 
 class TestChangePasswordForm(TestCase):
+    def setUp(self):
+        app.config["Testing"] = True
+        app.config["WTF_CSRF_ENABLED"] = False
+        app.testing = True
+
     def test_change_password_form_invalid_short(self):
         form = ChangePasswordForm()
         form.current_password.data = "Blah"
@@ -14,8 +21,13 @@ class TestChangePasswordForm(TestCase):
 
         self.assertFalse(form.validate())
         self.assertEqual(
-            form.errors, {'new_passwords': {'confirm_new_password': ['Enter a password in the correct format'],
-                          'new_password': ['Enter a password in the correct format']}}
+            form.errors,
+            {
+                "new_passwords": {
+                    "confirm_new_password": ["Enter a password in the correct format"],
+                    "new_password": ["Enter a password in the correct format"],
+                }
+            },
         )
 
     def test_change_password_form_invalid_all_lower(self):
@@ -29,8 +41,13 @@ class TestChangePasswordForm(TestCase):
 
         self.assertFalse(form.validate())
         self.assertEqual(
-            form.errors, {'new_passwords': {'confirm_new_password': ['Enter a password in the correct format'],
-                          'new_password': ['Enter a password in the correct format']}}
+            form.errors,
+            {
+                "new_passwords": {
+                    "confirm_new_password": ["Enter a password in the correct format"],
+                    "new_password": ["Enter a password in the correct format"],
+                }
+            },
         )
 
     def test_change_password_form_invalid_no_num(self):
@@ -44,8 +61,13 @@ class TestChangePasswordForm(TestCase):
 
         self.assertFalse(form.validate())
         self.assertEqual(
-            form.errors, {'new_passwords': {'confirm_new_password': ['Enter a password in the correct format'],
-                          'new_password': ['Enter a password in the correct format']}}
+            form.errors,
+            {
+                "new_passwords": {
+                    "confirm_new_password": ["Enter a password in the correct format"],
+                    "new_password": ["Enter a password in the correct format"],
+                }
+            },
         )
 
     def test_change_password_form_invalid_no_punc(self):
@@ -59,8 +81,13 @@ class TestChangePasswordForm(TestCase):
 
         self.assertFalse(form.validate())
         self.assertEqual(
-            form.errors, {'new_passwords': {'confirm_new_password': ['Enter a password in the correct format'],
-                          'new_password': ['Enter a password in the correct format']}}
+            form.errors,
+            {
+                "new_passwords": {
+                    "confirm_new_password": ["Enter a password in the correct format"],
+                    "new_password": ["Enter a password in the correct format"],
+                }
+            },
         )
 
     def test_change_password_form_valid(self):

@@ -1,0 +1,72 @@
+{% extends 'base-templates/base.html' %}
+
+{% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
+{% from "govuk_frontend_jinja/components/select/macro.html" import govukSelect %}
+
+{% block title %}{{ _('Removed statutory provisions') }}{% endblock %}
+
+{% block inner_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-xl">{{ _('Removed statutory provisions') }}</h1>
+    <p class="govuk-body">
+      {{ _("Check which statutory provisions have been removed.") }}
+    </p>
+    <p class="govuk-body">
+      <a href="{{ url_for('categories_stat_provs.get_page_stat_prov') }}" class="govuk-link">{{ _("View current statutory provisions") }}</a>
+    </p>
+    {% set stat_prov_rows = [] %}
+    {% for stat_prov in stat_provs_list %}
+      {% if "last_updated" in stat_prov %}
+        {% set last_updated = format_timestamp(stat_prov['last_updated'], true) %}
+      {% else %}
+        {% set last_updated = "" %}
+      {% endif %}
+      {% do stat_prov_rows.append([{"text": stat_prov['title']},
+                                   {"text": last_updated, "classes": "nowrap-whitespace"},
+                                   {"html": "<br><br>".join(stat_prov['previous_titles'])}]) %}
+    {% endfor %}
+    {% set select_items = [] %}
+    <div class="language-switcher">
+      <form id="sort_stat_provs_form" method="get">
+        {{ govukSelect({
+          "id": "sort_stat_provs",
+          "name": "sort_stat_provs",
+          "label": {
+            "text": _("Sort by")
+          },
+          "items": [
+            {
+              "value": "title",
+              "text": "A to Z",
+              "selected": request.args.get("sort_stat_provs", "title") == 'title'
+            },
+            {
+              "value": "date_removed",
+              "text": "Date",
+              "selected": request.args.get("sort_stat_provs", "title") == 'date_removed'
+            }
+          ]
+        }) }}
+      </form>
+    </div>
+    {{ govukTable({
+        "caption": _("Removed statutory provisions with date removed (if available)"),
+        "captionClasses": "govuk-table__caption--l govuk-!-padding-bottom-9",
+        "firstCellIsHeader": true,
+        "head": [
+          {
+            "text": _("Removed statutory provisions")
+          },
+          {
+            "text": _("Date removed")
+          },
+          {
+            "text": _("Previous name")
+          }
+        ],
+        "rows": stat_prov_rows
+      }) }}
+  </div>
+</div>
+{% endblock %}

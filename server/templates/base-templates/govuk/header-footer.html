@@ -18,7 +18,8 @@
           'href': url_for('auth.logout'),
           'text': _("Sign out")
         }
-      ]
+      ],
+      'useTudorCrown': true
     }) }}
   {% else %}
     {{ govukHeader({
@@ -34,7 +35,8 @@
           'href': url_for('account_admin.register'),
           'text': _("Register")
         }
-      ]
+      ],
+      'useTudorCrown': true
     }) }}
   {% endif %}
 {% endblock %}

@@ -40,12 +40,7 @@ class ApiClient:
         Raises:
             ApplicationError -- When there is an error receiving a response from the underlaying requests library.
         """
-        current_app.logger.info(
-            "Making {} request to URL: {}".format(
-                http_method.upper(),
-                url
-            )
-        )
+        current_app.logger.info("Making {} request to URL: {}".format(http_method.upper(), url))
 
         try:
             req = g.requests.request(http_method.lower(), url, *args, **kwargs)

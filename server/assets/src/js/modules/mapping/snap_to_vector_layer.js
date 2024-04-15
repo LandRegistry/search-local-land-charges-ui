@@ -24,7 +24,7 @@ SNAP_TO_VECTOR_LAYER.layer = new LayerVector({
     source: vectorSourceLines,
     style: new Style({
         stroke: new Stroke({
-            color: 'rgba(0, 0, 255, 0)',
+            color: 'rgba(255, 0, 0, 0)',
             width: 1
         })
     })
@@ -35,6 +35,7 @@ SNAP_TO_VECTOR_LAYER.enabled = false
 SNAP_TO_VECTOR_LAYER.enable = function() {
     if (!SNAP_TO_VECTOR_LAYER.enabled) {
         map.addLayer(SNAP_TO_VECTOR_LAYER.layer);
+        map.addInteraction(SNAP_TO_VECTOR_LAYER.interaction);
         SNAP_TO_VECTOR_LAYER.enabled = true;
     }
 };
@@ -42,6 +43,7 @@ SNAP_TO_VECTOR_LAYER.enable = function() {
 SNAP_TO_VECTOR_LAYER.disable = function() {
     if(SNAP_TO_VECTOR_LAYER.enabled){
         map.removeLayer(SNAP_TO_VECTOR_LAYER.layer);
+        map.removeInteraction(SNAP_TO_VECTOR_LAYER.interaction);
         SNAP_TO_VECTOR_LAYER.enabled = false
     }
 };

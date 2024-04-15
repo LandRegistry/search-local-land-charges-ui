@@ -1,0 +1,18 @@
+{% macro hmrcUserResearchBanner(params) %}
+    <div class="hmrc-user-research-banner" data-module="hmrc-user-research-banner">
+        <div class="hmrc-user-research-banner__container govuk-width-container">
+            <div class="hmrc-user-research-banner__text">
+                <p class="govuk-heading-s hmrc-user-research-banner__title">
+                    {{ params.titleHtml | safe | trim if params.titleHtml else params.titleText }}
+                </p>
+                {% if params.html %}
+                    {{ params.html | safe }}
+                {% else %}
+                    <a class="govuk-link hmrc-user-research-banner__link" rel="noopener noreferrer" href="{{ params.url }}" target="_blank">
+                        {{ params.text }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endmacro %}

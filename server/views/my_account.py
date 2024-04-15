@@ -1,6 +1,21 @@
-from datetime import datetime
 import re
-from flask import flash, redirect, render_template, current_app, Blueprint, request, session, url_for
+from datetime import datetime
+
+from cryptography.fernet import Fernet
+from dateutil.relativedelta import relativedelta
+from flask import (
+    Blueprint,
+    current_app,
+    flash,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
+from flask_babel import lazy_gettext as _
+from landregistry.exceptions import ApplicationError
+
 from server.dependencies.account_api.account_api_service import AccountApiService
 from server.dependencies.audit_api.audit_api_service import AuditAPIService
 from server.dependencies.authentication_api import AuthenticationApi
@@ -16,10 +31,6 @@ from server.services.search_utilities import calculate_pagination_info
 from server.views.auth import authenticated
 from server.views.forms.change_details_form import ChangeDetailsForm
 from server.views.forms.change_password_form import ChangePasswordForm
-from landregistry.exceptions import ApplicationError
-from flask_babel import lazy_gettext as _
-from dateutil.relativedelta import relativedelta
-from cryptography.fernet import Fernet
 from server.views.forms.search_free_searches_form import SearchFreeSearchesForm
 from server.views.forms.search_searches_form import SearchSearchesForm
 from server.views.search import search_by_area
@@ -53,7 +64,8 @@ def change_details():
     current_app.logger.info("Change details page")
 
     form = ChangeDetailsForm(
-        first_name=session["jwt_payload"].principle.first_name, last_name=session["jwt_payload"].principle.surname
+        first_name=session["jwt_payload"].principle.first_name,
+        last_name=session["jwt_payload"].principle.surname,
     )
 
     if form.validate_on_submit():
@@ -66,12 +78,16 @@ def change_details():
             raise ApplicationError("Failed to change details", "ACCHNG01", 500)
         else:
             AuditAPIService.audit_event(
-                "Account details changed", origin_id=session["jwt_payload"].principle.principle_id
+                "Account details changed",
+                origin_id=session["jwt_payload"].principle.principle_id,
             )
             # Change name in session so seen immediately
             session["jwt_payload"].principle.first_name = form.first_name.data.strip()
             session["jwt_payload"].principle.surname = form.last_name.data.strip()
-            flash(_("Your account details have been successfully changed"), category="success")
+            flash(
+                _("Your account details have been successfully changed"),
+                category="success",
+            )
 
             return redirect(url_for("my_account.my_account_page"))
 
@@ -201,7 +217,10 @@ def view_search(search_id):
 
     if session.get("paid_searches", None) is None:
         session["paid_searches"] = {}
-    session["paid_searches"][enc_search_id] = {"paid_search_item": paid_search, "search_state": search_state}
+    session["paid_searches"][enc_search_id] = {
+        "paid_search_item": paid_search,
+        "search_state": search_state,
+    }
     session.modified = True
 
     return redirect(url_for("paid_search.get_paid_search", enc_search_id=enc_search_id))
@@ -273,8 +292,12 @@ def repeat_search(search_id):
     search_llc_service = SearchLocalLandChargeService(current_app.config)
     parent_search = search_llc_service.get_paid_search_item(session["profile"]["user_id"], search_id)
 
-    if parent_search.lapsed_date:
-        raise ApplicationError(f"Cannot repeat search with id: {search_id} because it has lapsed.", "SRHLPD01", 500)
+    if parent_search.lapsed_date and not parent_search.request_repeat:
+        raise ApplicationError(
+            f"Cannot repeat search with id: {search_id} because it has lapsed.",
+            "SRHLPD01",
+            500,
+        )
 
     current_app.logger.info("Checking refund status of search id {} for repeat".format(search_id))
 
@@ -286,10 +309,12 @@ def repeat_search(search_id):
         # is refunded so show results page
         current_app.logger.warning(f"Cannot repeat search with id: {search_id} because it has been refunded")
         messages = [
-            _('You cannot request a repeat on this search as it has been refunded to you.'),
-            _('You can request and download another official search result.'),
-            _('Official search results are &pound;%(search_fee)s.',
-                search_fee="{:.2f}".format(int(current_app.config['SEARCH_FEE_IN_PENCE']) / 100))
+            _("You cannot request a repeat on this search as it has been refunded to you."),
+            _("You can request and download another official search result."),
+            _(
+                "Official search results are &pound;%(search_fee)s.",
+                search_fee="{:.2f}".format(int(current_app.config["SEARCH_FEE_IN_PENCE"]) / 100),
+            ),
         ]
         flash("<br>".join([str(message) for message in messages]))
 
@@ -322,14 +347,27 @@ def repeat_search(search_id):
 
     session["paid_searches"][enc_search_id] = {
         "payment_state": PaymentState(
-            parent_search.payment_id, parent_search.search_area_description, {}, "N/A", 0, None, None
+            parent_search.payment_id,
+            parent_search.search_area_description,
+            {},
+            "N/A",
+            0,
+            None,
+            None,
         ),
         "search_state": SearchState(
-            parent_search.search_extent, charges, parent_search.search_area_description, parent_search.search_id, None
+            parent_search.search_extent,
+            charges,
+            parent_search.search_area_description,
+            parent_search.search_id,
+            None,
         ),
     }
 
     AuditAPIService.audit_event("Repeated search", supporting_info={"search_id": parent_search.search_id})
+
+    # remove the flag for repeating the search, in case it exists. If not, will not cause issues
+    search_llc_service.remove_paid_search_repeat_request(search_id)
 
     current_app.logger.info("redirecting to paid search summary page")
 
@@ -340,10 +378,12 @@ def repeat_search(search_id):
 @authenticated
 def paid_search_review(search_id):
     search_llc_service = SearchLocalLandChargeService(current_app.config)
-    paid_search = search_llc_service.get_paid_search_item(session['profile']['user_id'], search_id)
+    paid_search = search_llc_service.get_paid_search_item(session["profile"]["user_id"], search_id)
 
-    AuditAPIService.audit_event("Free search Performed via Review and Pay lapsed search",
-                                supporting_info={'search_id': paid_search.search_id})
+    AuditAPIService.audit_event(
+        "Free search Performed via Review and Pay lapsed search",
+        supporting_info={"search_id": paid_search.search_id},
+    )
 
     return search_by_area(paid_search.search_extent, paid_search.search_area_description)
 
@@ -385,13 +425,13 @@ def free_searches():
     search_llc_service = SearchLocalLandChargeService(current_app.config)
 
     if form.validate_on_submit():
-
-        search = search_llc_service.get_free_search_for_user_by_search_id(session['profile']['user_id'],
-                                                                          form.search_term.data.strip())
+        search = search_llc_service.get_free_search_for_user_by_search_id(
+            session["profile"]["user_id"], form.search_term.data.strip()
+        )
         if not search:
-            form.search_term.errors.append(_('You have entered an invalid Search ID. Check it and try again'))
+            form.search_term.errors.append(_("You have entered an invalid Search ID. Check it and try again"))
         else:
-            search[0]['formatted_date'] = format_date(datetime.fromisoformat(search[0]['search-date']))
+            search[0]["formatted_date"] = format_date(datetime.fromisoformat(search[0]["search-date"]))
             return render_template(
                 "free-searches.html",
                 searches=search,
@@ -399,31 +439,124 @@ def free_searches():
                 start_index=0,
                 pagination_info=None,
                 result_count=1,
-                form=form)
+                form=form,
+            )
 
-    free_search_results = search_llc_service.get_free_search_items(session['profile']['user_id'],
-                                                                   SEARCHES_PER_PAGE, display_page)
+    free_search_results = search_llc_service.get_free_search_items(
+        session["profile"]["user_id"], SEARCHES_PER_PAGE, display_page
+    )
 
     display_searches, pagination_info, start_index = calculate_pagination_info(
         None,
         "my_account.free_searches",
         SEARCHES_PER_PAGE,
         display_page,
-        no_of_pages=free_search_results['pages'],
-        no_of_items=free_search_results['total']
+        no_of_pages=free_search_results["pages"],
+        no_of_items=free_search_results["total"],
     )
 
-    for search in free_search_results['items']:
-        search['formatted_date'] = format_date(datetime.fromisoformat(search['search-date']))
+    for search in free_search_results["items"]:
+        search["formatted_date"] = format_date(datetime.fromisoformat(search["search-date"]))
 
     return render_template(
         "free-searches.html",
-        searches=free_search_results['items'],
-        show_pagination=free_search_results['total'] > SEARCHES_PER_PAGE,
+        searches=free_search_results["items"],
+        show_pagination=free_search_results["total"] > SEARCHES_PER_PAGE,
         start_index=start_index,
         pagination_info=pagination_info,
-        result_count=free_search_results['total'],
-        form=form
+        result_count=free_search_results["total"],
+        form=form,
+    )
+
+
+@my_account.route("/account/searches-to-repeat", methods=["GET"])
+@authenticated
+def searches_to_repeat_top():
+    current_app.logger.info("Searches to repeat top page")
+
+    search_llc_service = SearchLocalLandChargeService(current_app.config)
+
+    free_search_results = search_llc_service.get_free_search_items_to_repeat(
+        session["profile"]["user_id"], SEARCHES_PER_PAGE, 1
+    )
+    paid_search_results = search_llc_service.get_paid_search_items_to_repeat(
+        session["profile"]["user_id"], SEARCHES_PER_PAGE, 1
+    )
+
+    return render_template(
+        "searches-to-repeat.html",
+        free_searches_count=free_search_results["total"],
+        paid_searches_count=paid_search_results["total"],
+    )
+
+
+@my_account.route("/account/paid-searches-to-repeat", methods=["GET"])
+@authenticated
+def paid_searches_to_repeat():
+    current_app.logger.info("Paid searches to repeat page")
+
+    display_page = request.args.get("page", 1, type=int)
+
+    search_llc_service = SearchLocalLandChargeService(current_app.config)
+
+    paid_search_results = search_llc_service.get_paid_search_items_to_repeat(
+        session["profile"]["user_id"], SEARCHES_PER_PAGE, display_page
+    )
+
+    display_searches, pagination_info, start_index = calculate_pagination_info(
+        None,
+        "my_account.paid_searches_to_repeat",
+        SEARCHES_PER_PAGE,
+        display_page,
+        no_of_pages=paid_search_results["pages"],
+        no_of_items=paid_search_results["total"],
+    )
+
+    for search in paid_search_results["items"]:
+        search["formatted_date"] = format_date(datetime.fromisoformat(search["search-date"]))
+
+    return render_template(
+        "paid-searches-to-repeat.html",
+        searches=paid_search_results["items"],
+        show_pagination=paid_search_results["total"] > SEARCHES_PER_PAGE,
+        start_index=start_index,
+        pagination_info=pagination_info,
+        result_count=paid_search_results["total"],
+    )
+
+
+@my_account.route("/account/free-searches-to-repeat", methods=["GET"])
+@authenticated
+def free_searches_to_repeat():
+    current_app.logger.info("Free searches to repeat page")
+
+    display_page = request.args.get("page", 1, type=int)
+
+    search_llc_service = SearchLocalLandChargeService(current_app.config)
+
+    free_search_results = search_llc_service.get_free_search_items_to_repeat(
+        session["profile"]["user_id"], SEARCHES_PER_PAGE, display_page
+    )
+
+    display_searches, pagination_info, start_index = calculate_pagination_info(
+        None,
+        "my_account.free_searches_to_repeat",
+        SEARCHES_PER_PAGE,
+        display_page,
+        no_of_pages=free_search_results["pages"],
+        no_of_items=free_search_results["total"],
+    )
+
+    for search in free_search_results["items"]:
+        search["formatted_date"] = format_date(datetime.fromisoformat(search["search-date"]))
+
+    return render_template(
+        "free-searches-to-repeat.html",
+        searches=free_search_results["items"],
+        show_pagination=free_search_results["total"] > SEARCHES_PER_PAGE,
+        start_index=start_index,
+        pagination_info=pagination_info,
+        result_count=free_search_results["total"],
     )
 
 
@@ -431,12 +564,17 @@ def free_searches():
 @authenticated
 def free_search_review(search_id):
     search_llc_service = SearchLocalLandChargeService(current_app.config)
-    search = search_llc_service.get_free_search_for_user_by_search_id(session['profile']['user_id'], search_id)
+    search = search_llc_service.get_free_search_for_user_by_search_id(session["profile"]["user_id"], search_id)
 
     if not search:
         raise ApplicationError("Free search not found", "FSNF01", 404)
 
-    AuditAPIService.audit_event("Free Search Performed via free searches page",
-                                supporting_info={'search_id': search_id})
+    AuditAPIService.audit_event(
+        "Free Search Performed via free searches page",
+        supporting_info={"search_id": search_id},
+    )
 
-    return search_by_area(search[0]['search-extent'], search[0]['address'])
+    # remove the flag for repeating the search, in case it exists. If not, will not cause issues
+    search_llc_service.remove_free_search_repeat_request(search_id)
+
+    return search_by_area(search[0]["search-extent"], search[0]["address"])

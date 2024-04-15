@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 function sendPageviewOnSubmit(submitButtonId) {
     document.getElementById(submitButtonId).disabled = true
     gtag('event', 'Continue button clicked', {'eventCategory': '/payment'})

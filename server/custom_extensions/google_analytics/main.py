@@ -13,16 +13,15 @@ class GoogleAnalytics(object):
             self.init_app(app)
 
     def init_app(self, app):
-
         app.config.setdefault("GOOGLE_ANALYTICS_KEY", False)
 
         @app.context_processor
         def inject_global_values():
             # Exclude GA key (and thus prevent GA running) if policy not set to yes
-            cookies_policy = request.cookies.get('cookies_policy')
+            cookies_policy = request.cookies.get("cookies_policy")
             if cookies_policy:
                 cookie_valid, cookie_json = check_valid_base64_json_cookie(cookies_policy)
-                if cookie_valid and cookie_json.get('analytics') == "yes":
+                if cookie_valid and cookie_json.get("analytics") == "yes":
                     return dict(google_analytics_key=config.GOOGLE_ANALYTICS_KEY)
                 else:
                     return dict(google_analytics_key=False)

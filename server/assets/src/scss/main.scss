@@ -9,7 +9,7 @@ $govuk-fonts-path: '../fonts/';
 
 // govuk-frontend
 // Feel free to be more selective than this - referring to the govuk-frontend source to include just what's needed
-@import 'govuk-frontend/govuk/all';
+@import 'node_modules/govuk-frontend/dist/govuk/all';
 
 // hmlr-design-system
 // Styles for the hmlr specific headers and footers
@@ -28,5 +28,4 @@ $govuk-fonts-path: '../fonts/';
 
 @import "ol/ol";
 @import "partials/map";
-@import "partials/draw-controls";
-@import "partials/map-attributions";
+@import "components/user-research-banner.scss";

@@ -1,12 +1,14 @@
-from marshmallow import Schema, pre_load, post_dump
-from dataclasses import make_dataclass, field
-from flask_babel import lazy_gettext as _
-from server.services.charge_id_utils import calc_display_id
-from server.services.datetime_formatter import format_date
 import re
 import typing
+from dataclasses import field, make_dataclass
 
-default_text = _('Not provided')
+from flask_babel import lazy_gettext as _
+from marshmallow import Schema, post_dump, pre_load
+
+from server.services.charge_id_utils import calc_display_id
+from server.services.datetime_formatter import format_date
+
+default_text = _("Not provided")
 
 
 class BaseSchema(Schema):
@@ -14,15 +16,11 @@ class BaseSchema(Schema):
 
     @pre_load
     def preload_process(self, data, **kwargs):
-        return {
-            key.replace('-', '_'): value for key, value in data.items()
-        }
+        return {key.replace("-", "_"): value for key, value in data.items()}
 
     @post_dump
     def postdump_process(self, data, **kwargs):
-        return {
-            key.replace('_', '-'): value for key, value in data.items()
-        }
+        return {key.replace("_", "-"): value for key, value in data.items()}
 
 
 def jsonnamedlist(schema, name, fields, **kwargs):
@@ -52,7 +50,7 @@ def jsonnamedlist(schema, name, fields, **kwargs):
     def format_date_for_screen_reader(self, date, default=default_text):
         date = getattr(self, date)
         if date:
-            return date.strftime('%d %B %Y %I %M %p')
+            return date.strftime("%d %B %Y %I %M %p")
         return default
 
     def format_money_field_for_display(self, field):
@@ -67,8 +65,13 @@ def jsonnamedlist(schema, name, fields, **kwargs):
             return calc_display_id(llc_id)
         return llc_id
 
-    obj = make_dataclass(name, [(field_name.strip(), typing.Any, field(default=kwargs['default']))
-                                for field_name in re.split(r"\s*,\s*", fields)])
+    obj = make_dataclass(
+        name,
+        [
+            (field_name.strip(), typing.Any, field(default=kwargs["default"]))
+            for field_name in re.split(r"\s*,\s*", fields)
+        ],
+    )
 
     obj.to_json = to_json
     obj.from_json = from_json

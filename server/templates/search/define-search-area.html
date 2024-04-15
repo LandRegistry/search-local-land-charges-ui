@@ -2,128 +2,216 @@
 
 {% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
 {% from "govuk_frontend_jinja/components/warning-text/macro.html" import govukWarningText %}
+{% from "govuk_frontend_jinja/components/radios/macro.html" import govukRadios %}
+{% from "govuk_frontend_jinja/components/button/macro.html" import govukButton %}
+{% from "govuk_frontend_jinja/components/checkboxes/macro.html" import govukCheckboxes %}
 
 {% set map_style = "address-search-results-map" %}
+{% set map_focus = true %}
 
 {% block title %}
     {% if style == 'find' %}
         {{ _('Find a search area by map') }}
     {% elif style == 'edit' %}
-        {{ _('Edit search area') }}
+        {{ _('Edit the search area') }}
     {% elif style == 'draw' %}
-        {{ _('Draw a search area') }}
+      {% if coordinate_search %}
+          {{ _('Check the location and add a search area') }}
+      {% else %}
+          {{ _('Add a search area') }}
+      {% endif %}
     {% endif %}
 {% endblock %}
 
 {% block inner_content %}
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-third">
+  <div class="govuk-grid-column-two-thirds">
     {% if style == 'find' %}
       <h1 class="govuk-heading-xl">
         {{ _('Find a search area by map') }}
       </h1>
       <p class="govuk-body">{{ _('To view a local land charge, you will need to identify a property or area of land. This is known as a search area.') }}</p>
-      {{ govukInsetText({
-        "text": _('Not all areas are available on our register yet. If you cannot find an area, contact your local authority for information about local land charges.')
-      }) }}
-      {% set add_area_html %}<span class="govuk-!-font-weight-bold">{{ _('‘Add area’') }}</span>{% endset %}
-      <p class="govuk-body">{{ _('To start drawing your search area, select %(add_area_html)s on the map. You can also edit and delete areas.', add_area_html=add_area_html) }}</p>
     {% elif style == 'edit' %}
       <h1 class="govuk-heading-xl">
-          {{ _('Edit search area') }}
+          {{ _('Edit the search area') }}
       </h1>
       {% if too_many_results %}
         {{ govukWarningText({
-            "text": _('Your search area has too many charges'),
+            "text": _('Your search area has too many charges for a single search.'),
             "iconFallbackText": "Warning"
           }) }}
-        <p class="govuk-body">{{ _('Use the map buttons to') }}:</p>
-        <ul class="govuk-list govuk-list--bullet">
-          <li>{{ _('edit your search area (make it smaller)') }}</li>
-          <li>{{ _('delete your search area and draw a new one') }}</li>
-        </ul>
-        <p class="govuk-body">
-          <a class="govuk-link" href="{{ url_for('search.too_many_results') }}">{{ _("Why can't I do this?") }}</a>
-        </p>
-      {% else %}
-        {% set edit_area_html %}<span class="govuk-!-font-weight-bold">{{ _('‘Edit area’') }}</span>{% endset %}
-          <p class="govuk-body">{{ _('Use the %(edit_area_html)s button to edit the search area for this address. You can also clear, add and delete areas drawn.', edit_area_html=edit_area_html) }}</p>
+        <p class="govuk-body">{{ _('You need to make your search area smaller to continue.') }}</p>
       {% endif %}
     {% elif style == 'draw' %}
-      <h1 class="govuk-heading-xl">
-        {{ _('Draw a search area') }}
-      </h1>
       {% if coordinate_search %}
-        {{ govukInsetText({
-          "text": _('The map shows the location of the search coordinates.')
-        }) }}
-      {% endif %}
-      <p class="govuk-body">{{ _('To continue, you will need to draw a search area on the map.') }}</p>
-      {% set add_area_html %}<span class="govuk-!-font-weight-bold">{{ _('‘Add area’') }}</span>{% endset %}
-      <p class="govuk-body">{{ _('Use %(add_area_html)s to draw a search area on the map. You can also edit and delete areas.', add_area_html=add_area_html) }}</p>
-    {% endif %}
-    <form method="post" action="{{ url_for('search.define_search_area', page_style=style) }}" id="define-search-area-form" novalidate>
-      {{ form.csrf_token }}
-      {{ form.saved_features(id="saved-features") }}
-      {% if coordinate_search %}
-        {{ form.submit(params={"text": _("Search this area"), "id": "searchButton"}) }}
+        <h1 class="govuk-heading-xl">
+          {{ _('Check the location and add a search area') }}
+        </h1>
+        <p class="govuk-body">{{ _('The marker on the map shows the location of your search coordinates. You need to add a search area to continue.') }}</p>
       {% else %}
-        {{ form.submit(params={"text": _("Confirm area"), "id": "searchButton"}) }}
+        <h1 class="govuk-heading-xl">
+          {{ _('Add a search area') }}
+        </h1>
+        <p class="govuk-body">{{ _('You need to add a search area on the map to continue.') }}</p>
       {% endif %}
-    </form>
-    <p class="govuk-body">
-      <a class="govuk-link" href="{{ url_for('main.map_help') }}" target="_blank">{{ _('Learn more about how to use this map (link opens in new tab)') }}</a>
-    </p>
-  </div>
-  <div class="govuk-grid-column-two-thirds">
-    <div class="map-key-row">
-      {% if maintenance and coordinate_search %}
-          {% set col_count = 5 %}
-      {% elif maintenance or coordinate_search %}
-          {% set col_count = 4 %}
-      {% else %}
-          {% set col_count = 3 %}
-      {% endif %}
-      <div class="map-key-column-{{ col_count }}">
-          <span class="govuk-body-s govuk-!-font-weight-bold">
-              {{ _('Map key') }}
-          </span>
-      </div>
-      <div class="map-key-column-{{ col_count }}">
-          <img class="map-key-image" src="{{ url_for('static', filename='images/mapping/information_available.png') }}" alt="{{ _('Location available key') }}" height="19" width="19">
-          <span class="govuk-body-xs">{{ _('Location available') }}</span> 
-      </div>
-
-      <div class="map-key-column-{{ col_count }}">
-          <img class="map-key-image" src="{{ url_for('static', filename='images/mapping/information_not_available.png') }}" alt="{{ _('Location not available key') }}" height="19" width="19">
-          <span class="govuk-body-xs">{{ _('Location not available') }}</span>
-      </div>
-   
-    {% if maintenance %}
-        <div class="map-key-column-{{ col_count }}">
-            <img class="map-key-image" src="{{ url_for('static', filename='images/mapping/information_maintenance.png') }}" alt="{{ _('Location temporarily not available key') }}" height="19" width="19">
-            <span class="govuk-body-xs">{{ _('Location temporarily not available') }}</span>
-        </div>
     {% endif %}
-
-    {% if coordinate_search %}
-        <div class="map-key-column-{{ col_count }}">
-            <img class="map-key-image" src="{{ url_for('static', filename='images/mapping/icon-locator.png') }}" alt="{{ _('Location of coordinates') }}" height="24" width="19">
-            <span class="govuk-body-xs">{{ _('Location of coordinates') }}</span>
-        </div>
-    {% endif %}
-    </div>
-    <div id="address-search-results-map" aria-label="{{ _('Image showing search extent') }}">
-      {% include "includes/map/map.html" %}
-    </div>
-    <p class="govuk-body-s">
-      {% set os_link_html %}<a class="govuk-link" href="{{ config.OS_TERMS_CONDITIONS_LINK | string() }}" target="_blank">{{ _('Ordnance Survey Licence Terms and Conditions') }} {{ _('(link opens in new tab)') }}</a>{% endset %}
-      {{ _('Use of address and mapping data (including the link between the address and its location) is subject to %(os_link_html)s.', os_link_html=os_link_html) }}
-    </p>
   </div>
 </div>
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-third">
+  <div class="map-sub-grid-container">
+    <div class="map-sub-grid-map govuk-grid-column-full">
+      <div id="address-search-results-map">
+        {% include "includes/map/map.html" %}
+      </div>
+      <div class="map-key-row">
+        {% if maintenance and coordinate_search %}
+            {% set col_count = 5 %}
+        {% elif maintenance or coordinate_search %}
+            {% set col_count = 4 %}
+        {% else %}
+            {% set col_count = 3 %}
+        {% endif %}
+        <div class="map-key-column-{{ col_count }}">
+            <span class="govuk-heading-s">
+                {{ _('Map key') }}
+            </span>
+        </div>
+        <div class="map-key-column-{{ col_count }}">
+            <img class="map-key-image" src="{{ url_for('static', filename='images/mapping/information_available.png') }}" alt="{{ _('Location available key') }}" height="19" width="19">
+            <span class="govuk-body-xs">{{ _('Location available') }}</span> 
+        </div>
+
+        <div class="map-key-column-{{ col_count }}">
+            <img class="map-key-image" src="{{ url_for('static', filename='images/mapping/information_not_available.png') }}" alt="{{ _('Location not available key') }}" height="19" width="19">
+            <span class="govuk-body-xs">{{ _('Location not available') }}</span>
+        </div>
+    
+      {% if maintenance %}
+          <div class="map-key-column-{{ col_count }}">
+              <img class="map-key-image" src="{{ url_for('static', filename='images/mapping/information_maintenance.png') }}" alt="{{ _('Location temporarily not available key') }}" height="19" width="19">
+              <span class="govuk-body-xs">{{ _('Location temporarily not available') }}</span>
+          </div>
+      {% endif %}
+
+      {% if coordinate_search %}
+          <div class="map-key-column-{{ col_count }}">
+              <img class="map-key-image" src="{{ url_for('static', filename='images/mapping/icon-locator.png') }}" alt="{{ _('Location of coordinates') }}" height="24" width="19">
+              <span class="govuk-body-xs">{{ _('Location of coordinates') }}</span>
+          </div>
+      {% endif %}
+      </div>
+    </div>
+    <div class="map-sub-grid-map-options govuk-grid-column-full" id="map-options_container">
+      {% set mapOptionsHtml %}<h2 class="govuk-heading-m">{{ _('Map options') }}</h2>{% endset %}
+
+      {{ govukRadios({
+        "name": "map-options",
+        "classes": "govuk-radios--small",
+        "fieldset": {
+          "legend": {
+            "html": mapOptionsHtml,
+          }
+        },
+        "items": [
+          {
+            "value": "select-area",
+            "id": "map-options_select-area",
+            "text": _("Select area from map"),
+            "hint": {
+              "text": _("Select one or more areas from the map")
+            }
+          },
+          {
+            "value": "draw-area",
+            "id": "map-options_draw-area",
+            "text": _("Draw area"),
+            "hint": {
+              "text": _("Add points to draw your search area")
+            }
+          },
+          {
+            "value": "edit-area",
+            "id": "map-options_edit-area",
+            "text": _("Edit area"),
+            "attributes": {
+              "data-hidden-when-small": "yes"
+            },
+            "label": {
+              "classes": "hidden-when-small"
+            },
+            "hint": {
+              "classes": "hidden-when-small",
+              "text": _("Move points to edit your search area")
+            }
+          },
+          {
+            "value": "delete-area",
+            "id": "map-options_delete-area",
+            "text": _("Delete area"),
+            "attributes": {
+              "data-hidden-when-small": "yes"
+            },
+            "label": {
+              "classes": "hidden-when-small"
+            },
+            "hint": {
+              "classes": "hidden-when-small",
+              "text": _("Remove one or more areas from the map")
+            }
+          }
+        ]
+      }) }}
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible hidden-when-small">
+        {{ govukCheckboxes({
+          "name": "snap-to",
+          "classes": "govuk-checkboxes--small hidden-when-small",
+          "items": [
+            {
+              "value": "snap-to-check",
+              "id":"map-options_snap-to",
+              "text": _("Snap to line on map"),
+              "hint": {
+                "text": _("Hover your cursor near a line on the map and it will jump to it automatically"),
+              }
+            }
+          ]
+        }) }}
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible hidden-when-small">
+      <div class="govuk-button-group">
+        {{ govukButton({
+          "text": _("Undo"),
+          "id": "map-options_undo",
+          "classes": "govuk-button--secondary hidden-when-small"
+        }) }}
+
+        {{ govukButton({
+          "text": _("Clear all"),
+          "id": "map-options_clear-all",
+          "classes": "govuk-button--secondary"
+        }) }}      
+      </div>
+
+      <form method="post" action="{{ url_for('search.define_search_area', page_style=style) }}" id="define-search-area-form" novalidate>
+        {{ form.csrf_token }}
+        {{ form.saved_features(id="saved-features") }}
+        {{ form.submit(params={"text": _("Confirm area"), "id": "searchButton"}) }}
+      </form>
+
+      <h2 class="govuk-heading-m">{{ _('Get help') }}</h2>
+      <p class="govuk-body-m">
+          <a href="{{ url_for('main.get_help_sllc') }}" target="_blank" class="govuk-link">{{ _('Get help with this service') }} ({{ _('opens in new tab') }})</a>
+      </p>
+    </div>
+    <div class="map-sub-grid-howto-tandcs govuk-grid-column-full">
+      <p class="govuk-body">
+        <a class="govuk-link" href="{{ url_for('main.map_help') }}" target="_blank">{{ _('Learn more about how to use this map') }} {{ _('(opens in new tab)') }}</a>
+      </p>
+
+      <p class="govuk-body">
+        {% set os_link_html %}<a class="govuk-link" href="{{ config.OS_TERMS_CONDITIONS_LINK | string() }}" target="_blank">{{ _('Ordnance Survey Licence Terms and Conditions') }} {{ _('(opens in new tab)') }}</a>{% endset %}
+        {{ _('Use of address and mapping data is subject to %(os_link_html)s', os_link_html=os_link_html) }}. {{ _('This includes the link between the address and its location') }}.
+      </p>
+    </div>
   </div>
 </div>
 {% endblock %}

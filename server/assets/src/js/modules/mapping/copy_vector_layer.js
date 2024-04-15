@@ -6,6 +6,7 @@ import {GeoJSON} from 'ol/format';
 import {bbox} from 'ol/loadingstrategy';
 import {wfs_server_url, mastermap_api_key} from './set_map_variables'
 import {map} from './map'
+import { pointerMove } from 'ol/events/condition';
 
 var COPY_VECTOR_LAYER = {};
 
@@ -38,11 +39,18 @@ COPY_VECTOR_LAYER.disable = function() {
     map.removeLayer(COPY_VECTOR_LAYER.layer);
     COPY_VECTOR_LAYER.enabled = false;
     map.removeInteraction(COPY_VECTOR_LAYER.interaction);
+    map.removeInteraction(COPY_VECTOR_LAYER.hoverInteraction);
 };
 
 COPY_VECTOR_LAYER.interaction = new Select({
     layers: [COPY_VECTOR_LAYER.layer],
     style: draw_layer_styles.style[draw_layer_styles.HIDDEN]
+});
+
+COPY_VECTOR_LAYER.hoverInteraction = new Select({
+    condition: pointerMove,
+    layers: [COPY_VECTOR_LAYER.layer],
+    style: draw_layer_styles.style[draw_layer_styles.HOVER]
 });
 
 export {COPY_VECTOR_LAYER}

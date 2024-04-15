@@ -3,7 +3,6 @@ import json
 from flask import Response
 from flask_babel import get_translations
 
-
 JAVASCRIPT = r"""
     /**
      * Formats text using Python-style formatting specifiers.
@@ -93,7 +92,7 @@ def c2js(plural):
     """
 
     if len(plural) > 1000:
-        raise ValueError('plural form expression is too long')
+        raise ValueError("plural form expression is too long")
 
     return "function(n) { return (" + plural + "); }"
 
@@ -155,15 +154,17 @@ class BabelJS(object):
             for m in metadata.splitlines():
                 if m.lower().startswith("plural-forms:"):
                     js.append("    babel.plural = ")
-                    js.append(c2js(m.lower().split("plural=")[1].rstrip(';')))
+                    js.append(c2js(m.lower().split("plural=")[1].rstrip(";")))
 
-        js.append("""
+        js.append(
+            """
     window.babel = babel;
     window.gettext = babel.gettext;
     window.ngettext = babel.ngettext;
     window._ = babel.gettext;
 })();
-""")
+"""
+        )
 
         resp = Response("".join(js))
         resp.headers["Content-Type"] = "text/javascript"

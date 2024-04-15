@@ -22,7 +22,7 @@ if (document.getElementById('cookie-banner')) {
     .addEventListener('click', function () {
       // If only using one category of cookie, ammend the policy content as appropriate
       document.cookie =
-        'cookies_policy=' + window.btoa('{"analytics": "yes"}') + '; max-age=31557600; path=/; secure; samesite=lax';
+        'cookies_policy=' + window.btoa('{"analytics": "no"}') + '; max-age=31557600; path=/; secure; samesite=lax';
       defaultMessage.hidden = true;
       rejectedMessage.hidden = false;
     });

@@ -1,6 +1,8 @@
 import json
 
-from server.dependencies.search_api.local_land_charge_service import LocalLandChargeService
+from server.dependencies.search_api.local_land_charge_service import (
+    LocalLandChargeService,
+)
 
 
 class SearchByArea(object):
@@ -15,18 +17,18 @@ class SearchByArea(object):
             bounding_box_json = self.build_bounding_box_json(bounding_box)
             search_response = self.local_land_charge_service.get(bounding_box_json, results_filter)
 
-            response['status'] = search_response.status_code
+            response["status"] = search_response.status_code
             if search_response.status_code == 200:
-                response['data'] = search_response.json()
+                response["data"] = search_response.json()
         else:
-            response['status'] = 500
+            response["status"] = 500
         return response
 
     @staticmethod
     def build_bounding_box_json(bounding_box):
         collection = {
             "type": "geometrycollection",
-            "geometries": [feature['geometry'] for feature in bounding_box['features']]
+            "geometries": [feature["geometry"] for feature in bounding_box["features"]],
         }
 
         return json.dumps(collection)

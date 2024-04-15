@@ -12,6 +12,7 @@
   <meta name="description" content="{{ service_name }}">
   <meta name="keywords" content="">
   <meta name="author" content="HM Land Registry">
+  {% block metaExtension %}{% endblock %}
   <!--[if gt IE 8]><!--><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"><!--<![endif]-->
   <!--[if IE 8]><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main-ie8.css') }}"><![endif]-->
   {% if google_analytics_key %}
@@ -39,6 +40,7 @@
   <script src="{{ url_for('babel_catalog') }}"></script>
   <script src="{{ url_for('static', filename='js/runtime.js') }}"> </script>
   <script src="{{ url_for('static', filename='js/main.js') }}"> </script>
+  <script src="{{ url_for('static', filename='js/jquery.js') }}"> </script>
   <!--<![endif]-->
 {% endblock %}
 
@@ -106,7 +108,7 @@
               'attributes': {
                 'id': "accepted-hide"
               },
-              'text': _('Hide this message')
+              'text': _('Hide cookie message')
             }
           ]
         },
@@ -122,7 +124,7 @@
               'attributes': {
                 'id': "rejected-hide"
               },
-              'text': _('Hide this message')
+              'text': _('Hide cookie message')
             }
           ]
         }
@@ -132,12 +134,19 @@
 {% endblock %}
 
 {% block beforeContent %}
+
+  {% set phaseBannerHtml %}{{ _('This is a new service – your feedback will help us to improve it') }}.
+    {% if not hide_phase_feedback_link %}
+      <a href="{{ url_for('main.give_feedback') }}" target="_blank" class="govuk-link">{{ _('Feedback form') }} ({{ _('link opens in new tab') }})</a>.
+    {% endif %}
+  {% endset %}
   {{ govukPhaseBanner({
     'tag': {
-      'text': "beta"
+      'text': "Beta"
     },
-    'html': '{}. <a href="{}" target="_blank" class="govuk-link">{} ({})</a>.'.format(_('This is a new service – your feedback will help us to improve it'), feedback_url, _('Feedback form'),  _('link opens in new tab'))
+    'html': phaseBannerHtml
   }) }}
+  {% block researchBanner %}{% endblock %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
       {% if show_back_link() %}
