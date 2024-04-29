@@ -1,11 +1,7 @@
-import pickle
 import re
 from urllib.parse import urlparse
 
-from flask import Flask
 from flask_babel import Babel, get_translations
-from flask_session.base import Serializer, ServerSideSession
-from itsdangerous import Signer
 from landregistry.enhanced_logging import FlaskEnhancedLogging
 from landregistry.exceptions import ExceptionHandlers
 from landregistry.healthchecks import HealthChecks
@@ -17,6 +13,7 @@ from server.config import DEPENDENCIES
 from server.custom_extensions.cachebust_static_assets.main import CachebustStaticAssets
 from server.custom_extensions.csrf.main import CSRF
 from server.custom_extensions.flask_babel_js.main import BabelJS
+from server.custom_extensions.flask_session_serializer.enhanced_msgpack_serializer import EnhancedMsgpackSerializer
 from server.custom_extensions.google_analytics.main import GoogleAnalytics
 from server.custom_extensions.gzip_static_assets.main import GzipStaticAssets
 from server.custom_extensions.jinja_markdown_filter.main import JinjaMarkdownFilter
@@ -94,41 +91,8 @@ def register_extensions(app):
     # Flask-session
     sess.init_app(app)
 
-    # Use pickle serializer
-    app.session_interface.serializer = PickleSerializer(app)
+    # Use custom serializer
+    app.session_interface.serializer = EnhancedMsgpackSerializer(app)
 
     # All done!
     app.logger.info("Extensions registered")
-
-
-class PickleSerializer(Serializer):
-
-    def __init__(self, app: Flask):
-        self.app: Flask = app
-
-    def _get_signer(self, app: Flask) -> Signer:
-        if not hasattr(app, "secret_key") or not app.secret_key:
-            raise KeyError("SECRET_KEY must be set")
-        return Signer(
-            app.secret_key, salt="flask-session-signing", key_derivation="hmac"
-        )
-
-    def _unsign(self, sess: bytes) -> bytes:
-        signer = self._get_signer(self.app)
-        return signer.unsign(sess)
-
-    def _sign(self, sess: bytes) -> bytes:
-        signer = self._get_signer(self.app)
-        return signer.sign(sess)
-
-    def encode(self, session: ServerSideSession) -> bytes:
-        """Serialize the session data."""
-        try:
-            return self._sign(pickle.dumps(dict(session)))
-        except Exception as e:
-            self.app.logger.error(f"Failed to serialize session data: {e}")
-            raise
-
-    def decode(self, serialized_data: bytes) -> dict:
-        """Deserialize the session data."""
-        return pickle.loads(self._unsign(serialized_data))

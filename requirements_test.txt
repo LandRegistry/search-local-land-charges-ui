@@ -14,7 +14,7 @@ babel==2.14.0
     #   flask-babel
 bandit==1.7.8
     # via -r requirements_test.in
-black==24.3.0
+black==24.4.0
     # via -r requirements_test.in
 blinker==1.7.0
     # via
@@ -26,7 +26,7 @@ brotli==1.1.0
     #   flask-compress
 build==1.2.1
     # via pip-tools
-cachelib==0.12.0
+cachelib==0.13.0
     # via
     #   -r requirements.txt
     #   flask-session
@@ -75,9 +75,9 @@ flake8==7.0.0
     # via
     #   flake8-bugbear
     #   pep8-naming
-flake8-bugbear==24.2.6
+flake8-bugbear==24.4.21
     # via -r requirements_test.in
-flask==3.0.2
+flask==3.0.3
     # via
     #   -r requirements.txt
     #   flask-babel
@@ -117,11 +117,11 @@ govuk-frontend-jinja==3.0.0
     #   govuk-frontend-wtf
 govuk-frontend-wtf==3.0.0
     # via -r requirements.txt
-gunicorn==21.2.0
+gunicorn==22.0.0
     # via -r requirements.txt
 hmlr-frontend-jinja==1.0.0
     # via -r requirements.txt
-idna==3.6
+idna==3.7
     # via
     #   -r requirements.txt
     #   email-validator
@@ -130,7 +130,7 @@ iniconfig==2.0.0
     # via pytest
 isort==5.13.2
     # via -r requirements_test.in
-itsdangerous==2.1.2
+itsdangerous==2.2.0
     # via
     #   -r requirements.txt
     #   flask
@@ -208,7 +208,7 @@ pip-tools==7.4.1
     # via -r requirements_test.in
 platformdirs==4.2.0
     # via black
-pluggy==1.4.0
+pluggy==1.5.0
     # via pytest
 pur==7.3.1
     # via -r requirements_test.in
@@ -263,7 +263,7 @@ ruamel-yaml-clib==0.2.8
     # via ruamel-yaml
 safety==2.3.4
     # via -r requirements_test.in
-shapely==2.0.3
+shapely==2.0.4
     # via -r requirements.txt
 six==1.16.0
     # via

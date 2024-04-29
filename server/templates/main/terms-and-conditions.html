@@ -5,22 +5,25 @@
 {% block inner_content %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl">{{ _('Search for local land charges: Terms of Use') }}</h1>
+        <h1 class="govuk-heading-xl">{{ _('Search for local land charges: Terms of use') }}</h1>
 
 
         <h2 class="govuk-heading-m" id="about-section">{{ _('About this service') }}</h2>
 
-        <p class="govuk-body">{{ _('You can use this service to find out about local land charges (restrictions) on land or property on the Local Land Charges Register') }}. </p>
-        <p class="govuk-body">{{ _('Before you start your search, we recommend that you use our online search tool to find out if the authority you want to search has moved to the local land charges register') }}.</p>
+        <p class="govuk-body">{{ _('You can use this service to find out about local land charges (restrictions) on land or property on the Local land charges register') }}. </p>
+        <p class="govuk-body">{{ _('Before you start your search, we recommend that you use our online search tool to find out if the local authority area you want to search has moved to the local land charges register') }}.</p>
         <p class="govuk-body">{{ _('Once you know that HM Land Registry is responsible for local land charges for the relevant local authority area you can search by') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('Postcode, address or partial address') }}.</li>
-            <li>{{ _('Map (use the map buttons to draw a shape around the place you want to search)') }}</li>
+            <li>{{ _('postcode, address or partial address') }}</li>
+            <li>{{ _('map (use the map buttons to draw a shape around the place you want to search)') }}</li>
+            <li>{{ _('title number') }}</li>
+            <li>{{ _('coordinates') }}</li>
+            <li>{{ _('INSPIRE ID') }}</li>
         </ul>
         <p class="govuk-body">{{ _('Your search will show you a list of local land charges') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('In the place you search') }}</li>
-            <li>{{ _('At a particular time') }}</li>
+            <li>{{ _('in the place you search') }}</li>
+            <li>{{ _('at a particular time') }}</li>
         </ul>
         <p class="govuk-body">{{ _('This service cannot tell you if a local land charge is being added to the register while you search') }}.</p>
         <p class="govuk-body">{{ _('By using this service, you accept the terms of use on this page. Each term of use is separate.  If any court decides any is unlawful, the rest will continue to be fully effective. The terms of use do not restrict your access to local land charges register information under the Environmental Information Regulations 2004 (EIR)') }}.</p>
@@ -31,11 +34,11 @@
 
         <p class="govuk-body">{{ _('Your search does not include, for example') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('Planning and development applications') }}.</li>
-            <li>{{ _('Building controls') }}.</li>
-            <li>{{ _('Road development schemes near to your property') }}</li>
+            <li>{{ _('planning and development applications') }}</li>
+            <li>{{ _('building controls') }}</li>
+            <li>{{ _('road development schemes near to your property') }}</li>
         </ul>
-        <p class="govuk-body">{{ _('All CON29 enquiries should be made to the relevant Local Authority') }}.</p>
+        <p class="govuk-body">{{ _('All CON29 enquiries should be made to the relevant local authority') }}.</p>
 
 
         <h2 class="govuk-heading-m" id="search-types-section">{{ _('Personal and official search services') }}</h2>
@@ -54,68 +57,63 @@
 
         <p class="govuk-body">{{ _('A personal search will let you inspect the register and show you') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('a description of the local land charge') }}.</li>
+            <li>{{ _('a description of the local land charge') }}</li>
             <li>{{ _('the registration date, the date when the charge was added to the register') }}</li>
-            <li>{{ _('contact details for the authority that can answer questions about the local land charge (where available)') }}.</li>
         </ul>
         <p class="govuk-body">{{ _('A personal search is free and is access to the local land charges register under the EIR.  These terms of use do not restrict your access to local land charges register information under the EIR') }}.</p>
 
 
-        <h2 class="govuk-heading-m">{{ _('Official Search') }}</h2>
+        <h2 class="govuk-heading-m">{{ _('Official search') }}</h2>
 
         <p class="govuk-body">{{ _('The official search will show the same information as the personal search plus') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
             <li>{{ _('search boundary/area on a map') }}</li>
-            <li>{{ _('originating authority name, reference and any electronic link they have provided to a document or register kept by them relevant to the charge') }}.</li>
+            <li>{{ _('originating authority name, reference and any electronic link they have provided to a document or register kept by them relevant to the charge') }}</li>
             <li>{{ _('local land charge boundary') }}</li>
+            <li>{{ _('contact details for the originating authority that can answer questions about the local land charge (where available)') }}</li>
         </ul>
         <p class="govuk-body">{{ _('You can download the official search certificate as a secure document, digitally signed by HM Land Registry') }}.</p>
         <p class="govuk-body">{{ _('A fee is payable for an official search.') }}</p>
 
 
-        <h2 class="govuk-heading-m" id="opening-an-account-section">{{ _('Opening an account') }}</h2>
+        <h2 class="govuk-heading-m" id="opening-an-account-section">{{ _('Creating an account') }}</h2>
 
-        <p class="govuk-body">{{ _('You need to set up an account to access the search service, with it you will get for 6 months') }}:</p>
+        <p class="govuk-body">{{ _('You need to create an account to access the search service, with it you will get for 6 months') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
             <li>{{ _('cloud storage for your searches') }}</li>
             <li>{{ _('a search result archive') }}</li>
             <li>{{ _('unlimited downloads') }}</li>
-            <li>
-                <p class="govuk-body">{{ _('a dashboard showing') }}:</p>
-                <ul class="govuk-list govuk-list--bullet">
-                    <li>{{ _('active searches (searches less than 6 months old).  You can update these searches by making as many free repeat search applications as you want, for 6 months after your original search date.  Each time you repeat your search application, an official search certificate will be issued') }}</li>
-                    <li>{{ _('expired searches (searches older than 6 months).   You can repeat these, but you will need to pay when you search again') }}</li>
-                </ul>
-            </li>
         </ul>
+        <p class="govuk-body">{{ _('You will also get a dashboard showing active searches (searches less than 6 months old).  You can update these searches by making as many free repeat search applications as you want, for 6 months after your original search date.  Each time you repeat your search application, an official search certificate will be issued') }}.</p>
+        <p class="govuk-body">{{ _('Your dashboard will also show expired searches (searches older than 6 months).   You can repeat these, but you will need to pay when you search again') }}.</p>
 
 
-        <h2 class="govuk-heading-m">{{ _('What you need to set up an account') }}</h2>
+        <h2 class="govuk-heading-m">{{ _('What you need to create an account') }}</h2>
 
-        <p class="govuk-body">{{ _('To set up an account you must provide your') }}:</p>
+        <p class="govuk-body">{{ _('To create an account you must provide your') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
             <li>{{ _('name') }}</li>
             <li>{{ _('email') }}</li>
             <li>{{ _('password') }}</li>
         </ul>
         <p class="govuk-body">{{ _('HM Land Registry will email you to tell you that your account has been created') }}.</p>
-        <p class="govuk-body">{{ _('If you need to change your email address details, you can set up a new account using a different email address') }}.</p>
+        <p class="govuk-body">{{ _('If you need to change your email address details, you can create a new account using a different email address') }}.</p>
 
 
         <h2 class="govuk-heading-m">{{ _('Keeping your account secure') }}</h2>
 
         <p class="govuk-body">{{ _('You are responsible for') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('keeping your username and password secure') }}</li>
+            <li>{{ _('keeping your email address and password secure') }}</li>
             <li>{{ _('all activity that occurs on or through your account') }}</li>
         </ul>
         <p class="govuk-body">{{ _('If you think your account’s security has been breached, contact HM Land Registry') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('phone: 0300 006 0411') }}</li>
-            <li>{{ _('speak to a Welsh speaker: 0300 006 0422') }}</li>
+            <li>{{ _('phone: 0300 006 0411, open Monday to Thursday, 8am to 5pm (except public holidays)') }}</li>
+            <li>{{ _('speak to a Welsh speaker: 0300 006 0422, open Monday to Thursday, 8am to 5pm (except public holidays)') }}</li>
         </ul>
         <p class="govuk-body">{{ _('If you don’t use your account for 12 months, we will delete it') }}.</p>
-        <p class="govuk-body">{{ _('HM Land Registry is not responsible for any losses if someone else using your log in and user identification uses your account') }}.</p>
+        <p class="govuk-body">{{ _('HM Land Registry is not responsible for any losses if someone else signs into your account with your email address and password') }}.</p>
 
 
         <h2 class="govuk-heading-m" id="how-and-when-section">{{ _('How and when you can access the service') }}</h2>
@@ -126,15 +124,15 @@
 
         <h2 class="govuk-heading-m" id="terms-of-use-section">{{ _('Terms of use') }}</h2>
 
-        <p class="govuk-body">{{ _('By using the service and/or registering an account, you agree that you will not') }}:</p>
+        <p class="govuk-body">{{ _('By using the service and/or creating an account, you agree that you will not') }}:</p>
         <ol class="govuk-list govuk-list--number">
-            <li>{{ _('attempt to damage, impair or interrupt the service or access to it') }}</li>
-            <li>{{ _('use any automated software agents to search, copy, monitor, display, obtain links to or otherwise access this or any other HM Land Registry system') }}</li>
-            <li>{{ _('copy or display the information provided for display on another website') }}</li>
-            <li>{{ _('attempt to add, change or delete any information provided and held by HM Land Registry') }} </li>
-            <li>{{ _('allow anyone else access your account using your User ID and password') }}</li>
-            <li>{{ _('use the information provided by the service to claim any arrangement or official partnership with HM Land Registry to supply or reuse data and/or information') }}</li>
-            <li>{{ _('use the data for any fraudulent or unlawful activity including breaches of data protection law') }}</li>
+            <li>{{ _('Attempt to damage, impair or interrupt the service or access to it') }}.</li>
+            <li>{{ _('Use any automated software agents to search, copy, monitor, display, obtain links to or otherwise access this or any other HM Land Registry system') }}.</li>
+            <li>{{ _('Copy or display the information provided for display on another website') }}.</li>
+            <li>{{ _('Attempt to add, change or delete any information provided and held by HM Land Registry') }}.</li>
+            <li>{{ _('Allow anyone else to access your account using your email address') }}.</li>
+            <li>{{ _('Use the information provided by the service to claim any arrangement or official partnership with HM Land Registry to supply or reuse data and/or information') }}.</li>
+            <li>{{ _('Use the data for any fraudulent or unlawful activity including breaches of data protection law') }}.</li>
         </ol>
         <p class="govuk-body">{{ _('If you are not using this service in the agreed way') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
@@ -149,14 +147,14 @@
         <p class="govuk-body">{{ _('Because the official search certificate information is provided immediately, once you pay for it you lose the right of cancellation you would normally have under The Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013') }}.</p>
         <p class="govuk-body">{{ _('This means that by applying to buy an official search on land or property you have identified you agree') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('to pay the fee for this service by making an online transaction (through GOV.PAY)') }}.</li>
-            <li>{{ _('that the local land charge official search certificate will be provided as soon as you have paid') }}. </li>
-            <li>{{ _('and accept you lose your right to cancel once the official search certificate are made available for download') }}.</li>
+            <li>{{ _('to pay the fee for this service by making an online transaction (through GOV.PAY)') }}</li>
+            <li>{{ _('that the local land charge official search certificate will be provided as soon as you have paid') }}</li>
+            <li>{{ _('to accept you lose your right to cancel once the official search certificate is made available for download') }}</li>
         </ul>
         <p class="govuk-body">{{ _('HM Land Registry is not responsible for the security or privacy of information you provide when making a transaction through the service’s online payment provider.  If you have an issue with this, you should') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
             <li>{{ _('contact the online payment provider directly') }}</li>
-            <li>{{ _('tell HM Land Registry about the outcome by calling 0300 006 0411') }}</li>
+            <li>{{ _('tell HM Land Registry about the outcome by calling 0300 006 0411, open Monday to Thursday, 8am to 5pm (except public holidays)') }}</li>
         </ul>
 
 
@@ -184,7 +182,7 @@
 
         <h2 class="govuk-heading-m" id="copyright-and-database-section">{{ _('Copyright and database rights') }}</h2>
 
-        <p class="govuk-body">{{ _('The information in this service is subject to Crown copyright and database right. Also, use of address and mapping data (including the link between the address and its location) in this service is subject to') }} <a class="govuk-link" id="os-link" target="_blank" href="https://www.ordnancesurvey.co.uk/about/governance/policies/hm-land-registry-local-land-searches-service.html">{{ _('Ordnance Survey licence terms and conditions') }} {{ _('(link opens in new tab)') }}</a>. {{ _('The information in the local land charges register may also include information in which other third parties (including the authority who registered the charge) claim copyright and/or database right.  Therefore, reuse of this information for a purpose other than conducting a search of the local land charges register would require specific consent') }}.</p>
+        <p class="govuk-body">{{ _('The information in this service is subject to Crown copyright and database rights. Also, use of address and mapping data (including the link between the address and its location) in this service is subject to') }} <a class="govuk-link" id="os-link" target="_blank" href="https://www.ordnancesurvey.co.uk/legal">{{ _('Ordnance Survey licence terms and conditions') }} {{ _('(opens in new tab)') }}</a>. {{ _('The information in the local land charges register may also include information in which other third parties (including the authority who registered the charge) claim copyright and/or database rights.  Therefore, reuse of this information for a purpose other than conducting a search of the local land charges register would require specific consent') }}.</p>
 
 
         <h2 class="govuk-heading-m" id="your-information-section">{{ _('Your information and how we use it') }}</h2>
@@ -202,7 +200,7 @@
         <p class="govuk-body">{{ _('HM Land Registry complies with the requirements set by the Data Protection Law') }}.</p>
         <p class="govuk-body">{{ _('We use your personal information in accordance with the HM Land Registry’s Personal Information Charter to') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('create and manage any account you open') }}</li>
+            <li>{{ _('create and manage your account') }}</li>
             <li>{{ _('meet our agreement obligations by supplying the personal and official search results to you, once the online payment provider confirms that your payment has been processed and is complete (official search)') }}</li>
             <li>{{ _('record the search') }}</li>
             <li>{{ _('contact you using the email address you provide') }}</li>
@@ -210,22 +208,22 @@
         <p class="govuk-body">{{ _('We may retain and share information with') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
             <li>{{ _('other government departments') }}</li>
-            <li>{{ _('law enforcement and regulatory bodies, including specified anti-fraud organsiations under section 68 Serious Crime Act 2007') }}</li>
+            <li>{{ _('law enforcement and regulatory bodies, including specified anti-fraud organisations under section 68 Serious Crime Act 2007') }}</li>
         </ul>
         <p class="govuk-body">{{ _('This sharing of information helps to prevent and detect crime, for example, property fraud.  It also helps with the investigation of land banking schemes') }}.</p>
         <p class="govuk-body">{{ _('HM Land Registry will') }}:</p>
         <ul class="govuk-list govuk-list--bullet">
-            <li>{{ _('keep your personal information secure') }}.</li>
-            <li>{{ _('not make it available for commercial use, such as marketing, without your permission') }}.</li>
-            <li>{{ _('share your information with other HM Land Registry teams to process your application') }}.</li>
+            <li>{{ _('keep your personal information secure') }}</li>
+            <li>{{ _('not make it available for commercial use, such as marketing, without your permission') }}</li>
+            <li>{{ _('share your information with other HM Land Registry teams to process your application') }}</li>
         </ul>
 
 
         <h2 class="govuk-heading-m" id="account-management-section">{{ _('Deleting or changing your account') }}</h2>
 
         <p class="govuk-body">{{ _('If you don’t use any account you have created for 12 months, we will delete it') }}.</p>
-        <p class="govuk-body">{{ _('We don’t keep your personal information if you delete your account.  It will be removed from our system when a Land Registry staff member closes the account') }}.</p>
-        <p class="govuk-body">{{ _('If you want to use a different email address, you’ll need to open a new account') }}.</p>
+        <p class="govuk-body">{{ _('We don’t keep your personal information if you delete your account.  It will be removed from our system when a HM Land Registry staff member closes the account') }}.</p>
+        <p class="govuk-body">{{ _('If you want to use a different email address, you’ll need to create a new account') }}.</p>
 
 
         <h2 class="govuk-heading-m">{{ _('How to make a complaint') }}</h2>
@@ -234,12 +232,12 @@
         {% set contact_form_link %}<a class="govuk-link" href="{{ config.CONTACT_US_URL }}">{{ _('contact form') }}</a>{% endset %}
         <ul class="govuk-list govuk-list--bullet">
             <li>{{ _('complete the online %(contact_form_link)s', contact_form_link=contact_form_link) }}</li>
-            <li>{{ _('phone: 0300 006 0411') }}.</li>
-            <li>{{ _('speak to a Welsh speaker: 0300 006 0422') }}.</li>
+            <li>{{ _('phone: 0300 006 0411, open Monday to Thursday, 8am to 5pm (except public holidays)') }}</li>
+            <li>{{ _('speak to a Welsh speaker: 0300 006 0422, open Monday to Thursday, 8am to 5pm (except public holidays)') }}</li>
         </ul>
         {% set complaints_link %}<a class="govuk-link" href="https://www.gov.uk/government/organisations/land-registry/about/complaints-procedure">{{ _('the HM Land Registry’s internal complaints procedure.') }}</a>{% endset %}
         <p class="govuk-body">{{ _('If you’re unhappy with the answer you receive, follow %(complaints_link)s', complaints_link=complaints_link) }}</p>
-        <p class="govuk-body">{{ _('If you’re still unhappy with the answer contact the') }} <a class="govuk-link" href="https://ico.org.uk/concerns/getting/">{{ _('Independent Complaints Reviewer’s Office (ICR)') }}</a>. {{ _('The ICR can investigate your complaint independently from HM Land Registry') }}.</p>
+        <p class="govuk-body">{{ _('If you’re still unhappy with the answer, contact the') }} <a class="govuk-link" target="_blank" href="https://www.icrev.org.uk/make-a-complaint/">{{ _('Independent Complaints Reviewer’s Office (ICR)') }} {{ _('(opens in new tab)') }}</a>. {{ _('The ICR can investigate your complaint independently from HM Land Registry') }}.</p>
     </div>
 </div>
 

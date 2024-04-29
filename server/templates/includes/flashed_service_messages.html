@@ -7,7 +7,7 @@
           {% for service_message in message %}
             <p class="govuk-notification-banner__heading">{{ service_message.message }}
             {% if service_message.link_text %}
-              <br><a href="{{ service_message.link }}" class="govuk-notification-banner__link">{{ service_message.link_text}} {{ _('(link opens in new tab)') }}</a>
+              <br><a href="{{ service_message.link }}" target="_blank" class="govuk-notification-banner__link">{{ service_message.link_text}} {{ _('(link opens in new tab)') }}</a>
             {% endif %}
             </p>
           {% endfor %}

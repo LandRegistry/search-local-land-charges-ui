@@ -1,12 +1,12 @@
-cachelib==0.12.0
+cachelib==0.13.0
 email_validator==2.1.1
 flask-compress==1.14
 flask-script==2.0.6
 flask-wtf==1.2.1
-flask==3.0.2
+flask==3.0.3
 govuk-frontend-jinja==3.0.0
 govuk-frontend-wtf==3.0.0
-gunicorn==21.2.0
+gunicorn==22.0.0
 hmlr-frontend-jinja==1.0.0
 landregistry-enhanced-logging[flask]==2.0.3
 landregistry-exception-handlers==2.0.1
@@ -25,6 +25,6 @@ namedlist==1.8
 marshmallow==3.21.1
 python-dateutil==2.9.0.post0
 dicttoxml2==2.1.0
-shapely==2.0.3
+shapely==2.0.4
 werkzeug==3.0.2
 defusedxml==0.7.1

@@ -1,5 +1,6 @@
 import os
 
+from cachelib import SimpleCache
 import redis
 from landregistry.security_headers.header_defaults import DEFAULT_SCRIPT_HASHES
 
@@ -109,11 +110,11 @@ GEOSERVER_URL = os.environ["GEOSERVER_URL"]
 # Flask-Session
 PERMANENT_SESSION_LIFETIME = int(os.environ["PERMANENT_SESSION_LIFETIME"])
 if os.environ.get("TEST_SESSION", "false") == "true":
-    SESSION_TYPE = "filesystem"
+    SESSION_TYPE = 'cachelib'
+    SESSION_CACHELIB = SimpleCache()
 else:
     SESSION_TYPE = "redis"
     SESSION_REDIS = redis.from_url(f"redis://{os.environ['SESSION_REDIS_HOST']}:{os.environ['SESSION_REDIS_PORT']}")
-SESSION_USE_SIGNER = True
 
 # Key for geoserver tokens
 GEOSERVER_SECRET_KEY = os.environ["GEOSERVER_SECRET_KEY"].encode()
