@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-02 14:47+0000\n"
+"POT-Creation-Date: 2024-04-22 13:48+0000\n"
 "PO-Revision-Date: 2020-08-05 07:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -382,7 +382,7 @@ msgid "Cookies"
 msgstr "Cwcis"
 
 #: server/templates/base-templates/govuk/header-footer.html:62
-#: server/templates/main/terms-and-conditions.html:127
+#: server/templates/main/terms-and-conditions.html:125
 msgid "Terms of use"
 msgstr "Telerau defnyddio"
 
@@ -560,6 +560,8 @@ msgstr "Gweld i ba awdurdod lleol mae eich ardal chwilio yn perthyn"
 
 #: server/templates/check-migrated-authorities/check-migrated-authorities.html:18
 #: server/templates/main/release-notices.html:20
+#: server/templates/main/terms-and-conditions.html:185
+#: server/templates/main/terms-and-conditions.html:240
 #: server/templates/search-results/search-results.html:16
 #: server/templates/search/confirm-search-area.html:36
 #: server/templates/search/define-search-area.html:207
@@ -698,7 +700,6 @@ msgid "Important"
 msgstr "Pwysig"
 
 #: server/templates/includes/flashed_service_messages.html:10
-#: server/templates/main/terms-and-conditions.html:187
 msgid "(link opens in new tab)"
 msgstr "(mae’r cyswllt yn agor mewn tab newydd)"
 
@@ -881,9 +882,8 @@ msgstr ""
 "adnabod gwybodaeth synhwyraidd sy’n cael ei chyfleu"
 
 #: server/templates/main/accessibility-statement.html:72
-#, GOOGLE
 msgid "the videos on the How to use the map page do not have audio descriptions"
-msgstr "nid oes disgrifiadau sain ar y fideos ar y dudalen Sut i Ddefnyddio'r Map"
+msgstr "nid oes disgrifiadau sain ar y fideos ar y dudalen Sut i ddefnyddio’r map"
 
 #: server/templates/main/accessibility-statement.html:75
 msgid "Feedback and contact information "
@@ -1041,18 +1041,17 @@ msgid "Non-compliance with the accessibility regulations"
 msgstr "Diffyg cydymffurfio â’r rheoliadau hygyrchedd"
 
 #: server/templates/main/accessibility-statement.html:137
-#, GOOGLE
 msgid ""
 "The videos on the How to use the map page do not have audio descriptions."
 " This fails WCAG 2.1 AA success criterion 1.2.5 Audio Description "
 "(Prerecorded)"
 msgstr ""
-"Nid oes disgrifiadau sain ar y fideos ar y dudalen Sut i ddefnyddio'r "
-"map.Mae hyn yn methu maen prawf llwyddiant WCAG 2.1 AA 1.2.5 Sain "
-"Ddisgrifiad (Wedi'i recordio ymlaen llaw)"
+"Nid oes disgrifiadau sain ar y fideos ar y dudalen Sut i ddefnyddio’r "
+"map. Mae hyn yn methu maen prawf llwyddiant 1.2.5 AA Disgrifiad Sain "
+"(Wedi ei recordio ymlaen llaw) Canllawiau Hygyrchedd Cynnwys Gwe fersiwn "
+"2.1"
 
 #: server/templates/main/accessibility-statement.html:138
-#, GOOGLE
 msgid ""
 "We plan to add audio descriptions to these videos by the end of July "
 "2024. When we publish new videos, we’ll make sure these have audio "
@@ -1129,23 +1128,21 @@ msgid "Keyboard-only control on maps "
 msgstr "Rheolaeth bysellfwrdd yn unig ar fapiau"
 
 #: server/templates/main/accessibility-statement.html:162
-#, GOOGLE
 msgid ""
 "You are unable to draw an area, edit an area or snap to a line on the map"
 " using only a keyboard. This fails WCAG 2.1 A success criterion 2.1.1 "
 "Keyboard"
 msgstr ""
-"Ni allwch luniadu ardal, golygu ardal na snapio i linell ar hwn gan "
-"ddefnyddio bysellfwrdd yn unig. Mae hyn yn methu WCAG 2.1 Maen prawf "
-"llwyddiant 2.1.1 Bysellfwrdd"
+"Ni allwch lunio ardal, golygu ardal na neidio i linell ar y map gan "
+"ddefnyddio bysellfwrdd yn unig. Mae hyn yn methu maen prawf llwyddiant "
+"2.1 A Canllawiau Hygyrchedd Cynnwys Gwe 2.1.1 Bysellfwrdd"
 
 #: server/templates/main/accessibility-statement.html:163
-#, GOOGLE
 msgid ""
 "You can select an area from the map and delete an area using only a "
 "keyboard"
 msgstr ""
-"Gallwch ddewis ardal o'r map a dileu ardal gan ddefnyddio bysellfwrdd yn "
+"Gallwch ddewis ardal o’r map a dileu ardal gan ddefnyddio bysellfwrdd yn "
 "unig"
 
 #: server/templates/main/accessibility-statement.html:165
@@ -1225,6 +1222,18 @@ msgstr "Mae cwcis hanfodol yn cadw’ch gwybodaeth yn ddiogel wrth ichi ddefnydd
 msgid "We do not need to ask permission to use them"
 msgstr "Nid oes angen eich caniatâd arnom i’w defnyddio"
 
+#: server/templates/main/cookies.html:20 server/templates/main/cookies.html:46
+msgid "Name"
+msgstr "Enw"
+
+#: server/templates/main/cookies.html:20 server/templates/main/cookies.html:46
+msgid "Purpose"
+msgstr "Pwrpas"
+
+#: server/templates/main/cookies.html:20 server/templates/main/cookies.html:46
+msgid "Expires"
+msgstr "Yn dod i ben"
+
 #: server/templates/main/cookies.html:22
 msgid "Saves temporary information required to move through the service"
 msgstr "Yn arbed gwybodaeth dros dro sy'n ofynnol i symud trwy'r gwasanaeth"
@@ -1287,9 +1296,10 @@ msgstr "sut y cyrhaeddwyd y gwasanaeth"
 msgid "the pages you visit"
 msgstr "y tudalennau rydych yn ymweld â nhw"
 
+# GOOGLE,
 #: server/templates/main/cookies.html:37
-msgid "how long you spend on each page"
-msgstr "pa mor hir rydych yn ei dreulio ar bob tudalen"
+msgid "how long you spend on each page while you're using the service"
+msgstr "pa mor hir rydych yn ei dreulio ar bob tudalen wrth ymweld â'r gwasanaeth"
 
 #: server/templates/main/cookies.html:38
 msgid "what you click on while you're using the service"
@@ -1302,18 +1312,6 @@ msgstr "unrhyw wallau a welwch wrth ichi ddefnyddio'r gwasanaeth"
 #: server/templates/main/cookies.html:41
 msgid "Google Analytics sets the following cookies:"
 msgstr "Mae Google Analytics yn gosod y cwcis canlynol:"
-
-#: server/templates/main/cookies.html:46
-msgid "Name"
-msgstr "Enw"
-
-#: server/templates/main/cookies.html:46
-msgid "Purpose"
-msgstr "Pwrpas"
-
-#: server/templates/main/cookies.html:46
-msgid "Expires"
-msgstr "Yn dod i ben"
 
 #: server/templates/main/cookies.html:48 server/templates/main/cookies.html:49
 msgid ""
@@ -2030,59 +2028,53 @@ msgid "Space bar or enter key to select the area at the centre of the map."
 msgstr "Bar gofod neu fysell Enter i ddewis yr ardal ar ganol y map."
 
 #: server/templates/main/map-help.html:15
-#, GOOGLE
 msgid ""
 "You can only select an area from the map when you are zoomed in to a "
 "location (seeing a place close-up). This option will be inactive until "
 "you are zoomed in enough. Make sure you can see building outlines on the "
 "map."
 msgstr ""
-"Dim ond pan fyddwch wedi chwyddo i mewn i leoliad y gallwch ddewis ardal "
-"o'r map (gweld lle yn agos). Bydd yr opsiwn hwn yn anactif nes eich bod "
+"Dim ond pan fyddwch wedi chwyddo mewn i leoliad (gweld lle yn agos) "
+"gallwch ddewis ardal o’r map. Bydd yr opsiwn hwn yn anactif nes eich bod "
 "wedi chwyddo digon. Gwnewch yn siŵr eich bod yn gallu gweld amlinelliadau"
 " adeiladau ar y map."
 
 #: server/templates/main/map-help.html:18
-#, GOOGLE
 msgid "Select the select area from map radio button."
-msgstr "Dewiswch yr ardal ddewis o'r botwm radio map."
+msgstr "Dewiswch y botwm radio dewis ardal o’r map."
 
 #: server/templates/main/map-help.html:19
-#, GOOGLE
 msgid ""
 "Select the part of the map where you want to conduct a search. This will "
 "create a search area. You can select more than once to combine several "
 "features together."
 msgstr ""
-"Dewiswch y rhan o'r map lle rydych chi am gynnal chwiliad. Bydd hyn yn "
-"creu ardal chwilio. Gallwch ddewis mwy nag unwaith i gyfuno sawl nodwedd "
+"Dewiswch y rhan o’r map lle rydych am gynnal chwiliad. Bydd hyn yn creu "
+"ardal chwilio. Gallwch ddewis mwy nag unwaith i gyfuno sawl nodwedd "
 "gyda'i gilydd."
 
 #: server/templates/main/map-help.html:22
-#, GOOGLE
 msgid ""
 "Before confirming, ensure your search area includes all of the properties"
 " and land you want to search against, including any driveways, alleys or "
 "gardens, etc. Using the select area from map feature once may not capture"
 " all of your search area."
 msgstr ""
-"Cyn cadarnhau, sicrhewch fod eich ardal chwilio yn cynnwys yr holl eiddo "
-"a thir rydych am chwilio yn eu herbyn, gan gynnwys unrhyw dramwyfeydd, "
-"lonydd cefn neu erddi, ac ati. Mae'n bosibl na fydd defnyddio'r nodwedd "
-"ardal ddethol o'r map unwaith yn dal eich holl ardal chwilio."
+"Cyn cadarnhau, gwnewch yn siwr bod eich ardal chwilio’n cynnwys yr holl "
+"eiddo a thir rydych am chwilio yn eu herbyn, gan gynnwys unrhyw "
+"ddreifiau, lonydd cefn neu erddi, ac ati.  Mae’n bosibl na fydd "
+"defnyddio’r nodwedd dewis ardal o’r map unwaith yn dal eich ardal chwilio"
+" gyfan."
 
 #: server/templates/main/map-help.html:25
-#, GOOGLE
 msgid "This video shows how to select an area from the map."
-msgstr "Mae'r fideo hwn yn dangos sut i ddewis ardal o'r map."
+msgstr "Mae’r fideo hwn yn dangos sut i ddewis ardal o’r map."
 
 #: server/templates/main/map-help.html:28
-#, GOOGLE
 msgid "Selects the select area from map radio button."
-msgstr "Yn dewis yr ardal ddethol o'r botwm radio map."
+msgstr "Yn dewis y botwm radio dewis ardal o’r map."
 
 #: server/templates/main/map-help.html:29
-#, GOOGLE
 msgid ""
 "Selects different map areas one after the other to create a combined "
 "search area."
@@ -2091,399 +2083,333 @@ msgstr ""
 "gyfunol."
 
 #: server/templates/main/map-help.html:36
-#, GOOGLE
 msgid "Transcript for: How to select an area from the map"
-msgstr "Trawsgrifiad ar gyfer: Sut i ddewis ardal o'r map"
+msgstr "Trawsgrifiad ar gyfer: Sut i ddewis ardal o’r map"
 
 #: server/templates/main/map-help.html:45
 #: server/templates/main/map-help.html:120
-#, GOOGLE
 msgid "Select the draw area radio button."
-msgstr "Dewiswch y botwm radio ardal dynnu."
+msgstr "Dewiswch y botwm radio llunio ardal."
 
 #: server/templates/main/map-help.html:46
-#, GOOGLE
 msgid "Select a point on the map to start drawing."
-msgstr "Dewiswch bwynt ar y map i ddechrau tynnu llun."
+msgstr "Dewiswch bwynt ar y map i ddechrau llunio."
 
 #: server/templates/main/map-help.html:47
-#, GOOGLE
 msgid "Keep selecting points to draw your search area."
-msgstr "Parhewch i ddewis pwyntiau i dynnu llun eich ardal chwilio."
+msgstr "Parhewch i ddewis pwyntiau i lunio’ch ardal chwilio."
 
 #: server/templates/main/map-help.html:48
-#, GOOGLE
 msgid ""
 "Select the first point again, or double click anywhere, to complete your "
 "search area."
 msgstr ""
-"Dewiswch y pwynt cyntaf eto, neu cliciwch ddwywaith yn unrhyw le, i "
-"gwblhau eich ardal chwilio."
+"Dewiswch y pwynt cyntaf eto, neu cliciwch ddwywaith unrhyw le, i gwblhau "
+"eich ardal chwilio."
 
 #: server/templates/main/map-help.html:54
-#, GOOGLE
 msgid "Hold down the SHIFT key and select."
-msgstr "Daliwch yr allwedd SHIFT i lawr a dewiswch."
+msgstr "Daliwch y fysell SHIFT i lawr a dewiswch."
 
 #: server/templates/main/map-help.html:55
-#, GOOGLE
 msgid ""
 "Release the SHIFT key and mouse button to stop drawing, or release only "
 "SHIFT to continue drawing a straight edge."
 msgstr ""
-"Rhyddhewch allwedd SHIFT a botwm y llygoden i roi'r gorau i dynnu llun, "
-"neu rhyddhewch SHIFT yn unig i barhau i dynnu ymyl syth."
+"Rhyddhewch y fysellt SHIFT a botwm y llygoden i roi’r gorau i lunio, neu "
+"rhyddhewch y fysell SHIFT yn unig i barhau i lunio ymyl syth"
 
 #: server/templates/main/map-help.html:58
-#, GOOGLE
 msgid ""
 "Before confirming, ensure your search area includes all of the properties"
 " and land you want to search against, including any driveways, alleys or "
 "gardens, etc."
 msgstr ""
-"Cyn cadarnhau, sicrhewch fod eich ardal chwilio yn cynnwys yr holl eiddo "
-"a thir yr hoffech chwilio yn eu herbyn, gan gynnwys unrhyw dramwyfeydd, "
-"lonydd cefn neu erddi, ac ati."
+"Cyn cadarnhau, gwnewch yn siwr bod yr ardal chwilio o dan sylw’n cynnwys "
+"yr holl eiddo a thir rydych am chwilio yn eu herbyn, gan gynnwys unrhyw "
+"ddreifiau, lonydd cefn neu erddi, ac ati."
 
 #: server/templates/main/map-help.html:61
-#, GOOGLE
 msgid ""
 "This video shows how to draw your search area using the draw area radio "
 "button."
 msgstr ""
-"Mae'r fideo hwn yn dangos sut i dynnu llun eich ardal chwilio gan "
-"ddefnyddio'r botwm radio ardal dynnu."
+"Mae’r fideo hwn yn dangos sut i lunio’ch ardal chwilio gan ddefnyddio’r "
+"botwm radio llunio ardal."
 
 #: server/templates/main/map-help.html:62
-#, GOOGLE
 msgid "In the video, to draw a search area with straight edges, a user:"
-msgstr "Yn y fideo, i dynnu ardal chwilio gydag ymylon syth, defnyddiwr:"
+msgstr "Yn y fideo, i lunio ardal chwilio gydag ymylon syth, mae defnyddiwr:"
 
 #: server/templates/main/map-help.html:64
 #: server/templates/main/map-help.html:71
 #: server/templates/main/map-help.html:132
-#, GOOGLE
 msgid "Selects the draw area radio button."
-msgstr "Yn dewis y botwm radio ardal dynnu."
+msgstr "Yn dewis y botwm radio llunio ardal."
 
 #: server/templates/main/map-help.html:65
 #: server/templates/main/map-help.html:72
-#, GOOGLE
 msgid "Selects a place on the map to start drawing."
-msgstr "Yn dewis lle ar y map i ddechrau tynnu llun."
+msgstr "Yn dewis lle ar y map i ddechrau llunio."
 
 #: server/templates/main/map-help.html:66
-#, GOOGLE
 msgid "Keeps selecting around the edges of the search area."
-msgstr "Yn dal i ddewis o amgylch ymylon yr ardal chwilio."
+msgstr "Yn parhau i ddewis o amgylch ymylon yr ardal chwilio."
 
 #: server/templates/main/map-help.html:67
 #: server/templates/main/map-help.html:137
-#, GOOGLE
 msgid "Joins the points to stop drawing."
-msgstr "Yn ymuno â'r pwyntiau i roi'r gorau i dynnu llun."
+msgstr "Yn uno’r pwyntiau i roi’r gorau i lunio."
 
 #: server/templates/main/map-help.html:69
-#, GOOGLE
 msgid "In the video, to draw an extent with curved edges, a user:"
-msgstr "Yn y fideo, i dynnu maint ag ymylon crwm, mae defnyddiwr:"
+msgstr "Yn y fideo, i lunio stent gydag ymylon crwm, mae defnyddiwr:"
 
 #: server/templates/main/map-help.html:73
-#, GOOGLE
 msgid "Hold the SHIFT key and drag the cursor to draw a curved search area."
-msgstr "Daliwch y fysell SHIFT a llusgwch y cyrchwr i dynnu ardal chwilio grwm."
+msgstr ""
+"Yn dal y fysell SHIFT ac yn llusgo’r cyrchwr i lunio ardal chwilio gydag "
+"ymyl crwm."
 
 #: server/templates/main/map-help.html:74
-#, GOOGLE
 msgid "Release the SHIFT key and mouse button to stop drawing."
-msgstr "Rhyddhewch allwedd SHIFT a botwm y llygoden i roi'r gorau i dynnu llun."
+msgstr "Yn rhyddhau’r fysell SHIFT a botwm y llygoden i roi’r gorau i lunio."
 
 #: server/templates/main/map-help.html:90
-#, GOOGLE
 msgid ""
 "Select the edit area radio button. You will see your search area turn "
 "green."
 msgstr ""
-"Dewiswch y botwm radio ardal golygu. Byddwch yn gweld eich ardal chwilio "
-"yn troi'n wyrdd."
+"Dewiswch y botwm radio golygu ardal. Byddwch yn gweld eich ardal chwilio "
+"yn troi’n wyrdd"
 
 #: server/templates/main/map-help.html:91
-#, GOOGLE
 msgid "Select and drag the outline of your search area to edit it."
-msgstr "Dewiswch a llusgwch amlinelliad eich ardal chwilio i'w olygu."
+msgstr "Dewiswch a llusgwch amlinelliad eich ardal chwilio i’w golygu."
 
 #: server/templates/main/map-help.html:94
-#, GOOGLE
 msgid ""
 "This video shows how to edit your search area using the edit area radio "
 "button."
 msgstr ""
-"Mae'r fideo hwn yn dangos sut i olygu eich ardal chwilio gan ddefnyddio'r"
-" botwm radio ardal olygu."
+"Mae’r fideo hwn yn dangos sut i olygu’ch ardal chwilio gan ddefnyddio’r "
+"botwm radio golygu ardal."
 
 #: server/templates/main/map-help.html:97
-#, GOOGLE
 msgid "Selects the edit area radio button."
-msgstr "Yn dewis y botwm radio ardal golygu."
+msgstr "Yn dewis y botwm radio golygu ardal."
 
 #: server/templates/main/map-help.html:98
-#, GOOGLE
 msgid "Sees the search area turn green."
-msgstr "Yn gweld yr ardal chwilio yn troi'n wyrdd."
+msgstr "Yn gweld yr ardal chwilio yn troi’n wyrdd."
 
 #: server/templates/main/map-help.html:99
-#, GOOGLE
 msgid "Selects one of the points."
-msgstr "Yn dewis un o'r pwyntiau."
+msgstr "Yn dewis un o’r pwyntiau."
 
 #: server/templates/main/map-help.html:100
-#, GOOGLE
 msgid "Drags the point to change the search area."
-msgstr "Yn llusgo'r pwynt i newid yr ardal chwilio."
+msgstr "Yn llusgo’r pwynt i newid yr ardal chwilio."
 
 #: server/templates/main/map-help.html:101
-#, GOOGLE
 msgid "Holds ALT key while selecting another point to delete it."
-msgstr "Yn dal allwedd ALT tra'n dewis pwynt arall i'w ddileu."
+msgstr "Yn dal y fysell ALT wrth ddewis pwynt arall i’w ddileu."
 
 #: server/templates/main/map-help.html:115
-#, GOOGLE
 msgid "How to draw a search area with snap to line on map"
-msgstr "Sut i dynnu ardal chwilio gyda snap i linell ar y map"
+msgstr "Sut i lunio ardal chwilio gyda neidio i linell ar y map"
 
 #: server/templates/main/map-help.html:117
-#, GOOGLE
 msgid ""
 "You can only use snap to line on map when you are zoomed into a location "
 "(seeing a place close-up). This option will be inactive until you are "
 "zoomed in enough."
 msgstr ""
-"Dim ond pan fyddwch wedi chwyddo i mewn i leoliad (gweld lle yn agos i "
-"fyny) y gallwch ddefnyddio snap i linell ar fap. Bydd yr opsiwn hwn yn "
-"anactif nes eich bod wedi chwyddo digon."
+"Dim ond pan fyddwch wedi chwyddo mewn i leoliad (gweld lle yn agos) "
+"gallwch ddefnyddio neidio i linell ar fap. Bydd yr opsiwn hwn yn llonydd "
+"tan ichi chwyddo mewn digon."
 
 #: server/templates/main/map-help.html:121
-#, GOOGLE
 msgid "Select the snap to line on map checkbox."
-msgstr "Dewiswch y snap i linell ar y blwch ticio map."
+msgstr "Dewiswch y blwch ticio neidio i linell ar y map."
 
 #: server/templates/main/map-help.html:122
-#, GOOGLE
 msgid "Hover your cursor near the line or point you want to snap to."
-msgstr "Hofranwch eich cyrchwr ger y llinell neu'r pwynt rydych chi am fynd ato."
+msgstr "Hofranwch eich cyrchwr ger y llinell neu’r pwynt rydych am neidio iddo."
 
 #: server/templates/main/map-help.html:123
-#, GOOGLE
 msgid "The cursor will jump to that point automatically."
-msgstr "Bydd y cyrchwr yn neidio i'r pwynt hwnnw'n awtomatig."
+msgstr "Bydd y cyrchwr yn neidio i’r pwynt hwnnw’n awtomatig."
 
 #: server/templates/main/map-help.html:126
-#, GOOGLE
 msgid ""
 "This feature can also be used during other map interactions, like edit "
 "area."
 msgstr ""
-"Gellir defnyddio'r nodwedd hon hefyd yn ystod rhyngweithiadau map eraill,"
-" fel ardal olygu."
+"Gellir defnyddio’r nodwedd hon hefyd yn ystod rhyngweithiadau map eraill,"
+" fel golygu ardal."
 
 #: server/templates/main/map-help.html:129
-#, GOOGLE
 msgid "This video shows how to draw a search area with snap to line on map."
 msgstr ""
-"Mae'r fideo hwn yn dangos sut i dynnu ardal chwilio gyda snap i linell ar"
-" fap."
+"Mae’r fideo hwn yn dangos sut i lunio ardal chwilio gyda neidio i linell "
+"ar y map."
 
 #: server/templates/main/map-help.html:133
-#, GOOGLE
 msgid "Selects the snap to line on map checkbox."
-msgstr "Yn dewis y snap i linell ar y blwch ticio map."
+msgstr "Yn dewis y blwch ticio neidio i linell ar y map."
 
 #: server/templates/main/map-help.html:134
-#, GOOGLE
 msgid "Hovers the cursor near where they want to begin drawing their search area."
 msgstr ""
-"Yn hofran y cyrchwr yn agos at y man lle maen nhw am ddechrau tynnu eu "
-"man chwilio."
+"Yn hofran y cyrchwr yn agos i’r man lle mae am ddechrau llunio’r ardal "
+"chwilio."
 
 #: server/templates/main/map-help.html:135
-#, GOOGLE
 msgid "Sees the point snapping to a line on the map as they hover close to it."
-msgstr "Yn gweld y pwynt yn mynd i linell ar y map wrth iddynt hofran yn agos ato."
+msgstr "Yn gweld y pwynt yn neidio i linell ar y map wrth iddo hofran yn agos ati."
 
 #: server/templates/main/map-help.html:136
-#, GOOGLE
 msgid "Selects to add multiple points to draw their search area."
-msgstr "Yn dewis ychwanegu pwyntiau lluosog i luniadu eu hardal chwilio."
+msgstr "Yn dewis ychwanegu mwy nag un pwynt i lunio’r ardal chwilio."
 
 #: server/templates/main/map-help.html:144
-#, GOOGLE
 msgid "Transcript for: How to draw a search area with snap to line on map"
 msgstr ""
-"Trawsgrifiad ar gyfer: Sut i lunio ardal chwilio gyda snap i linell ar y "
-"map"
+"Trawsgrifiad ar gyfer: Sut i lunio ardal chwilio gyda neidio i linell ar "
+"y map"
 
 #: server/templates/main/map-help.html:148
-#, GOOGLE
 msgid "How to draw a search area with snap to line on map (video)"
-msgstr "Sut i dynnu ardal chwilio gyda snap i linell ar y map (fideo)"
+msgstr "Sut i lunio ardal chwilio gyda neidio i linell ar y map (fideo)"
 
 #: server/templates/main/map-help.html:151
-#, GOOGLE
 msgid "How to delete a search area"
 msgstr "Sut i ddileu ardal chwilio"
 
 #: server/templates/main/map-help.html:153
-#, GOOGLE
 msgid "Select the delete area radio button."
 msgstr "Dewiswch y botwm radio dileu ardal."
 
 #: server/templates/main/map-help.html:154
-#, GOOGLE
 msgid "Your search area will turn red."
-msgstr "Bydd eich ardal chwilio yn troi'n goch."
+msgstr "Bydd eich ardal chwilio yn troi’n goch."
 
 #: server/templates/main/map-help.html:155
-#, GOOGLE
 msgid "Select the search area you want to delete."
-msgstr "Dewiswch yr ardal chwilio rydych chi am ei dileu."
+msgstr "Dewiswch yr ardal chwilio rydych am ei dileu."
 
 #: server/templates/main/map-help.html:158
-#, GOOGLE
 msgid ""
 "This video shows how to delete a search area using the delete area radio "
 "button."
 msgstr ""
-"Mae'r fideo hwn yn dangos sut i ddileu ardal chwilio gan ddefnyddio'r "
+"Mae’r fideo hwn yn dangos sut i ddileu ardal chwilio gan ddefnyddio’r "
 "botwm radio dileu ardal."
 
 #: server/templates/main/map-help.html:161
-#, GOOGLE
 msgid "Selects the delete area radio button."
 msgstr "Yn dewis y botwm radio dileu ardal."
 
 #: server/templates/main/map-help.html:162
-#, GOOGLE
 msgid "Sees the search area turn red."
-msgstr "Yn gweld yr ardal chwilio yn troi'n goch."
+msgstr "Yn gweld yr ardal chwilio yn troi’n goch."
 
 #: server/templates/main/map-help.html:163
-#, GOOGLE
 msgid "Selects two parts of the search area to remove them."
-msgstr "Yn dewis dwy ran o'r ardal chwilio i gael gwared arnynt."
+msgstr "Yn dewis dwy ran o’r ardal chwilio i’w dileu."
 
 #: server/templates/main/map-help.html:170
-#, GOOGLE
 msgid "Transcript for: How to delete a search area"
 msgstr "Trawsgrifiad ar gyfer: Sut i ddileu ardal chwilio"
 
 #: server/templates/main/map-help.html:174
-#, GOOGLE
 msgid "How to delete a search area (video)"
 msgstr "Sut i ddileu ardal chwilio (fideo)"
 
 #: server/templates/main/map-help.html:177
-#, GOOGLE
 msgid "How to clear all"
-msgstr "Sut i glirio'r cyfan"
+msgstr "Sut i glirio’r cyfan"
 
 #: server/templates/main/map-help.html:179
-#, GOOGLE
 msgid "Select the clear all button."
-msgstr "Dewiswch y botwm clir i gyd."
+msgstr "Dewiswch y botwm clirio popeth."
 
 #: server/templates/main/map-help.html:182
-#, GOOGLE
 msgid "This deletes everything you have drawn on the map."
-msgstr "Mae hyn yn dileu popeth rydych chi wedi'i dynnu ar y map."
+msgstr "Mae hyn yn dileu popeth a luniwyd gennych ar y map."
 
 #: server/templates/main/map-help.html:185
-#, GOOGLE
 msgid ""
 "This video shows how to delete everything you have drawn on the map using"
 " the clear all button."
 msgstr ""
-"Mae'r fideo hwn yn dangos sut i ddileu popeth rydych chi wedi'i dynnu ar "
-"y map gan ddefnyddio'r botwm clir i gyd."
+"Mae’r fideo hwn yn dangos sut i ddileu popeth a luniwyd gennych ar y map "
+"gan ddefnyddio’r botwm clirio popeth"
 
 #: server/templates/main/map-help.html:188
-#, GOOGLE
 msgid "Selects the clear all button."
-msgstr "Yn dewis y botwm clir i gyd."
+msgstr "Yn dewis y botwm clirio popeth."
 
 #: server/templates/main/map-help.html:189
-#, GOOGLE
 msgid "Sees everything they have drawn on the map being deleted."
-msgstr "Yn gweld popeth maen nhw wedi'i dynnu ar y map yn cael ei ddileu."
+msgstr "Yn gweld popeth mae wedi ei lunio ar y map yn cael ei ddileu."
 
 #: server/templates/main/map-help.html:196
-#, GOOGLE
 msgid "Transcript for: How to clear all"
 msgstr "Trawsgrifiad ar gyfer: Sut i glirio popeth"
 
 #: server/templates/main/map-help.html:200
-#, GOOGLE
 msgid "How to clear all (video)"
 msgstr "Sut i glirio popeth (fideo)"
 
 #: server/templates/main/map-help.html:206
-#, GOOGLE
 msgid "Select the undo button."
 msgstr "Dewiswch y botwm dadwneud."
 
 #: server/templates/main/map-help.html:209
-#, GOOGLE
 msgid "Your last interaction with the map will be undone."
-msgstr "Bydd eich rhyngweithiad diwethaf â'r map yn cael ei ddadwneud."
+msgstr "Caiff eich rhyngweithiad diwethaf â’r map ei ddadwneud."
 
 #: server/templates/main/map-help.html:212
-#, GOOGLE
 msgid "You can undo multiple actions in sequence."
-msgstr "Gallwch ddadwneud gweithredoedd lluosog mewn dilyniant."
+msgstr "Gallwch ddadwneud sawl gweithred yn olynol."
 
 #: server/templates/main/map-help.html:215
-#, GOOGLE
 msgid "This video shows how to undo interactions with the map."
-msgstr "Mae'r fideo hwn yn dangos sut i ddadwneud rhyngweithiadau â'r map."
+msgstr "Mae’r fideo hwn yn dangos sut i ddadwneud rhyngweithiadau â’r map."
 
 #: server/templates/main/map-help.html:218
-#, GOOGLE
 msgid "Draws an area on the map."
-msgstr "Yn lluniadu ardal ar y map."
+msgstr "Yn llunio ardal ar y map."
 
 #: server/templates/main/map-help.html:219
-#, GOOGLE
 msgid "Deletes an area."
 msgstr "Yn dileu ardal."
 
 #: server/templates/main/map-help.html:220
-#, GOOGLE
 msgid "Selects the undo button to undo deleting an area."
 msgstr "Yn dewis y botwm dadwneud i ddadwneud dileu ardal."
 
 #: server/templates/main/map-help.html:221
-#, GOOGLE
 msgid "Selects the undo button again to undo drawing an area."
-msgstr "Yn dewis y botwm dadwneud eto i ddadwneud lluniadu ardal."
+msgstr "Yn dewis y botwm dadwneud eto i ddadwneud llunio ardal."
 
 #: server/templates/main/map-help.html:239
-#, GOOGLE
 msgid "Arrow keys to move the map up, down, left and right."
-msgstr "Bysellau saeth i symud y map i fyny, i lawr, i'r chwith ac i'r dde."
+msgstr "Bysellau saeth i symud y map i fyny, i lawr, i’r chwith ac i’r dde."
 
 #: server/templates/main/map-help.html:240
-#, GOOGLE
 msgid "SHIFT key with arrows to fine-tune the position."
-msgstr "Allwedd SHIFT gyda saethau i fireinio'r lleoliad."
+msgstr "Bysell SHIFT gyda’r saethau i fireinio’r lleoliad."
 
 #: server/templates/main/map-help.html:241
-#, GOOGLE
 msgid "Plus sign (+) to zoom in and Minus sign (-) to zoom out."
-msgstr "Hefyd arwydd (+) i chwyddo i mewn ac arwydd Minus (-) i chwyddo allan."
+msgstr "Arwydd Plws (+) i chwyddo i mewn ac arwydd Minws (-) i chwyddo allan."
 
 #: server/templates/main/map-help.html:242
-#, GOOGLE
 msgid "SPACE bar or ENTER key to select the area at the centre of the map."
-msgstr "Bar gofod neu fysell ENTER i ddewis yr ardal yng nghanol y map."
+msgstr "Bar gofod neu fysell ENTER i ddewis yr ardal ar ganol y map."
 
 #: server/templates/main/release-notices.html:5
 #: server/templates/main/release-notices.html:11
@@ -2513,8 +2439,8 @@ msgid "Format"
 msgstr "Fformat"
 
 #: server/templates/main/terms-and-conditions.html:8
-msgid "Search for local land charges: Terms of Use"
-msgstr "Chwilio am bridiannau tir lleol: Telerau Defnyddio"
+msgid "Search for local land charges: Terms of use"
+msgstr "Chwilio am bridiannau tir lleol: Telerau defnyddio"
 
 #: server/templates/main/terms-and-conditions.html:11
 msgid "About this service"
@@ -2523,16 +2449,17 @@ msgstr "Ynglŷn â’r gwasanaeth hwn"
 #: server/templates/main/terms-and-conditions.html:13
 msgid ""
 "You can use this service to find out about local land charges "
-"(restrictions) on land or property on the Local Land Charges Register"
+"(restrictions) on land or property on the Local land charges register"
 msgstr ""
 "Gallwch ddefnyddio’r gwasanaeth hwn i ddarganfod mwy am bridiannau tir "
-"lleol (cyfyngiadau) ar dir neu eiddo ar y Gofrestr Pridiannau Tir Lleol"
+"lleol (cyfyngiadau) ar dir neu eiddo ar y gofrestr pridiannau tir Lleol"
 
 #: server/templates/main/terms-and-conditions.html:14
+#, OLD
 msgid ""
 "Before you start your search, we recommend that you use our online search"
-" tool to find out if the authority you want to search has moved to the "
-"local land charges register"
+" tool to find out if the local authority area you want to search has "
+"moved to the local land charges register"
 msgstr ""
 "Cyn ichi ddechrau eich chwiliad, rydym yn argymell eich bod yn defnyddio "
 "ein teclyn chwilio ar-lein i ddarganfod a yw’r awdurdod rydych am ei "
@@ -2548,30 +2475,44 @@ msgstr ""
 " chwilio gan ddefnyddio"
 
 #: server/templates/main/terms-and-conditions.html:17
-msgid "Postcode, address or partial address"
-msgstr "Cod post, cyfeiriad neu gyfeiriad rhannol"
+msgid "postcode, address or partial address"
+msgstr "cod post, cyfeiriad neu gyfeiriad rhannol"
 
 #: server/templates/main/terms-and-conditions.html:18
 msgid ""
-"Map (use the map buttons to draw a shape around the place you want to "
+"map (use the map buttons to draw a shape around the place you want to "
 "search)"
 msgstr ""
-"Map (defnyddiwch y botymau map i dynnu siâp o amgylch y lle rydych am ei "
+"map (defnyddiwch y botymau map i dynnu siâp o amgylch y lle rydych am ei "
 "chwilio)"
 
+#: server/templates/main/terms-and-conditions.html:19
+msgid "title number"
+msgstr "todwch rif teitl"
+
 #: server/templates/main/terms-and-conditions.html:20
+#, GOOGLE
+msgid "coordinates"
+msgstr "cyfesurynnau"
+
+#: server/templates/main/terms-and-conditions.html:21
+#, GOOGLE
+msgid "INSPIRE ID"
+msgstr "ddynodydd INSPIRE"
+
+#: server/templates/main/terms-and-conditions.html:23
 msgid "Your search will show you a list of local land charges"
 msgstr "Bydd eich chwiliad yn dangos rhestr o bridiannau tir lleol"
 
-#: server/templates/main/terms-and-conditions.html:22
-msgid "In the place you search"
-msgstr "Yn y lle rydych yn chwilio"
-
-#: server/templates/main/terms-and-conditions.html:23
-msgid "At a particular time"
-msgstr "Ar adeg benodol"
-
 #: server/templates/main/terms-and-conditions.html:25
+msgid "in the place you search"
+msgstr "yn y lle rydych yn chwilio"
+
+#: server/templates/main/terms-and-conditions.html:26
+msgid "at a particular time"
+msgstr "ar adeg benodol"
+
+#: server/templates/main/terms-and-conditions.html:28
 msgid ""
 "This service cannot tell you if a local land charge is being added to the"
 " register while you search"
@@ -2579,7 +2520,7 @@ msgstr ""
 "Ni all y gwasanaeth hwn ddweud wrthych a yw pridiant tir lleol yn cael ei"
 " ychwanegu at y gofrestr wrth ichi chwilio"
 
-#: server/templates/main/terms-and-conditions.html:26
+#: server/templates/main/terms-and-conditions.html:29
 msgid ""
 "By using this service, you accept the terms of use on this page. Each "
 "term of use is separate.  If any court decides any is unlawful, the rest "
@@ -2594,7 +2535,7 @@ msgstr ""
 " eich mynediad i wybodaeth cofrestr pridiannau tir lleol o dan Reoliadau "
 "Gwybodaeth Amgylcheddol 2004"
 
-#: server/templates/main/terms-and-conditions.html:27
+#: server/templates/main/terms-and-conditions.html:30
 msgid ""
 "You can stop using this service at any time.  HM Land Registry can stop "
 "you from using this service if you don’t comply with its terms of use."
@@ -2603,43 +2544,43 @@ msgstr ""
 "Cofrestrfa Tir EM eich atal rhag defnyddio’r gwasanaeth hwn os nad ydych "
 "yn cydymffurfio â’i delerau defnyddio."
 
-#: server/templates/main/terms-and-conditions.html:30
+#: server/templates/main/terms-and-conditions.html:33
 msgid "What’s not included"
 msgstr "Yr hyn nad yw wedi ei gynnwys"
 
-#: server/templates/main/terms-and-conditions.html:32
+#: server/templates/main/terms-and-conditions.html:35
 msgid "Your search does not include, for example"
 msgstr "Nid yw eich chwiliad yn cynnwys, er enghraifft"
 
-#: server/templates/main/terms-and-conditions.html:34
-msgid "Planning and development applications"
-msgstr "Ceisiadau cynllunio a datblygu"
-
-#: server/templates/main/terms-and-conditions.html:35
-msgid "Building controls"
-msgstr "Rheolaethau adeiladu"
-
-#: server/templates/main/terms-and-conditions.html:36
-msgid "Road development schemes near to your property"
-msgstr "Cynlluniau datblygu ffyrdd yn agos at eich eiddo"
+#: server/templates/main/terms-and-conditions.html:37
+msgid "planning and development applications"
+msgstr "ceisiadau cynllunio a datblygu"
 
 #: server/templates/main/terms-and-conditions.html:38
-msgid "All CON29 enquiries should be made to the relevant Local Authority"
-msgstr "Dylid gwneud pob ymholiad CON29 i’r Awdurdod Lleol perthnasol"
+msgid "building controls"
+msgstr "rheolaethau adeiladu"
+
+#: server/templates/main/terms-and-conditions.html:39
+msgid "road development schemes near to your property"
+msgstr "cynlluniau datblygu ffyrdd yn agos at eich eiddo"
 
 #: server/templates/main/terms-and-conditions.html:41
+msgid "All CON29 enquiries should be made to the relevant local authority"
+msgstr "Dylid gwneud pob ymholiad CON29 i’r awdurdod lleol perthnasol"
+
+#: server/templates/main/terms-and-conditions.html:44
 msgid "Personal and official search services"
 msgstr "Gwasanaethau chwiliad personol a swyddogol"
 
-#: server/templates/main/terms-and-conditions.html:43
+#: server/templates/main/terms-and-conditions.html:46
 msgid "You can choose from the"
 msgstr "Gallwch ddewis o’r"
 
-#: server/templates/main/terms-and-conditions.html:45
+#: server/templates/main/terms-and-conditions.html:48
 msgid "personal search service (this is free)"
 msgstr "gwasanaeth chwiliad personol (mae hwn am ddim)"
 
-#: server/templates/main/terms-and-conditions.html:46
+#: server/templates/main/terms-and-conditions.html:49
 msgid ""
 "official search service (a fee is payable for this service under the "
 "Local Land Charges Fees (England) Rules 2018).  This is a secure document"
@@ -2649,7 +2590,7 @@ msgstr ""
 "dan Reolau Ffïoedd Pridiannau Tir Lleol (Lloegr) 2018). Mae hon yn "
 "ddogfen ddiogel wedi ei llofnodi’n ddigidol gan Gofrestrfa Tir EM"
 
-#: server/templates/main/terms-and-conditions.html:49
+#: server/templates/main/terms-and-conditions.html:52
 msgid ""
 "If you choose the official search service, you can download your official"
 " search certificate and print a copy"
@@ -2657,7 +2598,7 @@ msgstr ""
 "Os ydych yn dewis y gwasanaeth chwiliad swyddogol, gallwch lawrlwytho’ch "
 "tystysgrif chwiliad swyddogol ac argraffu copi"
 
-#: server/templates/main/terms-and-conditions.html:50
+#: server/templates/main/terms-and-conditions.html:53
 msgid ""
 "If you choose the official search service you can update your official "
 "search certificate by making as many free repeat search applications as "
@@ -2673,33 +2614,25 @@ msgstr ""
 "rhoddir tystysgrif chwiliad swyddogol. Bydd yn rhaid ichi dalu am unrhyw "
 "chwiliad ailadroddus a wneir ar ôl i 6 mis ddod i ben"
 
-#: server/templates/main/terms-and-conditions.html:53
+#: server/templates/main/terms-and-conditions.html:56
 msgid "Personal search"
 msgstr "Chwiliad personol"
 
-#: server/templates/main/terms-and-conditions.html:55
+#: server/templates/main/terms-and-conditions.html:58
 msgid "A personal search will let you inspect the register and show you"
 msgstr ""
 "Bydd chwiliad personol yn caniatáu ichi archwilio’r gofrestr a dangos y "
 "canlynol ichi"
 
-#: server/templates/main/terms-and-conditions.html:57
+#: server/templates/main/terms-and-conditions.html:60
 msgid "a description of the local land charge"
 msgstr "disgrifiad o’r pridiant tir lleol"
 
-#: server/templates/main/terms-and-conditions.html:58
+#: server/templates/main/terms-and-conditions.html:61
 msgid "the registration date, the date when the charge was added to the register"
 msgstr "y dyddiad cofrestru, y dyddiad yr ychwanegwyd y pridiant at y gofrestr "
 
-#: server/templates/main/terms-and-conditions.html:59
-msgid ""
-"contact details for the authority that can answer questions about the "
-"local land charge (where available)"
-msgstr ""
-"manylion cyswllt yr awdurdod a all ateb cwestiynau am y pridiant tir "
-"lleol (pan fyddant ar gael)"
-
-#: server/templates/main/terms-and-conditions.html:61
+#: server/templates/main/terms-and-conditions.html:63
 msgid ""
 "A personal search is free and is access to the local land charges "
 "register under the EIR.  These terms of use do not restrict your access "
@@ -2710,11 +2643,11 @@ msgstr ""
 "yw’r telerau defnyddio hyn yn cyfyngu eich mynediad i wybodaeth cofrestr "
 "pridiannau tir lleol o dan Reoliadau Gwybodaeth Amgylcheddol 2004"
 
-#: server/templates/main/terms-and-conditions.html:64
-msgid "Official Search"
-msgstr "Chwiliad Swyddogol"
-
 #: server/templates/main/terms-and-conditions.html:66
+msgid "Official search"
+msgstr "Chwiliad swyddogol"
+
+#: server/templates/main/terms-and-conditions.html:68
 msgid ""
 "The official search will show the same information as the personal search"
 " plus"
@@ -2722,11 +2655,11 @@ msgstr ""
 "Bydd y chwiliad swyddogol yn dangos yr un wybodaeth â’r chwiliad personol"
 " ynghyd â’r canlynol"
 
-#: server/templates/main/terms-and-conditions.html:68
+#: server/templates/main/terms-and-conditions.html:70
 msgid "search boundary/area on a map"
 msgstr "terfyn/ardal chwiliad ar fap"
 
-#: server/templates/main/terms-and-conditions.html:69
+#: server/templates/main/terms-and-conditions.html:71
 msgid ""
 "originating authority name, reference and any electronic link they have "
 "provided to a document or register kept by them relevant to the charge"
@@ -2735,11 +2668,20 @@ msgstr ""
 "ddarparwyd ganddynt i ddogfen neu gofrestr a gedwir ganddynt sy’n "
 "berthnasol i’r pridiant"
 
-#: server/templates/main/terms-and-conditions.html:70
+#: server/templates/main/terms-and-conditions.html:72
 msgid "local land charge boundary"
 msgstr "terfyn pridiant tir lleol"
 
-#: server/templates/main/terms-and-conditions.html:72
+#: server/templates/main/terms-and-conditions.html:73
+#, OLD
+msgid ""
+"contact details for the originating authority that can answer questions "
+"about the local land charge (where available)"
+msgstr ""
+"manylion cyswllt yr awdurdod a all ateb cwestiynau am y pridiant tir "
+"lleol (pan fyddant ar gael)"
+
+#: server/templates/main/terms-and-conditions.html:75
 msgid ""
 "You can download the official search certificate as a secure document, "
 "digitally signed by HM Land Registry"
@@ -2747,82 +2689,83 @@ msgstr ""
 "Gallwch lawrlwytho’r dystysgrif chwiliad swyddogol fel dogfen ddiogel, "
 "wedi ei llofnodi’n ddigidol gan Gofrestrfa Tir EM"
 
-#: server/templates/main/terms-and-conditions.html:73
+#: server/templates/main/terms-and-conditions.html:76
 msgid "A fee is payable for an official search."
 msgstr "Mae ffi yn daladwy am chwiliad swyddogol"
 
-#: server/templates/main/terms-and-conditions.html:76
-msgid "Opening an account"
-msgstr "Agor cyfrif"
+#: server/templates/main/terms-and-conditions.html:79
+#, GOOGLE
+msgid "Creating an account"
+msgstr "Creu cyfrif"
 
-#: server/templates/main/terms-and-conditions.html:78
+#: server/templates/main/terms-and-conditions.html:81
 msgid ""
-"You need to set up an account to access the search service, with it you "
+"You need to create an account to access the search service, with it you "
 "will get for 6 months"
 msgstr ""
 "Mae angen ichi greu cyfrif er mwyn defnyddio’r gwasanaeth chwilio. Trwy "
 "hyn fe gewch am 6 mis"
 
-#: server/templates/main/terms-and-conditions.html:80
+#: server/templates/main/terms-and-conditions.html:83
 msgid "cloud storage for your searches"
 msgstr "lle i storio trwy gwmwl ar gyfer eich chwiliadau"
 
-#: server/templates/main/terms-and-conditions.html:81
+#: server/templates/main/terms-and-conditions.html:84
 msgid "a search result archive"
 msgstr "archif canlyniadau chwiliadau"
 
-#: server/templates/main/terms-and-conditions.html:82
+#: server/templates/main/terms-and-conditions.html:85
 msgid "unlimited downloads"
 msgstr "lawrlwythiadau diderfyn"
 
-#: server/templates/main/terms-and-conditions.html:84
-msgid "a dashboard showing"
-msgstr "dangosfwrdd yn dangos"
-
-#: server/templates/main/terms-and-conditions.html:86
-msgid ""
-"active searches (searches less than 6 months old).  You can update these "
-"searches by making as many free repeat search applications as you want, "
-"for 6 months after your original search date.  Each time you repeat your "
-"search application, an official search certificate will be issued"
-msgstr ""
-"chwiliadau gweithredol (chwiliadau llai na 6 mis oed). Gallwch ddiweddaru"
-" eich tystysgrif chwiliad swyddogol trwy wneud cymaint o geisiadau "
-"chwilio ailadroddus di-dâl ag sydd ei angen arnoch am 6 mis ar ôl eich "
-"dyddiad chwilio gwreiddiol. Bob tro rydych yn ailadrodd eich cais "
-"chwilio, rhoddir tystysgrif chwiliad swyddogol"
-
 #: server/templates/main/terms-and-conditions.html:87
 msgid ""
-"expired searches (searches older than 6 months).   You can repeat these, "
-"but you will need to pay when you search again"
+"You will also get a dashboard showing active searches (searches less than"
+" 6 months old).  You can update these searches by making as many free "
+"repeat search applications as you want, for 6 months after your original "
+"search date.  Each time you repeat your search application, an official "
+"search certificate will be issued"
 msgstr ""
-"chwiliadau sydd wedi dod i ben (chwiliadau sy'n hŷn na 6 mis). Gallwch "
-"ailadrodd y rhain, ond bydd angen ichi dalu wrth chwilio eto"
+"Byddwch yn cael dangosfwrdd hefyd yn dangos chwiliadau gweithredol "
+"(chwiliadau llai na 6 mis oed). Gallwch ddiweddaru eich tystysgrif "
+"chwiliad swyddogol trwy wneud cymaint o geisiadau chwilio ailadroddus di-"
+"dâl ag sydd ei angen arnoch am 6 mis ar ôl eich dyddiad chwilio "
+"gwreiddiol. Bob tro rydych yn ailadrodd eich cais chwilio, rhoddir "
+"tystysgrif chwiliad swyddogol"
 
-#: server/templates/main/terms-and-conditions.html:93
-msgid "What you need to set up an account"
+#: server/templates/main/terms-and-conditions.html:88
+msgid ""
+"Your dashboard will also show expired searches (searches older than 6 "
+"months).   You can repeat these, but you will need to pay when you search"
+" again"
+msgstr ""
+"Bydd eich dangosfwrdd yn dangos chwiliadau sydd wedi dod i ben hefyd "
+"(chwiliadau sy'n hŷn na 6 mis). Gallwch ailadrodd y rhain, ond bydd angen"
+" ichi dalu wrth chwilio eto"
+
+#: server/templates/main/terms-and-conditions.html:91
+msgid "What you need to create an account"
 msgstr "Yr hyn sydd ei angen arnoch i greu cyfrif"
 
-#: server/templates/main/terms-and-conditions.html:95
-msgid "To set up an account you must provide your"
-msgstr "I greu cyfrif, rhaid ichi ddarparu’ch"
+#: server/templates/main/terms-and-conditions.html:93
+msgid "To create an account you must provide your"
+msgstr "I greu cyfrif rhaid ichi ddarparu’ch"
 
-#: server/templates/main/terms-and-conditions.html:97
-#: server/templates/main/terms-and-conditions.html:194
+#: server/templates/main/terms-and-conditions.html:95
+#: server/templates/main/terms-and-conditions.html:192
 msgid "name"
 msgstr "enw"
 
-#: server/templates/main/terms-and-conditions.html:98
+#: server/templates/main/terms-and-conditions.html:96
 msgid "email"
 msgstr "ebost"
 
-#: server/templates/main/terms-and-conditions.html:99
-#: server/templates/main/terms-and-conditions.html:196
+#: server/templates/main/terms-and-conditions.html:97
+#: server/templates/main/terms-and-conditions.html:194
 msgid "password"
 msgstr "cyfrinair"
 
-#: server/templates/main/terms-and-conditions.html:101
+#: server/templates/main/terms-and-conditions.html:99
 msgid ""
 "HM Land Registry will email you to tell you that your account has been "
 "created"
@@ -2830,31 +2773,32 @@ msgstr ""
 "Bydd Cofrestrfa Tir EM yn anfon ebost atoch i ddweud bod eich cyfrif wedi"
 " ei greu"
 
-#: server/templates/main/terms-and-conditions.html:102
+#: server/templates/main/terms-and-conditions.html:100
 msgid ""
-"If you need to change your email address details, you can set up a new "
+"If you need to change your email address details, you can create a new "
 "account using a different email address"
 msgstr ""
 "Os oes angen ichi newid manylion eich cyfeiriad ebost, gallwch greu "
 "cyfrif newydd gan ddefnyddio cyfeiriad ebost gwahanol"
 
-#: server/templates/main/terms-and-conditions.html:105
+#: server/templates/main/terms-and-conditions.html:103
 msgid "Keeping your account secure"
 msgstr "Cadw’ch cyfrif yn ddiogel"
 
-#: server/templates/main/terms-and-conditions.html:107
+#: server/templates/main/terms-and-conditions.html:105
 msgid "You are responsible for"
 msgstr "Rydych yn gyfrifol am y canlynol"
 
-#: server/templates/main/terms-and-conditions.html:109
-msgid "keeping your username and password secure"
-msgstr "cadw’ch enw defnyddiwr a’ch cyfrinair yn ddiogel "
+#: server/templates/main/terms-and-conditions.html:107
+#, GOOGLE
+msgid "keeping your email address and password secure"
+msgstr "cadw’ch cyfeiriad ebost a’ch cyfrinair yn ddiogel"
 
-#: server/templates/main/terms-and-conditions.html:110
+#: server/templates/main/terms-and-conditions.html:108
 msgid "all activity that occurs on or through your account"
 msgstr "yr holl weithgaredd sy’n digwydd ar eich cyfrif neu trwy’ch cyfrif"
 
-#: server/templates/main/terms-and-conditions.html:112
+#: server/templates/main/terms-and-conditions.html:110
 msgid ""
 "If you think your account’s security has been breached, contact HM Land "
 "Registry"
@@ -2862,34 +2806,44 @@ msgstr ""
 "Os ydych yn credu bod diogelwch eich cyfrif wedi ei dorri, cysylltwch â "
 "Chofrestrfa Tir EM"
 
-#: server/templates/main/terms-and-conditions.html:114
-#: server/templates/main/terms-and-conditions.html:237
-msgid "phone: 0300 006 0411"
-msgstr "ffôn: 0300 006 0422 (am wasanaeth Cymraeg)"
+#: server/templates/main/terms-and-conditions.html:112
+#: server/templates/main/terms-and-conditions.html:235
+#, GOOGLE
+msgid ""
+"phone: 0300 006 0411, open Monday to Thursday, 8am to 5pm (except public "
+"holidays)"
+msgstr ""
+"ffôn: 0300 006 0422 (am wasanaeth Cymraeg), ar agor o dydd Llun i ddydd "
+"Iau, 8am i 5pm (ac eithrio gwyliau cyhoeddus)"
+
+#: server/templates/main/terms-and-conditions.html:113
+#: server/templates/main/terms-and-conditions.html:236
+#, GOOGLE
+msgid ""
+"speak to a Welsh speaker: 0300 006 0422, open Monday to Thursday, 8am to "
+"5pm (except public holidays)"
+msgstr ""
+"ffôn: 0300 006 0411 (am wasanaeth Saesneg), ar agor o dydd Llun i ddydd "
+"Iau, 8am i 5pm (ac eithrio gwyliau cyhoeddus)"
 
 #: server/templates/main/terms-and-conditions.html:115
-#: server/templates/main/terms-and-conditions.html:238
-msgid "speak to a Welsh speaker: 0300 006 0422"
-msgstr "ffôn: 0300 006 0411 (am wasanaeth Saesneg)"
-
-#: server/templates/main/terms-and-conditions.html:117
 msgid "If you don’t use your account for 12 months, we will delete it"
 msgstr "Os nad ydych yn defnyddio’ch cyfrif am 12 mis, byddwn yn ei ddileu"
 
-#: server/templates/main/terms-and-conditions.html:118
+#: server/templates/main/terms-and-conditions.html:116
+#, GOOGLE
 msgid ""
-"HM Land Registry is not responsible for any losses if someone else using "
-"your log in and user identification uses your account"
+"HM Land Registry is not responsible for any losses if someone else signs "
+"into your account with your email address and password"
 msgstr ""
 "Nid yw Cofrestrfa Tir EM yn gyfrifol am unrhyw golledion os bydd rhywun "
-"arall sy’n defnyddio’ch manylion mewngofnodi a’ch dull adnabod defnyddiwr"
-" yn defnyddio eich cyfrif"
+"arall yn mewngofnodi i’ch cyfrif gyda’ch cyfeiriad e-bost a’ch cyfrinair"
 
-#: server/templates/main/terms-and-conditions.html:121
+#: server/templates/main/terms-and-conditions.html:119
 msgid "How and when you can access the service"
 msgstr "Sut a phryd y gallwch gael mynediad i’r gwasanaeth"
 
-#: server/templates/main/terms-and-conditions.html:123
+#: server/templates/main/terms-and-conditions.html:121
 msgid ""
 "You can access the service from any supported internet connected device "
 "and browser"
@@ -2897,7 +2851,7 @@ msgstr ""
 "Gallwch gyrchu’r gwasanaeth o unrhyw ddyfais a phorwr sy’n gysylltiedig "
 "â’r rhyngrwyd"
 
-#: server/templates/main/terms-and-conditions.html:124
+#: server/templates/main/terms-and-conditions.html:122
 msgid ""
 "The service is available every day but may be taken down for updates and "
 "maintenance.  If you are logged in when this happens, you’ll get a "
@@ -2907,69 +2861,71 @@ msgstr ""
 "diweddariadau ac adegau cynnal a chadw. Os yw hyn yn digwydd pan fyddwch "
 "wedi mewngofnodi, cewch hysbysiad ar eich sgrin"
 
-#: server/templates/main/terms-and-conditions.html:129
+#: server/templates/main/terms-and-conditions.html:127
+#, OLD
 msgid ""
-"By using the service and/or registering an account, you agree that you "
-"will not"
+"By using the service and/or creating an account, you agree that you will "
+"not"
 msgstr ""
 "Trwy ddefnyddio’r gwasanaeth a/neu wrth gofrestru cyfrif, rydych yn "
 "cytuno na fyddwch yn gwneud y canlynol"
 
-#: server/templates/main/terms-and-conditions.html:131
-msgid "attempt to damage, impair or interrupt the service or access to it"
-msgstr "ceisio difrodi, amharu neu dorri ar draws y gwasanaeth neu fynediad iddo"
+#: server/templates/main/terms-and-conditions.html:129
+msgid "Attempt to damage, impair or interrupt the service or access to it"
+msgstr "Ceisio difrodi, amharu neu dorri ar draws y gwasanaeth neu fynediad iddo"
 
-#: server/templates/main/terms-and-conditions.html:132
+#: server/templates/main/terms-and-conditions.html:130
 msgid ""
-"use any automated software agents to search, copy, monitor, display, "
+"Use any automated software agents to search, copy, monitor, display, "
 "obtain links to or otherwise access this or any other HM Land Registry "
 "system"
 msgstr ""
-"defnyddio unrhyw asiantau meddalwedd awtomataidd i chwilio, copïo, "
+"Defnyddio unrhyw asiantau meddalwedd awtomataidd i chwilio, copïo, "
 "monitro, arddangos, cael cysylltau i neu gyrchu fel arall y system hon "
 "neu unrhyw system arall o eiddo Cofrestrfa Tir EM"
 
+#: server/templates/main/terms-and-conditions.html:131
+msgid "Copy or display the information provided for display on another website"
+msgstr "Copïo neu arddangos y wybodaeth a ddarperir i’w harddangos ar wefan arall"
+
+#: server/templates/main/terms-and-conditions.html:132
+msgid ""
+"Attempt to add, change or delete any information provided and held by HM "
+"Land Registry"
+msgstr ""
+"Ceisio ychwanegu, newid neu ddileu unrhyw wybodaeth a ddarperir ac a "
+"gedwir gan Gofrestrfa Tir EM"
+
 #: server/templates/main/terms-and-conditions.html:133
-msgid "copy or display the information provided for display on another website"
-msgstr "copïo neu arddangos y wybodaeth a ddarperir i’w harddangos ar wefan arall"
+#, OLD
+msgid "Allow anyone else to access your account using your email address"
+msgstr ""
+"Caniatáu i unrhyw un arall gael mynediad i’ch cyfrif gan ddefnyddio’ch "
+"Dynodydd Defnyddiwr a’ch cyfrinair"
 
 #: server/templates/main/terms-and-conditions.html:134
 msgid ""
-"attempt to add, change or delete any information provided and held by HM "
-"Land Registry"
-msgstr ""
-"ceisio ychwanegu, newid neu ddileu unrhyw wybodaeth a ddarperir ac a "
-"gedwir gan Gofrestrfa Tir EM"
-
-#: server/templates/main/terms-and-conditions.html:135
-msgid "allow anyone else access your account using your User ID and password"
-msgstr ""
-"caniatáu i unrhyw un arall gael mynediad i’ch cyfrif gan ddefnyddio’ch "
-"Dynodydd Defnyddiwr a’ch cyfrinair"
-
-#: server/templates/main/terms-and-conditions.html:136
-msgid ""
-"use the information provided by the service to claim any arrangement or "
+"Use the information provided by the service to claim any arrangement or "
 "official partnership with HM Land Registry to supply or reuse data and/or"
 " information"
 msgstr ""
-"defnyddio’r wybodaeth a ddarperir gan y gwasanaeth i hawlio unrhyw "
+"Defnyddio’r wybodaeth a ddarperir gan y gwasanaeth i hawlio unrhyw "
 "drefniant neu bartneriaeth swyddogol gyda Chofrestrfa Tir EM i gyflenwi "
 "neu ailddefnyddio data a/neu wybodaeth"
 
-#: server/templates/main/terms-and-conditions.html:137
+#: server/templates/main/terms-and-conditions.html:135
 msgid ""
-"use the data for any fraudulent or unlawful activity including breaches "
+"Use the data for any fraudulent or unlawful activity including breaches "
 "of data protection law"
 msgstr ""
-"defnyddio’r data ar gyfer unrhyw weithgaredd twyllodrus neu "
+"Defnyddio’r data ar gyfer unrhyw weithgaredd twyllodrus neu "
 "anghyfreithlon gan gynnwys torri cyfraith diogelu data"
 
-#: server/templates/main/terms-and-conditions.html:139
+#: server/templates/main/terms-and-conditions.html:137
 msgid "If you are not using this service in the agreed way"
 msgstr "Os nad ydych yn defnyddio’r gwasanaeth hwn yn y ffordd y cytunwyd arni"
 
-#: server/templates/main/terms-and-conditions.html:141
+#: server/templates/main/terms-and-conditions.html:139
 msgid ""
 "HM Land Registry can end your use of the service and cancel your account "
 "at any time, without notice"
@@ -2977,17 +2933,17 @@ msgstr ""
 "gall Cofrestrfa Tir EM ddod â’ch defnydd o’r gwasanaeth i ben a dileu "
 "eich cyfrif ar unrhyw adeg, heb rybudd "
 
-#: server/templates/main/terms-and-conditions.html:142
+#: server/templates/main/terms-and-conditions.html:140
 msgid "you will have to pay any unpaid official search fees"
 msgstr ""
 "bydd yn rhaid ichi dalu unrhyw ffïoedd chwiliadau swyddogol na chafodd eu"
 " talu"
 
-#: server/templates/main/terms-and-conditions.html:146
+#: server/templates/main/terms-and-conditions.html:144
 msgid "Payments to HM Land Registry"
 msgstr "Taliadau i Gofrestrfa Tir EM"
 
-#: server/templates/main/terms-and-conditions.html:148
+#: server/templates/main/terms-and-conditions.html:146
 msgid ""
 "By using the official search service, you agree to be bound by and pay "
 "for any official search certificate you apply for"
@@ -2996,7 +2952,7 @@ msgstr ""
 "eich rhwymo gan unrhyw dystysgrif chwiliad swyddogol y gwneir cais amdani"
 " ac yn talu amdani"
 
-#: server/templates/main/terms-and-conditions.html:149
+#: server/templates/main/terms-and-conditions.html:147
 msgid ""
 "Because the official search certificate information is provided "
 "immediately, once you pay for it you lose the right of cancellation you "
@@ -3008,7 +2964,7 @@ msgstr ""
 "hawl i ganslo a fyddai gennych fel arfer o dan Reoliadau Contractau "
 "Defnyddwyr (Gwybodaeth, Canslo a Ffïoedd Ychwanegol) 2013"
 
-#: server/templates/main/terms-and-conditions.html:150
+#: server/templates/main/terms-and-conditions.html:148
 msgid ""
 "This means that by applying to buy an official search on land or property"
 " you have identified you agree"
@@ -3016,7 +2972,7 @@ msgstr ""
 "Mae hyn yn golygu eich bod trwy wneud cais i brynu chwiliad swyddogol ar "
 "dir neu eiddo eich bod yn cytuno"
 
-#: server/templates/main/terms-and-conditions.html:152
+#: server/templates/main/terms-and-conditions.html:150
 msgid ""
 "to pay the fee for this service by making an online transaction (through "
 "GOV.PAY)"
@@ -3024,7 +2980,7 @@ msgstr ""
 "i dalu’r ffi am y gwasanaeth hwn trwy wneud trafodiad ar-lein (trwy "
 "GOV.PAY)"
 
-#: server/templates/main/terms-and-conditions.html:153
+#: server/templates/main/terms-and-conditions.html:151
 msgid ""
 "that the local land charge official search certificate will be provided "
 "as soon as you have paid"
@@ -3032,15 +2988,16 @@ msgstr ""
 "y bydd y dystysgrif chwiliad swyddogol pridiant tir lleol yn cael ei "
 "darparu cyn gynted ag y byddwch wedi talu"
 
-#: server/templates/main/terms-and-conditions.html:154
+#: server/templates/main/terms-and-conditions.html:152
+#, OLD
 msgid ""
-"and accept you lose your right to cancel once the official search "
-"certificate are made available for download"
+"to accept you lose your right to cancel once the official search "
+"certificate is made available for download"
 msgstr ""
 "derbyn eich bod yn colli’ch hawl i ganslo unwaith y bydd y dystysgrif "
 "chwiliad swyddogol ar gael i’w lawrlwytho"
 
-#: server/templates/main/terms-and-conditions.html:156
+#: server/templates/main/terms-and-conditions.html:154
 msgid ""
 "HM Land Registry is not responsible for the security or privacy of "
 "information you provide when making a transaction through the service’s "
@@ -3050,19 +3007,24 @@ msgstr ""
 "gwybodaeth a ddarperir gennych wrth wneud trafodiad trwy ddarparwr talu "
 "ar-lein y gwasanaeth. Os oes gennych broblem gyda hyn, dylech"
 
-#: server/templates/main/terms-and-conditions.html:158
+#: server/templates/main/terms-and-conditions.html:156
 msgid "contact the online payment provider directly"
 msgstr "gysylltu â’r darparwr talu ar-lein yn uniongyrchol"
 
-#: server/templates/main/terms-and-conditions.html:159
-msgid "tell HM Land Registry about the outcome by calling 0300 006 0411"
-msgstr "dweud wrth Gofrestrfa Tir EM am y canlyniad trwy ffonio 0300 006 0422"
+#: server/templates/main/terms-and-conditions.html:157
+#, GOOGLE
+msgid ""
+"tell HM Land Registry about the outcome by calling 0300 006 0411, open "
+"Monday to Thursday, 8am to 5pm (except public holidays)"
+msgstr ""
+"dweud wrth Gofrestrfa Tir EM am y canlyniad trwy ffonio 0300 006 0422, ar"
+" agor o dydd Llun i ddydd Iau, 8am i 5pm (ac eithrio gwyliau cyhoeddus)"
 
-#: server/templates/main/terms-and-conditions.html:163
+#: server/templates/main/terms-and-conditions.html:161
 msgid "Your agreement with HM Land Registry"
 msgstr "Eich cytundeb â Chofrestrfa Tir EM"
 
-#: server/templates/main/terms-and-conditions.html:165
+#: server/templates/main/terms-and-conditions.html:163
 msgid ""
 "When you search, HM Land Registry enters into an agreement with you.  HM "
 "Land Registry agrees to provide you with the facility to exercise your "
@@ -3082,7 +3044,7 @@ msgstr ""
 "rhyngoch chi a Chofrestrfa Tir EM ac ni all neb arall orfodi unrhyw un "
 "o’i thelerau"
 
-#: server/templates/main/terms-and-conditions.html:166
+#: server/templates/main/terms-and-conditions.html:164
 msgid ""
 "The online payment provider will confirm your purchase and provide a "
 "transaction reference"
@@ -3090,7 +3052,7 @@ msgstr ""
 "Bydd y darparwr talu ar-lein yn cadarnhau eich pryniant ac yn darparu "
 "cyfeirnod trafodiad"
 
-#: server/templates/main/terms-and-conditions.html:167
+#: server/templates/main/terms-and-conditions.html:165
 msgid ""
 "Your agreement with HM Land Registry ends when you complete your personal"
 " inspection of the register or when your official search certificate is "
@@ -3100,11 +3062,11 @@ msgstr ""
 "archwiliad personol o’r gofrestr neu pan fydd eich tystysgrif chwiliad "
 "swyddogol ar gael ichi ei gweld neu ei lawrlwytho"
 
-#: server/templates/main/terms-and-conditions.html:170
+#: server/templates/main/terms-and-conditions.html:168
 msgid "Service delays and interruptions"
 msgstr "Oedi ac ymyrraeth gyda’r gwasanaeth"
 
-#: server/templates/main/terms-and-conditions.html:172
+#: server/templates/main/terms-and-conditions.html:170
 msgid ""
 "HM Land Registry is not liable to you or any other person for losses "
 "caused by"
@@ -3112,58 +3074,61 @@ msgstr ""
 "Nid yw Cofrestrfa Tir EM yn atebol ichi nac unrhyw berson arall am "
 "golledion a achosir"
 
-#: server/templates/main/terms-and-conditions.html:174
+#: server/templates/main/terms-and-conditions.html:172
 msgid "delays to this service"
 msgstr "gan oedi i’r gwasanaeth hwn"
 
-#: server/templates/main/terms-and-conditions.html:175
+#: server/templates/main/terms-and-conditions.html:173
 msgid "getting your search result"
 msgstr "wrth gael canlyniad eich chwiliad"
 
-#: server/templates/main/terms-and-conditions.html:177
+#: server/templates/main/terms-and-conditions.html:175
 msgid "For example, from"
 msgstr "Er enghraifft, trwy"
 
-#: server/templates/main/terms-and-conditions.html:179
+#: server/templates/main/terms-and-conditions.html:177
 msgid "interruptions to the internet"
 msgstr "ymyrraeth ar y rhyngrwyd"
 
-#: server/templates/main/terms-and-conditions.html:180
+#: server/templates/main/terms-and-conditions.html:178
 msgid "services provided by third parties (anyone who is not HM Land Registry)"
 msgstr ""
 "wasanaethau a ddarperir gan drydydd partïon (unrhyw un nad yw’n "
 "Gofrestrfa Tir EM)"
 
-#: server/templates/main/terms-and-conditions.html:181
+#: server/templates/main/terms-and-conditions.html:179
 msgid "false information from linked websites"
 msgstr "wybodaeth ffug o wefannau cysylltiedig"
 
-#: server/templates/main/terms-and-conditions.html:185
+#: server/templates/main/terms-and-conditions.html:183
 msgid "Copyright and database rights"
 msgstr "Hawliau hawlfraint a chronfa ddata"
 
-#: server/templates/main/terms-and-conditions.html:187
+#: server/templates/main/terms-and-conditions.html:185
+#, OLD
 msgid ""
 "The information in this service is subject to Crown copyright and "
-"database right. Also, use of address and mapping data (including the link"
-" between the address and its location) in this service is subject to"
+"database rights. Also, use of address and mapping data (including the "
+"link between the address and its location) in this service is subject to"
 msgstr ""
 "Mae’r wybodaeth yn y gwasanaeth hwn yn ddarostyngedig i hawlfraint y "
 "Goron a hawl cronfa ddata. Yn ogystal, mae defnyddio data cyfeiriad a "
 "mapio (gan gynnwys y cysylltiad rhwng y cyfeiriad a’i leoliad) yn y "
 "gwasanaeth hwn yn ddarostyngedig i"
 
-#: server/templates/main/terms-and-conditions.html:187
+#: server/templates/main/terms-and-conditions.html:185
 msgid "Ordnance Survey licence terms and conditions"
 msgstr "delerau ac amodau trwydded yr Arolwg Ordnans "
 
-#: server/templates/main/terms-and-conditions.html:187
+#: server/templates/main/terms-and-conditions.html:185
+#, OLD
 msgid ""
 "The information in the local land charges register may also include "
 "information in which other third parties (including the authority who "
-"registered the charge) claim copyright and/or database right.  Therefore,"
-" reuse of this information for a purpose other than conducting a search "
-"of the local land charges register would require specific consent"
+"registered the charge) claim copyright and/or database rights.  "
+"Therefore, reuse of this information for a purpose other than conducting "
+"a search of the local land charges register would require specific "
+"consent"
 msgstr ""
 "Gall y wybodaeth yn y gofrestr pridiannau tir lleol gynnwys gwybodaeth y "
 "gall trydydd partïon eraill (gan gynnwys yr awdurdod a gofrestrodd y "
@@ -3171,23 +3136,23 @@ msgstr ""
 "caniatâd penodol ar gyfer ailddefnyddio’r wybodaeth hon at ddiben heblaw "
 "cynnal chwiliad o’r gofrestr pridiannau tir lleol"
 
-#: server/templates/main/terms-and-conditions.html:190
+#: server/templates/main/terms-and-conditions.html:188
 msgid "Your information and how we use it"
 msgstr "Eich gwybodaeth a sut rydym yn ei defnyddio"
 
-#: server/templates/main/terms-and-conditions.html:192
+#: server/templates/main/terms-and-conditions.html:190
 msgid "We will hold your"
 msgstr "Byddwn yn cadw’ch"
 
-#: server/templates/main/terms-and-conditions.html:195
+#: server/templates/main/terms-and-conditions.html:193
 msgid "IP and email address"
 msgstr "Cyfeiriad Protocol Rhyngrwyd ac ebost"
 
-#: server/templates/main/terms-and-conditions.html:200
+#: server/templates/main/terms-and-conditions.html:198
 msgid "How we protect your information"
 msgstr "Sut y byddwn yn gwarchod eich gwybodaeth"
 
-#: server/templates/main/terms-and-conditions.html:202
+#: server/templates/main/terms-and-conditions.html:200
 msgid ""
 "HM Land Registry complies with the requirements set by the Data "
 "Protection Law"
@@ -3195,7 +3160,7 @@ msgstr ""
 "Mae Cofrestrfa Tir EM yn cydymffurfio â’r gofynion a bennir gan y "
 "Gyfraith Diogelu Data"
 
-#: server/templates/main/terms-and-conditions.html:203
+#: server/templates/main/terms-and-conditions.html:201
 msgid ""
 "We use your personal information in accordance with the HM Land "
 "Registry’s Personal Information Charter to"
@@ -3203,11 +3168,12 @@ msgstr ""
 "Rydym yn defnyddio’ch gwybodaeth bersonol yn unol â Siarter Gwybodaeth "
 "Bersonol Cofrestrfa Tir EM er mwyn"
 
-#: server/templates/main/terms-and-conditions.html:205
-msgid "create and manage any account you open"
-msgstr "creu a rheoli unrhyw gyfrif a agorir gennych"
+#: server/templates/main/terms-and-conditions.html:203
+#, GOOGLE
+msgid "create and manage your account"
+msgstr "creu a rheoli eich cyfrif"
 
-#: server/templates/main/terms-and-conditions.html:206
+#: server/templates/main/terms-and-conditions.html:204
 msgid ""
 "meet our agreement obligations by supplying the personal and official "
 "search results to you, once the online payment provider confirms that "
@@ -3218,31 +3184,31 @@ msgstr ""
 "cadarnhau bod eich taliad wedi ei brosesu a’i fod wedi ei gwblhau "
 "(chwiliad swyddogol)"
 
-#: server/templates/main/terms-and-conditions.html:207
+#: server/templates/main/terms-and-conditions.html:205
 msgid "record the search"
 msgstr "cofnodi’r chwiliad"
 
-#: server/templates/main/terms-and-conditions.html:208
+#: server/templates/main/terms-and-conditions.html:206
 msgid "contact you using the email address you provide"
 msgstr "cysylltu â chi gan ddefnyddio’r cyfeiriad ebost a ddarperir gennych"
 
-#: server/templates/main/terms-and-conditions.html:210
+#: server/templates/main/terms-and-conditions.html:208
 msgid "We may retain and share information with"
 msgstr "Efallai y byddwn yn cadw ac yn rhannu gwybodaeth gyda’r canlynol"
 
-#: server/templates/main/terms-and-conditions.html:212
+#: server/templates/main/terms-and-conditions.html:210
 msgid "other government departments"
 msgstr "adrannau eraill y llywodraeth"
 
-#: server/templates/main/terms-and-conditions.html:213
+#: server/templates/main/terms-and-conditions.html:211
 msgid ""
 "law enforcement and regulatory bodies, including specified anti-fraud "
-"organsiations under section 68 Serious Crime Act 2007"
+"organisations under section 68 Serious Crime Act 2007"
 msgstr ""
 "cyrff gorfodaeth a rheoleiddio cyfraith, gan gynnwys sefydliadau gwrth-"
 "dwyll penodedig o dan adran 68 o Ddeddf Troseddau Difrifol 2007"
 
-#: server/templates/main/terms-and-conditions.html:215
+#: server/templates/main/terms-and-conditions.html:213
 msgid ""
 "This sharing of information helps to prevent and detect crime, for "
 "example, property fraud.  It also helps with the investigation of land "
@@ -3251,15 +3217,15 @@ msgstr ""
 "Mae rhannu gwybodaeth yn helpu i atal a chanfod troseddau, er enghraifft,"
 " twyll eiddo. Mae hefyd yn helpu gyda’r ymchwilio i gynlluniau bancio tir"
 
-#: server/templates/main/terms-and-conditions.html:216
+#: server/templates/main/terms-and-conditions.html:214
 msgid "HM Land Registry will"
 msgstr "Bydd Cofrestrfa Tir EM"
 
-#: server/templates/main/terms-and-conditions.html:218
+#: server/templates/main/terms-and-conditions.html:216
 msgid "keep your personal information secure"
 msgstr "yn cadw’ch gwybodaeth bersonol yn ddiogel"
 
-#: server/templates/main/terms-and-conditions.html:219
+#: server/templates/main/terms-and-conditions.html:217
 msgid ""
 "not make it available for commercial use, such as marketing, without your"
 " permission"
@@ -3267,7 +3233,7 @@ msgstr ""
 "yn sicrhau na fydd ar gael at ddefnydd masnachol, fel marchnata, heb eich"
 " caniatâd"
 
-#: server/templates/main/terms-and-conditions.html:220
+#: server/templates/main/terms-and-conditions.html:218
 msgid ""
 "share your information with other HM Land Registry teams to process your "
 "application"
@@ -3275,11 +3241,11 @@ msgstr ""
 "yn rhannu eich gwybodaeth â thimau eraill Cofrestrfa Tir EM i brosesu’ch "
 "cais"
 
-#: server/templates/main/terms-and-conditions.html:224
+#: server/templates/main/terms-and-conditions.html:222
 msgid "Deleting or changing your account"
 msgstr "Dileu neu newid eich cyfrif"
 
-#: server/templates/main/terms-and-conditions.html:226
+#: server/templates/main/terms-and-conditions.html:224
 msgid ""
 "If you don’t use any account you have created for 12 months, we will "
 "delete it"
@@ -3287,63 +3253,64 @@ msgstr ""
 "Os nad ydych yn defnyddio cyfrif a grëwyd gennych am 12 mis, byddwn yn ei"
 " ddileu"
 
-#: server/templates/main/terms-and-conditions.html:227
+#: server/templates/main/terms-and-conditions.html:225
 msgid ""
 "We don’t keep your personal information if you delete your account.  It "
-"will be removed from our system when a Land Registry staff member closes "
-"the account"
+"will be removed from our system when a HM Land Registry staff member "
+"closes the account"
 msgstr ""
 "Nid ydym yn cadw’ch gwybodaeth bersonol os ydych yn dileu’ch cyfrif. "
 "Caiff ei thynnu o’n system pan fydd aelod o staff Cofrestrfa Tir EM yn "
 "cau’r cyfrif"
 
-#: server/templates/main/terms-and-conditions.html:228
+#: server/templates/main/terms-and-conditions.html:226
+#, OLD
 msgid ""
-"If you want to use a different email address, you’ll need to open a new "
-"account"
+"If you want to use a different email address, you’ll need to create a new"
+" account"
 msgstr ""
 "Os ydych am ddefnyddio cyfeiriad ebost gwahanol, bydd angen ichi agor "
 "cyfrif newydd"
 
-#: server/templates/main/terms-and-conditions.html:231
+#: server/templates/main/terms-and-conditions.html:229
 msgid "How to make a complaint"
 msgstr "Sut i wneud cwyn"
 
-#: server/templates/main/terms-and-conditions.html:233
+#: server/templates/main/terms-and-conditions.html:231
 msgid "If you’re unhappy with the service, contact HM Land Registry.  You can"
 msgstr ""
 "Os ydych yn anhapus â’r gwasanaeth, cysylltwch â Chofrestrfa Tir EM. "
 "Gallwch"
 
-#: server/templates/main/terms-and-conditions.html:234
+#: server/templates/main/terms-and-conditions.html:232
 msgid "contact form"
 msgstr "ffurflen gysylltu"
 
-#: server/templates/main/terms-and-conditions.html:236
+#: server/templates/main/terms-and-conditions.html:234
 #, python-format
 msgid "complete the online %(contact_form_link)s"
 msgstr "lenwi’r %(contact_form_link)s ar-lein"
 
-#: server/templates/main/terms-and-conditions.html:240
+#: server/templates/main/terms-and-conditions.html:238
 msgid "the HM Land Registry’s internal complaints procedure."
 msgstr "drefn gwyno fewnol Cofrestrfa Tir EM."
 
-#: server/templates/main/terms-and-conditions.html:241
+#: server/templates/main/terms-and-conditions.html:239
 #, python-format
 msgid "If you’re unhappy with the answer you receive, follow %(complaints_link)s"
 msgstr ""
 "Os nad ydych yn hapus gyda’r ffordd rydym yn ymateb i’ch cwyn, dilynwch "
 "%(complaints_link)s"
 
-#: server/templates/main/terms-and-conditions.html:242
-msgid "If you’re still unhappy with the answer contact the"
+#: server/templates/main/terms-and-conditions.html:240
+msgid "If you’re still unhappy with the answer, contact the"
 msgstr "Os ydych yn parhau’n anhapus â’r ateb, cysylltwch"
 
-#: server/templates/main/terms-and-conditions.html:242
+#: server/templates/main/terms-and-conditions.html:240
 msgid "Independent Complaints Reviewer’s Office (ICR)"
 msgstr "â Swyddfa’r Adolygydd Cwynion Annibynnol (ACA)"
 
-#: server/templates/main/terms-and-conditions.html:242
+#: server/templates/main/terms-and-conditions.html:240
 msgid "The ICR can investigate your complaint independently from HM Land Registry"
 msgstr "Gall yr ACA ymchwilio i’ch cwyn yn annibynnol ar Gofrestrfa Tir EM"
 
@@ -4482,6 +4449,16 @@ msgstr "Nid yw’r cyfrinair hwn yn ddigon diogel"
 msgid "Your password has been changed"
 msgstr "Newidiwyd eich cyfrinair yn llwyddiannus"
 
+# GOOGLE,
+#: server/views/main.py:55
+msgid "You’ve set your cookie preferences"
+msgstr "Rydych chi wedi gosod eich dewisiadau cwci"
+
+# GOOGLE,
+#: server/views/main.py:56
+msgid "Go back to the page you were looking at"
+msgstr "Ewch yn ôl i'r dudalen yr oeddech yn edrych arni"
+
 #: server/views/my_account.py:88
 msgid "Your account details have been successfully changed"
 msgstr "Newidiwyd manylion eich cyfrif yn llwyddiannus"
@@ -4915,4 +4892,16 @@ msgstr "Nodwch gyfeirnod chwiliad neu ardal"
 #: server/views/forms/search_searches_form.py:16
 msgid "Reference or area must be shorter than 80 characters"
 msgstr "Rhaid i’r cyfeirnod neu ardal fod yn fyrrach nag 80 nod"
+
+#~ msgid "Opening an account"
+#~ msgstr "Agor cyfrif"
+
+#~ msgid "a dashboard showing"
+#~ msgstr "dangosfwrdd yn dangos"
+
+#~ msgid "phone: 0300 006 0411"
+#~ msgstr "ffôn: 0300 006 0422 (am wasanaeth Cymraeg)"
+
+#~ msgid "speak to a Welsh speaker: 0300 006 0422"
+#~ msgstr "ffôn: 0300 006 0411 (am wasanaeth Saesneg)"
 

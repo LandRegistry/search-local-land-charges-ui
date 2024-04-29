@@ -46,9 +46,9 @@ class TestAccountAdmin(TestCase):
             "status": 200,
             "data": {"id": "anuserid"},
         }
-        mock_register.return_value.email_address.errors = []
-        mock_register.return_value.confirm_email_address.errors = []
-        mock_register.return_value.email_address.data = "some@email.com"
+        mock_register.return_value.email_addresses.email_address.errors = []
+        mock_register.return_value.email_addresses.confirm_email_address.errors = []
+        mock_register.return_value.email_addresses.email_address.data = "some@email.com"
 
         result = self.client.post(url_for("account_admin.register"))
         self.assertEqual(result.status_code, 302)

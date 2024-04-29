@@ -17,7 +17,7 @@
     <p class="govuk-body">{{ _('Essential cookies keep your information secure while you use') }} {{ service_name }}. {{ _('We do not need to ask permission to use them') }}.</p>
     {{ govukTable(
       {
-        'head': [{'text': 'Name'}, {'text': 'Purpose'}, {'text': 'Expires'}],
+        'head': [{'text': _('Name')}, {'text': _('Purpose')}, {'text': _('Expires')}],
         'rows': [
           [{'text': 'session'}, {'text': _('Saves temporary information required to move through the service')}, {'text': _('On browser close')}],
           [{'text': 'cookies_policy'}, {'text': _('Saves your cookie consent settings')}, {'text': _('1 year')}],
@@ -34,7 +34,7 @@
     <ul class="govuk-list govuk-list--bullet">
       <li>{{ _('how you got to this service') }}</li>
       <li>{{ _('the pages you visit') }}</li>
-      <li>{{ _('how long you spend on each page') }} {{ service_name }}</li>
+      <li>{{ _("how long you spend on each page while you're using the service") }} {{ service_name }}</li>
       <li>{{ _("what you click on while you're using the service") }} {{ service_name }}</li>
       <li>{{ _("any errors you see while you're using the service") }} {{ service_name }}</li>
     </ul>

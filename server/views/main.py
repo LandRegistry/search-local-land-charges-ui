@@ -52,10 +52,13 @@ def cookies_page():
         cookies_policy["analytics"] = form.analytics.data
 
         # Create flash message confirmation before rendering template
+        banner_heading = _("You’ve set your cookie preferences")
+        banner_link_text = _("Go back to the page you were looking at")
+
         flash(
-            f'<p class="govuk-notification-banner__heading">{_("You’ve set your cookie preferences. ")}'
-            f'<a class="govuk-notification-banner__link" href="{url_for("index.index_page")}">'
-            f'{_("Go back to the page you were looking at")}</a>.</p>',
+            f'<p class="govuk-notification-banner__heading">{banner_heading}. '
+            f'<a class="govuk-notification-banner__link" href="{url_for("main.back")}">'
+            f'{banner_link_text}</a>.</p>',
             "success",
         )
 
