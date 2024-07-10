@@ -34,7 +34,6 @@ RUN pip3 install -q -r requirements.txt && \
 
 # Any unique environment variables your config.py needs should be added as ENV entries here
 # These env vars will need defining in any deployed environment
-# These values are not the same as our production environment
 ENV APP_MODULE='server.main:app' \
   BASE_TEMPLATE='govuk' \
   CONTENT_SECURITY_POLICY_MODE='full' \
@@ -72,8 +71,6 @@ ENV APP_MODULE='server.main:app' \
   FEEDBACK_URL="feedback-url" \
   LOCAL_AUTHORITY_API_URL=http://local-authority-api:8080 \
   SEARCH_API_MAX_RESULTS=200 \
-  CONTACT_US_URL="contact-us-url" \
-  CONTACT_US_WELSH_URL="contact-us-url-cy" \
   REPORT_API_BASE_URL="http://report-api:8080" \
   AUTHENTICATION_URL="http://dev-search-authentication-api:8080" \
   ACCESSIBILITY_STATEMENT_PUBLISH="07/12/2022" \

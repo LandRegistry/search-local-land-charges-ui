@@ -155,10 +155,6 @@ FEEDBACK_URL = os.environ["FEEDBACK_URL"]
 # Charges per page
 CHARGES_PER_PAGE = os.environ["CHARGES_PER_PAGE"]
 
-# 'Contact Us' URL
-CONTACT_US_URL = os.environ["CONTACT_US_URL"]
-CONTACT_US_WELSH_URL = os.environ["CONTACT_US_WELSH_URL"]
-
 # Report API
 REPORT_API_BASE_URL = os.environ["REPORT_API_BASE_URL"]
 

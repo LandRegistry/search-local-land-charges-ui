@@ -135,17 +135,17 @@
 
 {% block beforeContent %}
 
-  {% set phaseBannerHtml %}{{ _('This is a new service – your feedback will help us to improve it') }}.
-    {% if not hide_phase_feedback_link %}
-      <a href="{{ url_for('main.give_feedback') }}" target="_blank" class="govuk-link">{{ _('Feedback form') }} ({{ _('link opens in new tab') }})</a>.
-    {% endif %}
-  {% endset %}
-  {{ govukPhaseBanner({
-    'tag': {
-      'text': "Beta"
-    },
-    'html': phaseBannerHtml
-  }) }}
+  {% if not hide_phase_feedback_link %}
+    {% set phaseBannerHtml %}
+      {{ _('Your ') }}<a href="{{ url_for('main.give_feedback') }}" target="_blank" class="govuk-link">{{ _('feedback') }} ({{ _('opens in new tab') }})</a> {{ _('will help us to improve this service')}}.
+    {% endset %}
+    {{ govukPhaseBanner({
+      'tag': {
+        'classes': 'govuk-!-display-none'
+      },
+      'html': phaseBannerHtml
+    }) }}
+  {% endif %}
   {% block researchBanner %}{% endblock %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">

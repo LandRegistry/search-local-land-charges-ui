@@ -2,14 +2,14 @@
 
 {% from "govuk_frontend_jinja/components/inset-text/macro.html" import govukInsetText %}
 {% from "govuk_frontend_jinja/components/warning-text/macro.html" import govukWarningText %}
-{% from "govuk_frontend_jinja/components/accordion/macro.html" import govukAccordion %}
 {% from "govuk_frontend_jinja/components/pagination/macro.html" import govukPagination %}
 {% from "govuk_frontend_jinja/components/details/macro.html" import govukDetails %}
+{% from "govuk_frontend_jinja/components/summary-list/macro.html" import govukSummaryList %}
 {% from "components/user-research-banner/macro.html" import hmrcUserResearchBanner %}
 
-{% set map_style = "search-results-map-large" %}
+{% set map_style = "search-results-map-xlarge" %}
 
-{% block title %}{{ _('Local land charge search results') }}{% endblock %}
+{% block title %}{{ _('Local land charges for your search area') }}{% endblock %}
 
 {% block researchBanner %}
   {% set researchHtml %}
@@ -21,14 +21,30 @@
 {% block inner_content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">{{ _('Local land charge search results') }}</h1>
-    <div>
+    <h1 class="govuk-heading-xl">{{ _('Local land charges for your search area') }}</h1>
+    <div id="map-view-search" aria-label="{{ _('Image of map with shading to show your search area') }}" role="img" title="{{ _('Image of map with shading to show your search area') }}">
       {% include "includes/map/map.html" %}
     </div>
     <p class="govuk-body">{{ _('The shaded area shows your search.') }}</p>
-    {% set total_charges_html %}<span class="govuk-!-font-weight-bold">{{ _('%(total_charges)s local land charges', total_charges=total_charges) }}</span>{% endset %}
-    <p class="govuk-body">{{ _('There are %(total_charges_html)s for your search area.', total_charges_html=total_charges_html) }}</p>
-    <p class="govuk-body">{{ _('Not the right area?') }} <a class="govuk-link" href="{{ url_for('search.search_by_post_code_address') }}">{{ _('Search again') }}.</a></p>
+    {% if total_charges == 1 %}
+      <p class="govuk-body">{{ _('There is 1 local land charge for your search area.') }}</p>
+    {% else %}
+      <p class="govuk-body">{{ _('There are %(total_charges)s local land charges for your search area.', total_charges=total_charges) }}</p>
+    {% endif %}
+    <p class="govuk-body">{{ _('Your free search reference is: %(free_search_reference)s', free_search_reference=free_search_reference) }}</p>
+    <p class="govuk-body">{{ _('Following data migration, local land charge information may differ from that provided by the local authority. See the ') }} <a class="govuk-link" href="https://www.gov.uk/guidance/hm-land-registry-local-land-charges-search-results">{{ _('local land charges search results guidance') }}.</a></p>
+    <p class="govuk-body">{{ _('You can view your free search history in your account.') }}</p>
+    <p class="govuk-body">{{ _('Not the right area?') }} <a class="govuk-link" href="{{ url_for('search.define_search_area', page_style='edit') }}">{{ _('Edit the search area') }}</a> {{ _('or') }} <a class="govuk-link" href="{{ url_for('search.search_by_post_code_address') }}">{{ _('start a new search') }}.</a></p>
+    {% set search_based_html %}
+        <p class="govuk-body-s">{{ _("This service works spatially.") }}</p>
+        <p class="govuk-body-s">{{ _("You may begin a search with a postcode or street name, or another way to search.") }}</p>
+        <p class="govuk-body-s">{{ _("However, search results are based solely upon areas you have confimed on the map, and the local land charge data we hold.") }}</p>
+      {% endset %}
+      {{ govukDetails({
+          "summaryText": _('What are the search results based on?'),
+          "html": search_based_html
+        })
+      }}
     {% if "warning" in session and session['warning'] %}
         {{ govukInsetText({
           "text": _('Your search area might include an authority we do not have information for. Charges for this authority are not included in your results.')
@@ -37,89 +53,96 @@
 
     {% for group, group_charges in charges.items() %}
       <h2 class="govuk-heading-l govuk-!-margin-top-8">{{ group }}</h2>
-      {% set accordian_items = [] %}
       {% for group_charge in group_charges %}
-        {% set heading_html %}
-          <span class="govuk-heading-m govuk-!-margin-bottom-1">
-            {{ group_charge['heading']['header'] }}
-            <br>
-          </span>
-          <span class="govuk-body">
-            {% if group_charge['heading']['sub_header'] == "" %}
-              <br>
-            {% else %}
-              {{ group_charge['heading']['sub_header'] }}
-            {% endif %}
-          </span>
+        {% set row_items = [] %}
+
+        {% set map_html %}
+          <img src="{{ group_charge['image_url'] }}" alt="{{ _('Image of map with shading to show local land charge area') }}" class="result-thumbnail">
         {% endset %}
-        {% set summary_html %}
-          <span class="charge-detail-summary">
-            {% if group_charge['heading']['creation_date'] %}
-              <span class="govuk-heading-s govuk-!-margin-bottom-0">{{ _('Creation date') }}</span>
-              <span class="govuk-body govuk-!-margin-bottom-0">{{ group_charge['heading']['creation_date'] }}</span>
-            {% else %}
-              <span class="govuk-heading-s govuk-!-margin-bottom-0">{{ _('Registration date') }}</span>
-              <span class="govuk-body govuk-!-margin-bottom-0">{{ group_charge['heading']['registration_date'] }}</span>
-            {% endif %}
-          </span>
-        {% endset %}
-        {% set content_html %}
-          <div class="charge-detail-content">
-            {% for heading, value in group_charge['content'].items() %}
-              <div class="govuk-heading-s govuk-!-margin-bottom-0 govuk-!-padding-top-0">{{ "<br>".join(heading.splitlines())|safe }}</div>
-              <div class="govuk-body govuk-!-margin-bottom-0">
-                {% if value is iterable and (value is not string and value is not mapping and value.__class__.__name__ != "LazyString") %}
-                  {{ "<br>".join(value)|safe }}
-                {% else %}
-                  {{ value|safe }}
-                {% endif %}
-              </div>
-            {% endfor %}
-          </div>
-        {% endset %}
-        {% do accordian_items.append(
-         {
-            "heading": {
-              "html": heading_html
+        {% do row_items.append(
+          {
+            "key": {
+              "html": map_html
             },
-            "summary": {
-              "html": summary_html
+            "value": {
+              "html": group_charge['heading']['sub_header'],
+              "classes": "vertical-align-top"
             },
-            "content": {
-              "html": content_html
-            }
+            "classes": "govuk-summary-list__row--no-border"
           }
         ) %}
+
+        {% if group_charge['heading']['creation_date'] %}
+          {% do row_items.append(
+            {
+              "key": {
+                "text": _('Creation date')
+              },
+              "value": {
+                "html": group_charge['heading']['creation_date']
+              }
+            }
+          ) %}
+        {% else %}
+          {% do row_items.append(
+            {
+              "key": {
+                "text": _('Registration date')
+              },
+              "value": {
+                "html": group_charge['heading']['registration_date']
+              }
+            }
+          ) %}
+        {% endif %}
+
+        {% for heading, value in group_charge['content'].items() %}
+          {% if value is iterable and (value is not string and value is not mapping and value.__class__.__name__ != "LazyString") %}
+            {% set safe_value = "<br>".join(value)|safe %}
+          {% else %}
+            {% set safe_value = value|safe %}
+          {% endif %}
+          {% do row_items.append(
+            {
+              "key": {
+                "text": heading
+              },
+              "value": {
+                "html": safe_value
+              }
+            }
+          ) %}
+        {% endfor %}
+
+        {{ govukSummaryList({
+          "card": {
+            "title": {
+              "text": group_charge['heading']['header']
+            }
+          },
+          "rows": row_items
+        }) }}
       {% endfor %}
-      {{ govukAccordion({
-        "id": "accordion-" + group.replace(" ", "-"),
-        "items": accordian_items,
-        "hideSectionText": _("Hide"),
-        "hideAllSectionsText": _("Hide all sections"),
-        "hideSectionAriaLabelText": _("Hide this section"),
-        "showSectionText": _("Show"),
-        "showAllSectionsText": _("Show all sections"),
-        "showSectionAriaLabelText": _("Show this section"),
-        "rememberExpanded": false,
-        "headingLevel": 3
-      }) }}
     {% endfor %}
     {% if show_pagination %}
       {{ govukPagination(pagination_info) }}
     {% endif %}
+    <p class="govuk-body">
+      {% set os_link_html %}<a class="govuk-link" href="{{ config.OS_TERMS_CONDITIONS_LINK | string() }}" target="_blank">{{ _('Ordnance Survey Licence Terms and Conditions') }} {{ _('(opens in new tab)') }}</a>{% endset %}
+      {{ _('Use of address and mapping data is subject to %(os_link_html)s', os_link_html=os_link_html) }}. {{ _('This includes the link between the address and its location') }}.
+    </p>
   </div>
   <div class="govuk-grid-column-one-third">
     <div class="side-menu-bar">
       <input type="hidden" name="saved-features" id="saved-features" value="{{ geometry }}">
       <h2 class="govuk-heading-m">{{ _("Download an official search result for &pound;") }}{{ search_fee }}</h2>
       {% set details_html %}
-        <p class="govuk-body-s">{{ _("By purchasing an official search result from us, you’ll receive a document that:") }}</p>
+        <p class="govuk-body-s">{{ _("By purchasing an official search result, you’ll receive a document that:") }}</p>
         <ul class="govuk-list govuk-list--bullet govuk-body-s">
           <li>{{ _("is secure and digitally signed by HM Land Registry") }}</li>
-          <li>{{ _('highlights local land charge boundaries on a map') }}</li>
-          <li>{{ _('enables you to get free, repeat searches for 6 months') }}</li>
-          <li>{{ _('includes a link to the source information') }}</li>
+          <li>{{ _('includes a link to the source information held by the originating authority') }}</li>
         </ul>
+        <p class="govuk-body-s">{{ _("You’ll also be able to repeat your official search for free for a period of 6 months.") }}</p>
       {% endset %}
       {{ govukDetails({
           "summaryText": _('Benefits of an official search'),

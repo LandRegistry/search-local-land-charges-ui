@@ -204,19 +204,27 @@ MAP_CONTROLS.copyButton = function () {
 
 MAP_CONTROLS.addGeometryToMap = function(geometry) {
     // Convert geometry into geojson as union function requires geojson
-    let geoJsontoAdd = JSON.parse(new GeoJSON().writeGeometry(geometry));
+    let geoJsontoAdd = {
+        "type": "Feature",
+        "geometry": JSON.parse(new GeoJSON().writeGeometry(geometry))
+    };
 
     let featuresToRemove = [];
 
     MAP_CONFIG.drawSource.getFeatures().forEach(function(feature) {
-        let currentGeoJson = JSON.parse(new GeoJSON().writeGeometry(feature.getGeometry()));
+        let currentGeoJson = JSON.parse(new GeoJSON().writeFeature(feature));
   
-        let mergedGeoJSON = union(currentGeoJson, geoJsontoAdd);
+        console.log(currentGeoJson)
+        console.log(geoJsontoAdd)
+
+        let mergedGeoJSON = union({
+            "type": "FeatureCollection", "features": [currentGeoJson, geoJsontoAdd]
+        });
         /* If adjecent returns a feature with a polygon
            Else returns a feature with a multi polygon */
   
         if (mergedGeoJSON.geometry.type === 'Polygon') {
-            geoJsontoAdd = mergedGeoJSON.geometry;
+            geoJsontoAdd = mergedGeoJSON;
             featuresToRemove.push(feature);
         }
     })
@@ -225,9 +233,8 @@ MAP_CONTROLS.addGeometryToMap = function(geometry) {
         MAP_CONFIG.drawSource.removeFeature(feature)
     })
 
-    let newFeature = new Feature({
-        geometry: new GeoJSON().readGeometry(geoJsontoAdd)
-    });
+    let newFeature = new GeoJSON().readFeature(geoJsontoAdd);
+
     newFeature.setProperties({
         'id': Date.now()
     });

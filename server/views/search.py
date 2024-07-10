@@ -37,6 +37,7 @@ from server.services.search_by_usrn import SearchByUsrn
 from server.services.search_utilities import calculate_pagination_info, start_new_search
 from server.views.auth import authenticated
 from server.views.forms.confirm_search_area_form import ConfirmSearchAreaForm
+from server.views.forms.confirm_search_area_title_number_form import ConfirmSearchAreaTitleNumberForm
 from server.views.forms.define_search_area_form import DefineSearchAreaForm
 from server.views.forms.search_by_coordinates_form import SearchByCoordinatesForm
 from server.views.forms.search_by_inspire_id_form import SearchByInspireIDForm
@@ -54,6 +55,8 @@ def search_by_post_code_address():
     start_new_search()
 
     current_app.logger.info("Search postcode address page")
+
+    session["search_type"] = "address"
 
     form = SearchPostcodeAddressForm()
 
@@ -224,6 +227,8 @@ def search_by_coordinates():
     current_app.logger.info("Coordinate search page")
     start_new_search()
 
+    session["search_type"] = "coordinates"
+
     form = SearchByCoordinatesForm()
 
     if form.validate_on_submit():
@@ -246,6 +251,8 @@ def search_by_title_number():
     current_app.logger.info("Title number search page")
     start_new_search()
 
+    session["search_type"] = "title_number"
+
     form = SearchByTitleNumberForm()
 
     if form.validate_on_submit():
@@ -266,7 +273,7 @@ def search_by_title_number():
             return redirect(url_for("search.confirm_search_area"))
         elif response.status_code in [400, 404]:
             form.title_number.errors.append(
-                _("We do not recognise that title number. Check title number and try again")
+                _("Enter a valid title number")
             )
         else:
             raise ApplicationError(
@@ -284,6 +291,8 @@ def search_by_inspire_id():
     current_app.logger.info("Inspire search page")
 
     start_new_search()
+
+    session["search_type"] = "inspire_id"
 
     form = SearchByInspireIDForm()
 
@@ -350,14 +359,15 @@ def confirm_search_area():
     if "search_state" not in session:
         return redirect(url_for("index.index_page"))
 
-    form = ConfirmSearchAreaForm()
+    confirm_form = ConfirmSearchAreaForm()
+    form = ConfirmSearchAreaTitleNumberForm()
 
     authority_data = CheckMigrationStatus.process(session["search_state"].search_extent)
 
     if not authority_data:
         raise ApplicationError("Failed to check authority intersection migration status", "MIG01", 500)
 
-    if form.validate_on_submit():
+    if confirm_form.validate_on_submit():
         if authority_data["flag"] == "pass":
             # boundaries are inside buffer of migrated authorities
             return search_by_area(session["search_state"].search_extent, session["search_state"].address)
@@ -394,6 +404,78 @@ def confirm_search_area():
         maintenance=False,
         warning=warning,
         form=form,
+        confirm_form=confirm_form,
+    )
+
+
+@search.route('/add-another-title', methods=["POST"])
+def add_another_title():
+
+    confirm_form = ConfirmSearchAreaForm()
+    form = ConfirmSearchAreaTitleNumberForm()
+
+    authority_data = CheckMigrationStatus.process(session["search_state"].search_extent)
+
+    if not authority_data:
+        raise ApplicationError("Failed to check authority intersection migration status", "MIG01", 500)
+
+    if form.validate_on_submit():
+        current_app.logger.info("Valid title number")
+
+        current_app.logger.info("Calling search api")
+        addresses_service = AddressesService(current_app.config)
+        response = addresses_service.get_by(SearchType.TITLE.value, form.title_number.data.strip())
+
+        if response.status_code == 200:
+            current_app.logger.info("Index geometry found")
+            index_map = response.json()
+            current_app.logger.info(session.get("unmerged_extent", {}))
+            unmerged_features = session.get("unmerged_extent", {}).get("features", [])
+            unmerged_features.extend(index_map.get("features", []))
+            for idx, feature in enumerate(unmerged_features):
+                feature["properties"] = {"id": idx}
+            session["unmerged_extent"] = {
+                "type": "FeatureCollection",
+                "features": unmerged_features
+            }
+
+            session["search_state"].search_extent = merge_polygons({
+                "type": "FeatureCollection",
+                "features": unmerged_features
+            })
+
+            return redirect(url_for("search.confirm_search_area"))
+        elif response.status_code in [400, 404]:
+            form.title_number.errors.append(
+                _("Enter a valid title number")
+            )
+        else:
+            raise ApplicationError(
+                f"Failed to retrieve search information for title {form.title_number.data.strip()}",
+                "FTITLE01",
+                500,
+            )
+
+    if authority_data["flag"] == "pass":
+        # boundaries are inside buffer of migrated authorities
+        warning = False
+    elif authority_data["flag"] == "warning":
+        # boundaries are within buffer zone of non-migrated authorities
+        warning = True
+    else:
+        # boundaries exceed buffer zone into a non-migrated authority
+        current_app.logger.warning("Drawn polygon intersects with non-migrated authority")
+        session["authority_data"] = authority_data
+
+        return redirect((url_for("search.no_information_available")))
+
+    return render_template(
+        "confirm-search-area.html",
+        geometry=json.dumps(session["search_state"].search_extent),
+        maintenance=False,
+        warning=warning,
+        form=form,
+        confirm_form=confirm_form,
     )
 
 

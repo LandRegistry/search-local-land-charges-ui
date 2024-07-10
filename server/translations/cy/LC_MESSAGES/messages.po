@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-22 13:48+0000\n"
+"POT-Creation-Date: 2024-07-08 09:22+0000\n"
 "PO-Revision-Date: 2020-08-05 07:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: cy\n"
@@ -17,9 +17,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.14.0\n"
+"Generated-By: Babel 2.15.0\n"
 
-#: server/app.py:61
+#: server/app.py:55
 msgid "Search for local land charges"
 msgstr "Chwilio am bridiannau tir lleol"
 
@@ -50,7 +50,7 @@ msgstr "Cod post annilys. Rhowch gynnig arall."
 
 #: server/services/search_by_postcode.py:80
 #: server/services/search_by_uprn.py:78 server/services/search_by_usrn.py:55
-#: server/views/paid_search.py:79 server/views/search.py:77
+#: server/views/paid_search.py:79 server/views/search.py:80
 msgid "No results found"
 msgstr "Dim canlyniadau"
 
@@ -76,11 +76,11 @@ msgstr "Usrn annilys. Rhowch gynnig arall"
 msgid "Enter a usrn"
 msgstr "Nodwch usrn"
 
-#: server/services/search_utilities.py:77
+#: server/services/search_utilities.py:78
 msgid "Previous"
 msgstr "Blaenorol"
 
-#: server/services/search_utilities.py:114
+#: server/services/search_utilities.py:115
 msgid "Next"
 msgstr "Nesaf"
 
@@ -133,6 +133,42 @@ msgstr "cynnwys o leiaf 1 rhif"
 #: server/templates/my-account/change-password.html:18
 msgid "use at least 1 symbol, like a question mark"
 msgstr "cynnwys o leiaf 1 symbol, fel marc cwestiwn"
+
+#: server/templates/account-admin/change-password-with-token.html:23
+#: server/templates/account-admin/register.html:27
+#: server/templates/sign-in/sign-in.html:22
+msgid "Show"
+msgstr "Dangos"
+
+#: server/templates/account-admin/change-password-with-token.html:24
+#: server/templates/account-admin/register.html:28
+#: server/templates/sign-in/sign-in.html:23
+msgid "Hide"
+msgstr "Cuddio"
+
+#: server/templates/account-admin/change-password-with-token.html:25
+#: server/templates/account-admin/register.html:29
+#: server/templates/sign-in/sign-in.html:24
+msgid "Show password"
+msgstr "Dangos y cyfrinair"
+
+#: server/templates/account-admin/change-password-with-token.html:26
+#: server/templates/account-admin/register.html:30
+#: server/templates/sign-in/sign-in.html:25
+msgid "Hide password"
+msgstr "Cuddio’r cyfrinair"
+
+#: server/templates/account-admin/change-password-with-token.html:27
+#: server/templates/account-admin/register.html:31
+#: server/templates/sign-in/sign-in.html:26
+msgid "Your password is visible"
+msgstr "Mae eich cyfrinair yn weladwy"
+
+#: server/templates/account-admin/change-password-with-token.html:28
+#: server/templates/account-admin/register.html:32
+#: server/templates/sign-in/sign-in.html:27
+msgid "Your password is hidden"
+msgstr "Mae eich cyfrinair yn guddiedig"
 
 #: server/templates/account-admin/check-your-email.html:8
 #: server/templates/account-admin/check-your-email.html:12
@@ -227,7 +263,7 @@ msgstr ""
 msgid "Create an account"
 msgstr "Creu cyfrif"
 
-#: server/templates/account-admin/register.html:24
+#: server/templates/account-admin/register.html:34
 #: server/templates/my-account/change-details.html:13
 msgid ""
 "https://www.gov.uk/government/organisations/land-registry/about/personal-"
@@ -236,12 +272,12 @@ msgstr ""
 "https://www.gov.uk/government/organisations/land-registry/about/personal-"
 "information-charter.cy"
 
-#: server/templates/account-admin/register.html:24
+#: server/templates/account-admin/register.html:34
 #: server/templates/my-account/change-details.html:13
 msgid "personal information charter"
 msgstr "siarter gwybodaeth bersonol"
 
-#: server/templates/account-admin/register.html:26
+#: server/templates/account-admin/register.html:36
 #: server/templates/my-account/change-details.html:15
 #, python-format
 msgid ""
@@ -253,7 +289,7 @@ msgstr ""
 "ceisiadau chwilio ac i gysylltu â chi. Efallai y byddwn yn ei chadw ac yn"
 " ei rhannu i helpu i ganfod ac atal twyll, yn unol â’n %(link_html)s"
 
-#: server/templates/account-admin/register.html:28
+#: server/templates/account-admin/register.html:38
 #: server/templates/search/search-by-coordinates.html:15
 #: server/templates/search/search-by-inspire-id.html:20
 #: server/templates/search/search-by-title-number.html:23
@@ -261,16 +297,16 @@ msgstr ""
 msgid "terms of use"
 msgstr "telerau defnyddio"
 
-#: server/templates/account-admin/register.html:30
+#: server/templates/account-admin/register.html:40
 #, python-format
 msgid "By creating an account, you are agreeing to %(link_html)s"
 msgstr "Trwy greu cyfrif, rydych yn cytuno â’n %(link_html)s"
 
-#: server/templates/account-admin/register.html:35
+#: server/templates/account-admin/register.html:45
 msgid "sign in"
 msgstr "mewngofnodwch"
 
-#: server/templates/account-admin/register.html:36
+#: server/templates/account-admin/register.html:46
 #, python-format
 msgid "If you already have an account, %(link_html)s"
 msgstr "Os oes gennych gyfrif yn barod, %(link_html)s"
@@ -332,17 +368,23 @@ msgstr "Gweld cwcis"
 msgid "Hide cookie message"
 msgstr "Cuddio’r neges ynghylch cwcis"
 
-#: server/templates/base-templates/base.html:138
-msgid "This is a new service – your feedback will help us to improve it"
-msgstr "Gwasanaeth newydd yw hwn – bydd eich adborth yn ein helpu i’w wella"
+#: server/templates/base-templates/base.html:140
+msgid "Your "
+msgstr "Bydd eich "
 
 #: server/templates/base-templates/base.html:140
-msgid "Feedback form"
-msgstr "Ffurflen adborth"
+msgid "feedback"
+msgstr "adborth"
 
 #: server/templates/base-templates/base.html:140
-msgid "link opens in new tab"
-msgstr "mae’r cyswllt yn agor mewn tab newydd"
+#: server/templates/search/confirm-search-area.html:52
+#: server/templates/search/define-search-area.html:202
+msgid "opens in new tab"
+msgstr "mae’n agor mewn tab newydd"
+
+#: server/templates/base-templates/base.html:140
+msgid "will help us to improve this service"
+msgstr "yn ein helpu i wella’r gwasanaeth hwn"
 
 #: server/templates/base-templates/base.html:154
 msgid "Back"
@@ -368,13 +410,11 @@ msgstr "Cofrestru"
 
 #: server/templates/base-templates/govuk/header-footer.html:50
 msgid "Contact HM Land Registry"
-msgstr "Cysylltwch â Chofrestrfa Tir EM "
+msgstr "Cysylltu â Chofrestrfa Tir EF"
 
 #: server/templates/base-templates/govuk/header-footer.html:54
 msgid "Accessibility statement"
-msgstr ""
-"Datganiad hygyrchedd ar gyfer Cofrestrfa Tir EF – Chwilio am bridiannau "
-"tir lleol"
+msgstr "Datganiad hygyrchedd"
 
 #: server/templates/base-templates/govuk/header-footer.html:58
 #: server/templates/main/cookies.html:5 server/templates/main/cookies.html:10
@@ -396,7 +436,7 @@ msgstr "https://www.gov.uk/government/organisations/land-registry.cy"
 
 #: server/templates/base-templates/govuk/header-footer.html:65
 msgid "HM Land Registry"
-msgstr "Cofrestrfa Tir EM"
+msgstr "Gofrestrfa Tir EF"
 
 #: server/templates/base-templates/govuk/header-footer.html:68
 msgid "&copy; Crown copyright"
@@ -420,56 +460,38 @@ msgstr "Drwydded Llywodraeth Agored v3.0"
 msgid "except where otherwise stated"
 msgstr "ac eithrio ble nodir yn wahanol"
 
-#: server/templates/categories-stat-provs/category-list.html:8
-#: server/templates/categories-stat-provs/category-list.html:13
-msgid "List of categories"
-msgstr "Rhestr o gategorïau"
+#: server/templates/categories-stat-provs/category-list.html:5
+#: server/templates/categories-stat-provs/category-list.html:10
+msgid "List of local land charge categories"
+msgstr "Rhestr o gategorïau pridiannau tir lleol"
 
-#: server/templates/categories-stat-provs/category-list.html:26
-msgid "Sub-categories and instruments"
+#: server/templates/categories-stat-provs/category-list.html:27
+msgid "No subcategories"
+msgstr "Dim is-gategorïau"
+
+#: server/templates/categories-stat-provs/category-list.html:30
+msgid "Subcategories and instruments"
 msgstr "Is-gategorïau ac offerynnau"
 
-#: server/templates/categories-stat-provs/category-list.html:31
-msgid "Sub-category"
+#: server/templates/categories-stat-provs/category-list.html:35
+msgid "Subcategory"
 msgstr "Is-gategori"
 
-#: server/templates/categories-stat-provs/category-list.html:34
+#: server/templates/categories-stat-provs/category-list.html:39
 msgid "Instrument"
 msgstr "Offeryn"
 
-#: server/templates/categories-stat-provs/category-list.html:40
-msgid "Category has no sub-categories"
-msgstr "Nid oes gan y categori unrhyw is-gategorïau"
+#: server/templates/categories-stat-provs/category-list.html:43
+#: server/templates/categories-stat-provs/statutory-provision-list.html:69
+#: server/templates/originating-authorities/originating-authorities-list.html:39
+#: server/templates/originating-authorities/originating-authorities-list.html:56
+msgid "Last updated"
+msgstr "Diweddarwyd ddiwethaf"
 
-#: server/templates/categories-stat-provs/category-list.html:57
-#: server/templates/search-results/search-results.html:97
-msgid "Hide"
-msgstr "Cuddio"
-
-#: server/templates/categories-stat-provs/category-list.html:58
-#: server/templates/search-results/search-results.html:98
-msgid "Hide all sections"
-msgstr "Cuddio pob adran"
-
-#: server/templates/categories-stat-provs/category-list.html:59
-#: server/templates/search-results/search-results.html:99
-msgid "Hide this section"
-msgstr "Cuddio’r adran hon"
-
-#: server/templates/categories-stat-provs/category-list.html:60
-#: server/templates/search-results/search-results.html:100
-msgid "Show"
-msgstr "Dangos"
-
-#: server/templates/categories-stat-provs/category-list.html:61
-#: server/templates/search-results/search-results.html:101
-msgid "Show all sections"
-msgstr "Dangos pob adran"
-
-#: server/templates/categories-stat-provs/category-list.html:62
-#: server/templates/search-results/search-results.html:102
-msgid "Show this section"
-msgstr "Dangos yr adran hon"
+#: server/templates/categories-stat-provs/category-list.html:47
+#: server/templates/categories-stat-provs/statutory-provision-list.html:72
+msgid "Changes"
+msgstr "Newidiadau"
 
 #: server/templates/categories-stat-provs/statutory-provision-list.html:6
 #: server/templates/categories-stat-provs/statutory-provision-list.html:11
@@ -497,16 +519,6 @@ msgstr "Trefnu yn ôl"
 #: server/templates/categories-stat-provs/statutory-provision-list.html:61
 msgid "Current statutory provisions"
 msgstr "Darpariaethau statudol cyfredol"
-
-#: server/templates/categories-stat-provs/statutory-provision-list.html:69
-#: server/templates/originating-authorities/originating-authorities-list.html:39
-#: server/templates/originating-authorities/originating-authorities-list.html:56
-msgid "Last updated"
-msgstr "Diweddarwyd ddiwethaf"
-
-#: server/templates/categories-stat-provs/statutory-provision-list.html:72
-msgid "Changes"
-msgstr "Newidiadau"
 
 #: server/templates/categories-stat-provs/statutory-provision-removed-list.html:6
 #: server/templates/categories-stat-provs/statutory-provision-removed-list.html:11
@@ -563,6 +575,7 @@ msgstr "Gweld i ba awdurdod lleol mae eich ardal chwilio yn perthyn"
 #: server/templates/main/terms-and-conditions.html:185
 #: server/templates/main/terms-and-conditions.html:240
 #: server/templates/search-results/search-results.html:16
+#: server/templates/search-results/search-results.html:131
 #: server/templates/search/confirm-search-area.html:36
 #: server/templates/search/define-search-area.html:207
 #: server/templates/search/define-search-area.html:211
@@ -656,12 +669,6 @@ msgstr "Nid oes gennych ganiatâd i gael yr adnodd y gofynnwyd amdano"
 #: server/templates/errors/unhandled.html:21
 msgid "Try again later"
 msgstr "Rhowch gynnig arall yn nes ymlaen"
-
-#: server/templates/errors/unhandled.html:23
-#: server/templates/main/get-help-sllc.html:65
-#: server/templates/main/get-help-sllc.html:70
-msgid "https://customerhelp.landregistry.gov.uk/contactus"
-msgstr "https://customerhelp.landregistry.gov.uk/welshcontactuswebform/"
 
 #: server/templates/errors/unhandled.html:23
 msgid "contact HM Land Registry"
@@ -957,6 +964,12 @@ msgstr "Ffurflen ar-lein"
 #: server/templates/main/accessibility-statement.html:98
 msgid "Submit an enquiry through "
 msgstr "Anfonwch ymholiad trwy ein "
+
+#: server/templates/main/accessibility-statement.html:99
+#: server/templates/main/get-help-sllc.html:45
+#: server/templates/main/terms-and-conditions.html:232
+msgid "https://customerhelp.landregistry.gov.uk/llc_webform/"
+msgstr "https://customerhelp.landregistry.gov.uk/llc_webform_cy/"
 
 #: server/templates/main/accessibility-statement.html:99
 msgid "our contact form"
@@ -1406,10 +1419,6 @@ msgid "Welsh language: 0300 006 0422"
 msgstr "Ffôn: 0300 006 0444 (gwasanaeth Saesneg)"
 
 #: server/templates/main/get-help-sllc.html:45
-msgid "https://customerhelp.landregistry.gov.uk/llc_webform/"
-msgstr "https://customerhelp.landregistry.gov.uk/llc_webform_cy/"
-
-#: server/templates/main/get-help-sllc.html:45
 #: server/templates/main/get-help-sllc.html:70
 msgid "online contact form"
 msgstr "Ffurflen ar-lein"
@@ -1443,8 +1452,9 @@ msgstr ""
 "chi:"
 
 #: server/templates/main/get-help-sllc.html:58
+#: server/templates/search-results/search-results.html:35
 msgid "local land charges search results guidance"
-msgstr "canllawiau ar ganlyniadau chwiliadau pridiannau tir lleol"
+msgstr "canllawiau ar gyfer canlyniadau chwiliadau pridiannau tir lleol"
 
 #: server/templates/main/get-help-sllc.html:59
 msgid ""
@@ -1457,6 +1467,11 @@ msgstr ""
 #: server/templates/main/get-help-sllc.html:62
 msgid "HM Land Registry general enquiries"
 msgstr "Ymholiadau cyffredinol Cofrestrfa Tir EF"
+
+#: server/templates/main/get-help-sllc.html:65
+#: server/templates/main/get-help-sllc.html:70
+msgid "https://customerhelp.landregistry.gov.uk/contactus"
+msgstr "https://customerhelp.landregistry.gov.uk/welshcontactuswebform"
 
 #: server/templates/main/get-help-sllc.html:65
 msgid "general enquiries"
@@ -3525,19 +3540,19 @@ msgstr "Gwybodaeth"
 
 #: server/templates/my-account/my-account.html:43
 #: server/views/forms/change_details_form.py:10
-#: server/views/forms/register_form.py:68
+#: server/views/forms/register_form.py:41
 msgid "First name"
 msgstr "Enw cyntaf"
 
 #: server/templates/my-account/my-account.html:54
 #: server/views/forms/change_details_form.py:19
-#: server/views/forms/register_form.py:85
+#: server/views/forms/register_form.py:58
 msgid "Last name"
 msgstr "Cyfenw"
 
 #: server/templates/my-account/my-account.html:65
-#: server/views/forms/change_password_with_token_form.py:13
-#: server/views/forms/register_form.py:41 server/views/forms/sign_in_form.py:26
+#: server/views/forms/change_password_with_token_form.py:12
+#: server/views/forms/register_form.py:75 server/views/forms/sign_in_form.py:26
 msgid "Password"
 msgstr "Cyfrinair"
 
@@ -3699,7 +3714,7 @@ msgstr "Canslo a dechrau chwiliad newydd"
 #: server/templates/paid-search/search-area-description.html:89
 #: server/templates/search-results/search-results.html:28
 msgid "The shaded area shows your search."
-msgstr "Mae’r ardal sydd wedi ei lliwio yn dangos eich chwiliad."
+msgstr "Mae’r ardal â graddliwio yn dangos eich chwiliad."
 
 #: server/templates/paid-search/paid-search-query.html:5
 #: server/templates/paid-search/paid-search-query.html:13
@@ -3883,46 +3898,45 @@ msgstr ""
 "gwasanaeth hwn eto. Ni fydd eich canlyniadau yn cynnwys unrhyw bridiannau"
 " tir lleol ar gyfer yr awdurdod lleol hwn."
 
+#: server/templates/search-results/search-results.html:131
 #: server/templates/search/confirm-search-area.html:36
 #: server/templates/search/define-search-area.html:211
 msgid "Ordnance Survey Licence Terms and Conditions"
 msgstr "Telerau ac Amodau Trwydded yr Arolwg Ordnans"
 
+#: server/templates/search-results/search-results.html:132
 #: server/templates/search/confirm-search-area.html:37
 #: server/templates/search/define-search-area.html:212
 #, python-format
 msgid "Use of address and mapping data is subject to %(os_link_html)s"
 msgstr "Mae defnyddio data cyfeiriad a mapio yn ddarostyngedig i %(os_link_html)s"
 
+#: server/templates/search-results/search-results.html:132
 #: server/templates/search/confirm-search-area.html:37
 #: server/templates/search/define-search-area.html:212
 msgid "This includes the link between the address and its location"
 msgstr "Mae hyn yn cynnwys y cyswllt rhwng y cyfeiriad a’i leoliad"
 
-#: server/templates/search-results/search-results.html:133
+#: server/templates/search-results/search-results.html:156
 #: server/templates/search/confirm-search-area.html:41
 #: server/templates/search/define-search-area.html:200
 #: server/templates/search/includes/search-side-menu.html:29
 msgid "Get help"
 msgstr "Cymorth"
 
-#: server/templates/search-results/search-results.html:135
+#: server/templates/search-results/search-results.html:158
 #: server/templates/search/confirm-search-area.html:43
 #: server/templates/search/define-search-area.html:202
 #: server/templates/search/includes/search-side-menu.html:31
 msgid "Get help with this service"
 msgstr "Cymorth gyda’r gwasanaeth hwn"
 
-#: server/templates/search/confirm-search-area.html:43
-#: server/templates/search/define-search-area.html:202
-msgid "opens in new tab"
-msgstr "mae’n agor mewn tab newydd"
-
 #: server/templates/search/define-search-area.html:14
 #: server/templates/search/define-search-area.html:31
 msgid "Find a search area by map"
 msgstr "Dod o hyd i ardal chwilio yn ôl map"
 
+#: server/templates/search-results/search-results.html:37
 #: server/templates/search/define-search-area.html:16
 #: server/templates/search/define-search-area.html:36
 msgid "Edit the search area"
@@ -4191,7 +4205,7 @@ msgid "The shaded area shows the extent area of the INSPIRE ID"
 msgstr "Mae’r ardal sydd wedi ei lliwio yn dangos ardal stent y dynodydd INSPIRE"
 
 #: server/templates/search/results-from-inspire-search.html:52
-#: server/views/search_results.py:164 server/views/search_results.py:166
+#: server/views/search_results.py:170 server/views/search_results.py:172
 msgid "Location"
 msgstr "Lleoliad"
 
@@ -4200,47 +4214,46 @@ msgid "Category"
 msgstr "Categori"
 
 #: server/templates/search/results-from-inspire-search.html:68
-#: server/views/search_results.py:170 server/views/search_results.py:239
+#: server/views/search_results.py:176 server/views/search_results.py:249
 msgid "Law"
 msgstr "Y Gyfraith"
 
 #: server/templates/search/results-from-inspire-search.html:76
-#: server/views/search_results.py:171 server/views/search_results.py:240
+#: server/views/search_results.py:177 server/views/search_results.py:250
 msgid "Legal document"
 msgstr "Dogfen gyfreithiol"
 
 #: server/templates/search/results-from-inspire-search.html:84
-#: server/views/search_results.py:168
+#: server/views/search_results.py:174
 msgid "Authority reference"
 msgstr "Cyfeirnod yr awdurdod"
 
 #: server/templates/search/results-from-inspire-search.html:92
-#: server/views/search_results.py:167
+#: server/views/search_results.py:173
 msgid "Originating authority"
 msgstr "Awdurdod cychwynnol"
 
-#: server/templates/search-results/search-results.html:58
+#: server/templates/search-results/search-results.html:79
 #: server/templates/search/results-from-inspire-search.html:100
 msgid "Creation date"
 msgstr "Dyddiad creu"
 
-#: server/templates/search-results/search-results.html:61
+#: server/templates/search-results/search-results.html:90
 #: server/templates/search/results-from-inspire-search.html:108
-#: server/views/search_results.py:169
+#: server/views/search_results.py:175
 msgid "Registration date"
 msgstr "Dyddiad cofrestru"
 
 #: server/templates/search/results-from-inspire-search.html:116
-#: server/views/search_results.py:176 server/views/search_results.py:241
+#: server/views/search_results.py:182 server/views/search_results.py:251
 msgid "HM Land Registry reference"
 msgstr "Cyfeirnod Cofrestrfa Tir EM"
 
-#: server/templates/search-results/search-results.html:31
+#: server/templates/search-results/search-results.html:37
 #: server/templates/search/results-from-inspire-search.html:124
 msgid "Not the right area?"
 msgstr "Ddim yr ardal iawn?"
 
-#: server/templates/search-results/search-results.html:31
 #: server/templates/search/results-from-inspire-search.html:124
 msgid "Search again"
 msgstr "Chwilio eto"
@@ -4361,24 +4374,77 @@ msgstr "Diweddariadau am y gwasanaeth"
 
 #: server/templates/search-results/search-results.html:12
 #: server/templates/search-results/search-results.html:24
-msgid "Local land charge search results"
-msgstr "Canlyniadau chwiliad pridiant tir lleol"
+msgid "Local land charges for your search area"
+msgstr "Pridiannau tir lleol ar gyfer eich ardal chwilio"
 
 #: server/templates/search-results/search-results.html:18
 msgid "Help make this service better"
 msgstr "Gwella’r gwasanaeth hwn"
 
-#: server/templates/search-results/search-results.html:29
-#, python-format
-msgid "%(total_charges)s local land charges"
-msgstr "%(total_charges)s pridiant tir lleol"
+#: server/templates/search-results/search-results.html:25
+msgid "Image of map with shading to show your search area"
+msgstr "Delwedd o fap â graddliwio i ddangos eich ardal chwilio"
 
 #: server/templates/search-results/search-results.html:30
+msgid "There is 1 local land charge for your search area."
+msgstr "Ceir 1 pridiant tir lleol ar gyfer eich ardal chwilio."
+
+#: server/templates/search-results/search-results.html:32
 #, python-format
-msgid "There are %(total_charges_html)s for your search area."
-msgstr "Ceir %(total_charges_html)s ar gyfer eich ardal chwilio."
+msgid "There are %(total_charges)s local land charges for your search area."
+msgstr "Ceir %(total_charges)s pridiant tir lleol ar gyfer eich ardal chwilio."
 
 #: server/templates/search-results/search-results.html:34
+#, python-format
+msgid "Your free search reference is: %(free_search_reference)s"
+msgstr "Eich cyfeirnod chwilio am ddim yw: %(free_search_reference)s"
+
+#: server/templates/search-results/search-results.html:35
+msgid ""
+"Following data migration, local land charge information may differ from "
+"that provided by the local authority. See the "
+msgstr ""
+"Yn dilyn mudo data, gall gwybodaeth pridiant tir lleol fod yn wahanol i’r"
+" hyn a ddarperir gan yr awdurdod lleol. Gweler y "
+
+#: server/templates/search-results/search-results.html:36
+msgid "You can view your free search history in your account."
+msgstr "Gallwch weld eich hanes chwilio am ddim yn eich cyfrif."
+
+#: server/templates/search-results/search-results.html:37
+msgid "or"
+msgstr "neu"
+
+#: server/templates/search-results/search-results.html:37
+msgid "start a new search"
+msgstr "gychwyn chwiliad newydd"
+
+#: server/templates/search-results/search-results.html:39
+msgid "This service works spatially."
+msgstr "Mae’r gwasanaeth hwn yn gweithio’n ofodol."
+
+#: server/templates/search-results/search-results.html:40
+msgid ""
+"You may begin a search with a postcode or street name, or another way to "
+"search."
+msgstr ""
+"Gallwch ddechrau chwiliad gyda chod post neu enw stryd, neu ffordd arall "
+"o chwilio."
+
+#: server/templates/search-results/search-results.html:41
+msgid ""
+"However, search results are based solely upon areas you have confimed on "
+"the map, and the local land charge data we hold."
+msgstr ""
+"Fodd bynnag, mae canlyniadau chwiliadau’n seiliedig ar ardaloedd rydych "
+"wedi eu cadarnhau ar y map yn unig, a’r data pridiant tir lleol sydd "
+"gennym."
+
+#: server/templates/search-results/search-results.html:44
+msgid "What are the search results based on?"
+msgstr "Ar beth mae canlyniadau’r chwiliadau’n seiliedig?"
+
+#: server/templates/search-results/search-results.html:50
 msgid ""
 "Your search area might include an authority we do not have information "
 "for. Charges for this authority are not included in your results."
@@ -4387,39 +4453,43 @@ msgstr ""
 "wybodaeth ar ei gyfer. Ni fydd pridiannau am yr awdurdod hwn yn eich "
 "canlyniadau"
 
-#: server/templates/search-results/search-results.html:114
+#: server/templates/search-results/search-results.html:60
+msgid "Image of map with shading to show local land charge area"
+msgstr "Delwedd o fap â graddliwio i ddangos yr ardal pridiant tir lleol"
+
+#: server/templates/search-results/search-results.html:138
 msgid "Download an official search result for &pound;"
 msgstr "Lawrlwytho canlyniad chwiliad swyddogol am &pound;"
 
-#: server/templates/search-results/search-results.html:116
-msgid ""
-"By purchasing an official search result from us, you’ll receive a "
-"document that:"
-msgstr "Trwy brynu canlyniad chwiliad swyddogol gennym, cewch ddogfen sy’n:"
+#: server/templates/search-results/search-results.html:140
+msgid "By purchasing an official search result, you’ll receive a document that:"
+msgstr "Trwy brynu canlyniad chwiliad swyddogol, cewch ddogfen sy’n:"
 
-#: server/templates/search-results/search-results.html:118
+#: server/templates/search-results/search-results.html:142
 msgid "is secure and digitally signed by HM Land Registry"
+msgstr "ddiogel ac wedi ei llofnodi’n ddigidol gan Gofrestrfa Tir EF"
+
+#: server/templates/search-results/search-results.html:143
+msgid ""
+"includes a link to the source information held by the originating "
+"authority"
 msgstr ""
-"Gallwch lawrlwytho’r dystysgrif chwiliad swyddogol fel dogfen ddiogel, "
-"wedi ei llofnodi’n ddigidol gan Gofrestrfa Tir EM"
+"cynnwys cyswllt i’r wybodaeth ffynhonnell a gedwir gan yr awdurdod "
+"gwreiddiol"
 
-#: server/templates/search-results/search-results.html:119
-msgid "highlights local land charge boundaries on a map"
-msgstr "dangos terfynau pridiannau tir lleol ar fap"
+#: server/templates/search-results/search-results.html:145
+msgid ""
+"You’ll also be able to repeat your official search for free for a period "
+"of 6 months."
+msgstr ""
+"Byddwch yn gallu ailadrodd eich chwiliad swyddogol am ddim am gyfnod o 6 "
+"mis hefyd."
 
-#: server/templates/search-results/search-results.html:120
-msgid "enables you to get free, repeat searches for 6 months"
-msgstr "eich galluogi i gael chwiliadau am ddim, ailadroddus, am 6 mis"
-
-#: server/templates/search-results/search-results.html:121
-msgid "includes a link to the source information"
-msgstr "cynnwys cyswllt i’r wybodaeth ffynhonnell"
-
-#: server/templates/search-results/search-results.html:125
+#: server/templates/search-results/search-results.html:148
 msgid "Benefits of an official search"
 msgstr "Manteision chwiliad swyddogol"
 
-#: server/templates/search-results/search-results.html:131
+#: server/templates/search-results/search-results.html:154
 msgid "Continue to confirm exact search area"
 msgstr "Parhewch i gadarnhau’r union ardal chwilio"
 
@@ -4431,23 +4501,35 @@ msgstr "Mewngofnodi neu"
 msgid "create an account"
 msgstr "greu cyfrif"
 
-#: server/templates/sign-in/sign-in.html:21
+#: server/templates/sign-in/sign-in.html:35
 msgid "Forgotten your password?"
 msgstr "Wedi anghofio eich cyfrinair?"
 
-#: server/views/account_admin.py:50
+#: server/views/account_admin.py:51
 #, python-format
 msgid "There is an existing account for %(email)s, try again"
 msgstr "Mae cyfrif yn bodoli ar gyfer %(email)s. Rhowch gynnig arall arni"
 
-#: server/views/account_admin.py:55 server/views/account_admin.py:181
+#: server/views/account_admin.py:56 server/views/account_admin.py:188
 #: server/views/my_account.py:119
 msgid "This password is not secure enough"
 msgstr "Nid yw’r cyfrinair hwn yn ddigon diogel"
 
-#: server/views/account_admin.py:192 server/views/my_account.py:130
+#: server/views/account_admin.py:199 server/views/my_account.py:130
 msgid "Your password has been changed"
 msgstr "Newidiwyd eich cyfrinair yn llwyddiannus"
+
+#: server/views/categories_stat_provs.py:167
+msgid "Added"
+msgstr "Ychwanegwyd"
+
+#: server/views/categories_stat_provs.py:169
+msgid "Updated"
+msgstr "Diweddarwyd"
+
+#: server/views/categories_stat_provs.py:171
+msgid "Unavailable for new charges"
+msgstr "Ddim ar gael ar gyfer pridiannau newydd"
 
 # GOOGLE,
 #: server/views/main.py:55
@@ -4517,62 +4599,60 @@ msgstr ""
 " yw llwytho i lawr yn dechrau <a class=\"govuk-link\" "
 "href=\"%(documents_url)s\">cliciwch yma.</a>"
 
-#: server/views/search.py:269
-msgid "We do not recognise that title number. Check title number and try again"
-msgstr ""
-"Nid ydym yn adnabod y rhif teitl hwnnw. Gwiriwch y rhif teitl a rhoi "
-"cynnig arall arni"
+#: server/views/search.py:276 server/views/search.py:450
+msgid "Enter a valid title number"
+msgstr "Nodwch rif teitl dilys"
 
-#: server/views/search.py:313
+#: server/views/search.py:322
 msgid "You have entered an invalid INSPIRE ID"
 msgstr "Rydych wedi nodi dynodydd INSPIRE annilys"
 
-#: server/views/search_results.py:188
+#: server/views/search_results.py:198
 msgid "Advance payment"
 msgstr "Taliad ymlaen llaw"
 
-#: server/views/search_results.py:192
+#: server/views/search_results.py:202
 msgid "Total compensation"
 msgstr "Cyfanswm yr iawndal"
 
-#: server/views/search_results.py:193
+#: server/views/search_results.py:203
 msgid "Agreed or estimated"
 msgstr "Cytunwyd neu amcangyfrif"
 
-#: server/views/search_results.py:194 server/views/search_results.py:222
+#: server/views/search_results.py:204 server/views/search_results.py:232
 msgid "Interest in land"
 msgstr "Budd mewn tir"
 
-#: server/views/search_results.py:196
+#: server/views/search_results.py:206
 msgid "Land sold"
 msgstr "Tir wedi ei werthu"
 
-#: server/views/search_results.py:197
+#: server/views/search_results.py:207
 msgid "Work done"
 msgstr "Gwaith wedi ei wneud"
 
-#: server/views/search_results.py:202
+#: server/views/search_results.py:212
 msgid "Amount"
 msgstr "Swm"
 
-#: server/views/search_results.py:209
+#: server/views/search_results.py:219
 msgid "Interest rate"
 msgstr "Cyfradd llog"
 
-#: server/views/search_results.py:221
+#: server/views/search_results.py:231
 #, python-format
 msgid "Applicant %(applicant_no)s details"
 msgstr "Manylion ceisydd %(applicant_no)s"
 
-#: server/views/search_results.py:223
+#: server/views/search_results.py:233
 msgid "Height of servient land development"
 msgstr "Uchder datblygiad y tir caeth"
 
-#: server/views/search_results.py:224
+#: server/views/search_results.py:234
 msgid "Covers all or part of extent"
 msgstr "Yn cwmpasu’r cyfan neu ran ohono"
 
-#: server/views/search_results.py:237
+#: server/views/search_results.py:247
 msgid "Does not expire"
 msgstr "Nid yw'n dod i ben"
 
@@ -4618,19 +4698,16 @@ msgstr "Cyfrinair newydd"
 #: server/views/forms/change_password_form.py:16
 #: server/views/forms/change_password_form.py:24
 #: server/views/forms/change_password_form.py:43
-#: server/views/forms/change_password_with_token_form.py:16
-#: server/views/forms/change_password_with_token_form.py:24
-#: server/views/forms/register_form.py:44 server/views/forms/sign_in_form.py:29
+#: server/views/forms/change_password_with_token_form.py:15
+#: server/views/forms/register_form.py:78 server/views/forms/sign_in_form.py:29
 msgid "Enter a password"
 msgstr "Nodwch gyfrinair"
 
 #: server/views/forms/change_password_form.py:17
 #: server/views/forms/change_password_form.py:25
 #: server/views/forms/change_password_form.py:44
-#: server/views/forms/change_password_with_token_form.py:17
-#: server/views/forms/change_password_with_token_form.py:25
-#: server/views/forms/register_form.py:45
-#: server/views/forms/register_form.py:53 server/views/forms/sign_in_form.py:30
+#: server/views/forms/change_password_with_token_form.py:16
+#: server/views/forms/register_form.py:79 server/views/forms/sign_in_form.py:30
 msgid "Password must be 256 characters or fewer"
 msgstr "Rhaid i’r cyfrinair gynnwys 256 nod neu lai"
 
@@ -4640,10 +4717,8 @@ msgstr "Cadarnhau’r cyfrinair newydd"
 
 #: server/views/forms/change_password_form.py:31
 #: server/views/forms/change_password_form.py:35
-#: server/views/forms/change_password_with_token_form.py:31
-#: server/views/forms/change_password_with_token_form.py:35
-#: server/views/forms/register_form.py:59
-#: server/views/forms/register_form.py:63
+#: server/views/forms/change_password_with_token_form.py:22
+#: server/views/forms/register_form.py:85
 msgid "Enter a password in the correct format"
 msgstr "Nodwch gyfrinair yn y fformat cywir"
 
@@ -4656,20 +4731,12 @@ msgid "Change password"
 msgstr "Newid cyfrinair"
 
 #: server/views/forms/change_password_form.py:54
-#: server/views/forms/change_password_with_token_form.py:45
-#: server/views/forms/register_form.py:113
 msgid "Passwords do not match, try again"
 msgstr "Nid yw’r cyfrineiriau’n cyfateb. Rhowch gynnig arall"
 
-#: server/views/forms/change_password_with_token_form.py:21
-#: server/views/forms/register_form.py:49
-#: server/views/forms/register_form.py:52
-msgid "Confirm password"
-msgstr "Cadarnhau cyfrinair"
-
-#: server/views/forms/change_password_with_token_form.py:41
+#: server/views/forms/change_password_with_token_form.py:24
 #: server/views/forms/expired_activation_form.py:20
-#: server/views/forms/register_form.py:105
+#: server/views/forms/register_form.py:89
 #: server/views/forms/reset_password_form.py:20
 msgid "Submit"
 msgstr "Cyflwyno"
@@ -4707,6 +4774,24 @@ msgstr ""
 #: server/views/forms/search_area_description_form.py:31
 msgid "Description must be shorter than 1000 characters"
 msgstr "Rhaid i’r disgrifiad fod yn fyrrach na 1000 o nodau"
+
+#: server/views/forms/confirm_search_area_title_number_form.py:10
+msgid "Add another title number"
+msgstr "Ychwanegwch rif teitl arall"
+
+#: server/views/forms/confirm_search_area_title_number_form.py:13
+#: server/views/forms/search_by_title_number_form.py:16
+msgid "Enter a title number"
+msgstr "Nodwch rif teitl"
+
+#: server/views/forms/confirm_search_area_title_number_form.py:14
+#: server/views/forms/search_by_title_number_form.py:17
+msgid "Title number must be shorter than 20 characters"
+msgstr "Rhaid i’r rhif teitl fod yn fyrrach nag 20 nod"
+
+#: server/views/forms/confirm_search_area_title_number_form.py:18
+msgid "Add another"
+msgstr "Ychwanegwch un arall"
 
 #: server/views/forms/cookies_form.py:10
 msgid "Do you want to accept analytics cookies?"
@@ -4763,15 +4848,15 @@ msgstr "Nodwch gyfeiriad ebost yn y fformat cywir, fel enw@enghraifft.com"
 msgid "Confirm email address"
 msgstr "Cadarnhau’r cyfeiriad ebost"
 
-#: server/views/forms/register_form.py:71
+#: server/views/forms/register_form.py:44
 msgid "Enter your first name"
 msgstr "Nodwch eich enw cyntaf"
 
-#: server/views/forms/register_form.py:72
+#: server/views/forms/register_form.py:45
 msgid "First name must be between 1 and 50 characters"
 msgstr "Rhaid i’r enw cyntaf fod rhwng 1 a 50 nod"
 
-#: server/views/forms/register_form.py:76
+#: server/views/forms/register_form.py:49
 msgid ""
 "First name must only include letters, and special characters such as "
 "hyphens, spaces and apostrophes"
@@ -4779,15 +4864,15 @@ msgstr ""
 "Rhaid i’r enw cyntaf gynnwys llythrennau, a nodau arbennig fel "
 "cysylltnodau, bylchau a chollnodau yn unig"
 
-#: server/views/forms/register_form.py:88
+#: server/views/forms/register_form.py:61
 msgid "Enter your last name"
 msgstr "Nodwch eich cyfenw"
 
-#: server/views/forms/register_form.py:89
+#: server/views/forms/register_form.py:62
 msgid "Last name must be between 1 and 50 characters"
 msgstr "Rhaid i’r cyfenw fod rhwng 1 a 50 nod"
 
-#: server/views/forms/register_form.py:93
+#: server/views/forms/register_form.py:66
 msgid ""
 "Last name must only include letters, and special characters such as "
 "hyphens, spaces and apostrophes"
@@ -4795,7 +4880,7 @@ msgstr ""
 "Rhaid i’r cyfenw gynnwys llythrennau, a nodau arbennig fel cysylltnodau, "
 "bylchau a chollnodau yn unig"
 
-#: server/views/forms/register_form.py:109
+#: server/views/forms/register_form.py:93
 msgid "Email addresses do not match, try again"
 msgstr "Nid yw’r cyfeiriadau ebost yn cyfateb. Rhowch gynnig arall arni"
 
@@ -4861,14 +4946,6 @@ msgstr ""
 "Gallwch ddod o hyd i’r rhif teitl ar ddogfennau Cofrestrfa Tir EM, gan "
 "gynnwys copïau o’r gofrestr."
 
-#: server/views/forms/search_by_title_number_form.py:16
-msgid "Enter a title number"
-msgstr "Nodwch rif teitl"
-
-#: server/views/forms/search_by_title_number_form.py:17
-msgid "Title number must be shorter than 20 characters"
-msgstr "Rhaid i’r rhif teitl fod yn fyrrach nag 20 nod"
-
 #: server/views/forms/search_free_searches_form.py:10
 msgid "Find a result by Search ID"
 msgstr "Dod o hyd i ganlyniad trwy chwilio trwy ddynodydd "
@@ -4904,4 +4981,49 @@ msgstr "Rhaid i’r cyfeirnod neu ardal fod yn fyrrach nag 80 nod"
 
 #~ msgid "speak to a Welsh speaker: 0300 006 0422"
 #~ msgstr "ffôn: 0300 006 0411 (am wasanaeth Saesneg)"
+
+#~ msgid "This is a new service – your feedback will help us to improve it"
+#~ msgstr "Gwasanaeth newydd yw hwn – bydd eich adborth yn ein helpu i’w wella"
+
+#~ msgid "Feedback form"
+#~ msgstr "Ffurflen adborth"
+
+#~ msgid "link opens in new tab"
+#~ msgstr "mae’r cyswllt yn agor mewn tab newydd"
+
+#~ msgid "List of categories"
+#~ msgstr "Rhestr o gategorïau"
+
+#~ msgid "Category has no sub-categories"
+#~ msgstr "Nid oes gan y categori unrhyw is-gategorïau"
+
+#~ msgid "%(total_charges)s local land charges"
+#~ msgstr "%(total_charges)s pridiant tir lleol"
+
+#~ msgid "Hide"
+#~ msgstr "Cuddio"
+
+#~ msgid "Hide all sections"
+#~ msgstr "Cuddio pob adran"
+
+#~ msgid "Hide this section"
+#~ msgstr "Cuddio’r adran hon"
+
+#~ msgid "Show"
+#~ msgstr "Dangos"
+
+#~ msgid "Show all sections"
+#~ msgstr "Dangos pob adran"
+
+#~ msgid "Show this section"
+#~ msgstr "Dangos yr adran hon"
+
+#~ msgid "highlights local land charge boundaries on a map"
+#~ msgstr "dangos terfynau pridiannau tir lleol ar fap"
+
+#~ msgid "enables you to get free, repeat searches for 6 months"
+#~ msgstr "eich galluogi i gael chwiliadau am ddim, ailadroddus, am 6 mis"
+
+#~ msgid "the map image"
+#~ msgstr ""
 

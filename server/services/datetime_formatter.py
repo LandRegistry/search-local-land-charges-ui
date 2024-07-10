@@ -18,7 +18,7 @@ months = {
 
 
 def format_date(date, translate=True):
-    formatted_date_list = date.strftime("%d %B %Y").split(" ")
+    formatted_date_list = date.strftime("%-d %B %Y").split(" ")
     if translate and g.locale == "cy":
         formatted_date_list[1] = months[formatted_date_list[1]]
     return " ".join(str(i) for i in formatted_date_list)

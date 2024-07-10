@@ -2,7 +2,7 @@ from collections import OrderedDict
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
-from flask import url_for
+from flask import url_for, current_app
 from flask_babel import lazy_gettext as _
 
 from server.app import app
@@ -17,6 +17,7 @@ from server.views.search_results import (
     format_for_display,
     group_charges_format_for_display,
     sort_charges,
+    geoserver_thumbnail_url,
 )
 from unit_tests.test_data.mock_land_charge import (
     mock_financial_charge,
@@ -104,7 +105,7 @@ class TestSearchResults(TestCase):
         mock_group.assert_called_with([])
         mock_paginate.assert_called_with("Somecharges", "search_results.results", 25, 1)
         mock_sort.assert_called()
-        self.assertIn("Local land charge search results", result.text)
+        self.assertIn("Local land charges for your search area", result.text)
 
     @patch("server.views.search_results.CategoryService")
     def test_charge_sorting(self, mock_cat_service):
@@ -169,7 +170,9 @@ class TestSearchResults(TestCase):
             ),
         )
 
-    def test_format_for_display_land_charge(self):
+    @patch("server.views.search_results.geoserver_thumbnail_url")
+    def test_format_for_display_land_charge(self, mock_thumb):
+        mock_thumb.return_value = "thumbnail_url/image.png"
         result = format_for_display(LocalLandChargeItem.from_json(mock_land_charge()))
         self.assertEqual(
             result,
@@ -181,17 +184,20 @@ class TestSearchResults(TestCase):
                     "Legal document": "An instrument",
                     "Location": ["a description"],
                     "Originating authority": "an authority",
-                    "Registration date": "01 January 2011",
+                    "Registration date": "1 January 2011",
                 },
                 "heading": {
-                    "creation_date": "01 January 2011",
+                    "creation_date": "1 January 2011",
                     "header": "a charge type",
                     "sub_header": "",
                 },
+                "image_url": "thumbnail_url/image.png",
             },
         )
 
-    def test_format_for_display_lon(self):
+    @patch("server.views.search_results.geoserver_thumbnail_url")
+    def test_format_for_display_lon(self, mock_thumb):
+        mock_thumb.return_value = "thumbnail_url/image.png"
         result = format_for_display(LightObstructionNoticeItem.from_json(mock_light_obstruction_notice()))
         self.assertEqual(
             result,
@@ -206,24 +212,27 @@ class TestSearchResults(TestCase):
                         "United Kingdom",
                     ],
                     "Covers all or part of extent": "Over yonder",
-                    "Expiry date\n(definitive certificate)": "01 January 2011",
+                    "Expiry date\n(definitive certificate)": "1 January 2011",
                     "HM Land Registry reference": "LLC-3Z",
                     "Height of servient land development": "28 Metres",
                     "Interest in land": "land interest description",
                     "Law": "a provision",
                     "Legal document": "An instrument",
                     "Location\n(dominant building)": ["a description"],
-                    "Start date\n(definitive certificate)": "01 January 2012",
+                    "Start date\n(definitive certificate)": "1 January 2012",
                 },
                 "heading": {
                     "header": "Light obstruction notice",
-                    "registration_date": "01 January 2011",
+                    "registration_date": "1 January 2011",
                     "sub_header": "",
                 },
+                "image_url": "thumbnail_url/image.png",
             },
         )
 
-    def test_format_for_display_land_comp(self):
+    @patch("server.views.search_results.geoserver_thumbnail_url")
+    def test_format_for_display_land_comp(self, mock_thumb):
+        mock_thumb.return_value = "thumbnail_url/image.png"
         result = format_for_display(LandCompensationItem.from_json(mock_land_compensation_charge()))
         self.assertEqual(
             result,
@@ -236,18 +245,21 @@ class TestSearchResults(TestCase):
                     "Legal document": "An instrument",
                     "Location": ["a description"],
                     "Originating authority": "an authority",
-                    "Registration date": "01 January 2011",
+                    "Registration date": "1 January 2011",
                     "Work done": "21",
                 },
                 "heading": {
-                    "creation_date": "01 January 2011",
+                    "creation_date": "1 January 2011",
                     "header": "Land compensation",
                     "sub_header": "",
                 },
+                "image_url": "thumbnail_url/image.png",
             },
         )
 
-    def test_format_for_display_land_comp_paid(self):
+    @patch("server.views.search_results.geoserver_thumbnail_url")
+    def test_format_for_display_land_comp_paid(self, mock_thumb):
+        mock_thumb.return_value = "thumbnail_url/image.png"
         charge = LandCompensationItem.from_json(mock_land_compensation_charge())
         charge.land_compensation_paid = "1"
         result = format_for_display(charge)
@@ -265,19 +277,22 @@ class TestSearchResults(TestCase):
                     "Legal document": "An instrument",
                     "Location": ["a description"],
                     "Originating authority": "an authority",
-                    "Registration date": "01 January 2011",
+                    "Registration date": "1 January 2011",
                     "Total compensation": _("Not provided"),
                     "Work done": "21",
                 },
                 "heading": {
-                    "creation_date": "01 January 2011",
+                    "creation_date": "1 January 2011",
                     "header": "Land compensation",
                     "sub_header": "",
                 },
+                "image_url": "thumbnail_url/image.png",
             },
         )
 
-    def test_format_for_display_financial(self):
+    @patch("server.views.search_results.geoserver_thumbnail_url")
+    def test_format_for_display_financial(self, mock_thumb):
+        mock_thumb.return_value = "thumbnail_url/image.png"
         result = format_for_display(FinancialItem.from_json(mock_financial_charge()))
         self.assertEqual(
             result,
@@ -291,12 +306,205 @@ class TestSearchResults(TestCase):
                     "Legal document": "An instrument",
                     "Location": ["a description"],
                     "Originating authority": "an authority",
-                    "Registration date": "01 January 2011",
+                    "Registration date": "1 January 2011",
                 },
                 "heading": {
-                    "creation_date": "01 January 2011",
+                    "creation_date": "1 January 2011",
                     "header": "Financial",
                     "sub_header": "",
                 },
+                "image_url": "thumbnail_url/image.png",
             },
         )
+
+    @patch("server.views.search_results.merge_polygons")
+    @patch("server.views.search_results.envelope")
+    @patch("server.views.search_results.calc_display_id")
+    @patch("server.views.search_results.urllib")
+    @patch("server.views.search_results.geoserver_token")
+    def test_geoserver_thumbnail_url(self,
+                                     mock_geoserver_token,
+                                     mock_urllib,
+                                     mock_calc_display_id,
+                                     mock_envelope,
+                                     mock_merge_polygons,
+                                     ):
+        mock_shape_envelope = MagicMock()
+        mock_shape_envelope.bounds = 10, 10, 70, 50
+        mock_envelope.return_value.buffer.return_value = mock_shape_envelope
+        mock_calc_display_id.return_value = "LLC-1234"
+        expected_params = {
+            'SERVICE': 'WMS',
+            'VERSION': '1.1.1',
+            'REQUEST': 'GetMap',
+            'FORMAT': 'image/png',
+            'LAYERS': 'llc:charge_geometry_viaeuropa',
+            'CQL_FILTER': "llc_id='LLC-1234'",
+            'SRS': 'EPSG:27700',
+            'WIDTH': '176',
+            'HEIGHT': '117',
+            'BBOX': '10,10,70,50'
+        }
+        mock_urllib.parse.urlencode.return_value = "test=true"
+        expected_url = "/geoserver/llc/wms?test=true"
+        mock_geoserver_token.return_value = "test"
+        result = geoserver_thumbnail_url(1, {})
+
+        self.assertEqual(result, f"{current_app.config['GEOSERVER_URL']}/geoserver_thumbnail/test")
+        mock_urllib.parse.urlencode.assert_called_with(expected_params)
+        mock_geoserver_token.assert_called_with(expected_url)
+
+    @patch("server.views.search_results.merge_polygons")
+    @patch("server.views.search_results.envelope")
+    @patch("server.views.search_results.calc_display_id")
+    @patch("server.views.search_results.urllib")
+    @patch("server.views.search_results.geoserver_token")
+    def test_geoserver_thumbnail_url_too_small_x(self,
+                                                 mock_geoserver_token,
+                                                 mock_urllib,
+                                                 mock_calc_display_id,
+                                                 mock_envelope,
+                                                 mock_merge_polygons,
+                                                 ):
+        mock_shape_envelope = MagicMock()
+        mock_shape_envelope.bounds = 10, 10, 20, 22
+        mock_envelope.return_value.buffer.return_value = mock_shape_envelope
+        mock_calc_display_id.return_value = "LLC-1234"
+        expected_params = {
+            'SERVICE': 'WMS',
+            'VERSION': '1.1.1',
+            'REQUEST': 'GetMap',
+            'FORMAT': 'image/png',
+            'LAYERS': 'llc:charge_geometry_viaeuropa',
+            'CQL_FILTER': "llc_id='LLC-1234'",
+            'SRS': 'EPSG:27700',
+            'WIDTH': '176',
+            'HEIGHT': '117',
+            'BBOX': '6.0,10,24.0,22'
+        }
+        mock_urllib.parse.urlencode.return_value = "test=true"
+        expected_url = "/geoserver/llc/wms?test=true"
+        mock_geoserver_token.return_value = "test"
+        result = geoserver_thumbnail_url(1, {})
+
+        self.assertEqual(result, f"{current_app.config['GEOSERVER_URL']}/geoserver_thumbnail/test")
+        mock_urllib.parse.urlencode.assert_called_with(expected_params)
+        mock_geoserver_token.assert_called_with(expected_url)
+
+    @patch("server.views.search_results.merge_polygons")
+    @patch("server.views.search_results.envelope")
+    @patch("server.views.search_results.calc_display_id")
+    @patch("server.views.search_results.urllib")
+    @patch("server.views.search_results.geoserver_token")
+    def test_geoserver_thumbnail_url_too_small_y(self,
+                                                 mock_geoserver_token,
+                                                 mock_urllib,
+                                                 mock_calc_display_id,
+                                                 mock_envelope,
+                                                 mock_merge_polygons,
+                                                 ):
+        mock_shape_envelope = MagicMock()
+        mock_shape_envelope.bounds = 10, 10, 28, 20
+        mock_envelope.return_value.buffer.return_value = mock_shape_envelope
+        mock_calc_display_id.return_value = "LLC-1234"
+        expected_params = {
+            'SERVICE': 'WMS',
+            'VERSION': '1.1.1',
+            'REQUEST': 'GetMap',
+            'FORMAT': 'image/png',
+            'LAYERS': 'llc:charge_geometry_viaeuropa',
+            'CQL_FILTER': "llc_id='LLC-1234'",
+            'SRS': 'EPSG:27700',
+            'WIDTH': '176',
+            'HEIGHT': '117',
+            'BBOX': '10,9.0,28,21.0'
+        }
+        mock_urllib.parse.urlencode.return_value = "test=true"
+        expected_url = "/geoserver/llc/wms?test=true"
+        mock_geoserver_token.return_value = "test"
+        result = geoserver_thumbnail_url(1, {})
+
+        self.assertEqual(result, f"{current_app.config['GEOSERVER_URL']}/geoserver_thumbnail/test")
+        mock_urllib.parse.urlencode.assert_called_with(expected_params)
+        mock_geoserver_token.assert_called_with(expected_url)
+
+    @patch("server.views.search_results.merge_polygons")
+    @patch("server.views.search_results.envelope")
+    @patch("server.views.search_results.calc_display_id")
+    @patch("server.views.search_results.urllib")
+    @patch("server.views.search_results.geoserver_token")
+    def test_geoserver_thumbnail_url_too_narrow(self,
+                                                mock_geoserver_token,
+                                                mock_urllib,
+                                                mock_calc_display_id,
+                                                mock_envelope,
+                                                mock_merge_polygons,
+                                                ):
+        mock_shape_envelope = MagicMock()
+        mock_shape_envelope.bounds = 10, 10, 70, 30
+        mock_envelope.return_value.buffer.return_value = mock_shape_envelope
+        mock_calc_display_id.return_value = "LLC-1234"
+        expected_params = {
+            'SERVICE': 'WMS',
+            'VERSION': '1.1.1',
+            'REQUEST': 'GetMap',
+            'FORMAT': 'image/png',
+            'LAYERS': 'llc:charge_geometry_viaeuropa',
+            'CQL_FILTER': "llc_id='LLC-1234'",
+            'SRS': 'EPSG:27700',
+            'WIDTH': '176',
+            'HEIGHT': '117',
+            'BBOX': '10,0.0,70,40.0'
+        }
+        mock_urllib.parse.urlencode.return_value = "test=true"
+        expected_url = "/geoserver/llc/wms?test=true"
+        mock_geoserver_token.return_value = "test"
+        result = geoserver_thumbnail_url(1, {})
+
+        self.assertEqual(result, f"{current_app.config['GEOSERVER_URL']}/geoserver_thumbnail/test")
+        mock_urllib.parse.urlencode.assert_called_with(expected_params)
+        mock_geoserver_token.assert_called_with(expected_url)
+
+    @patch("server.views.search_results.merge_polygons")
+    @patch("server.views.search_results.envelope")
+    @patch("server.views.search_results.calc_display_id")
+    @patch("server.views.search_results.urllib")
+    @patch("server.views.search_results.geoserver_token")
+    def test_geoserver_thumbnail_url_too_short(self,
+                                               mock_geoserver_token,
+                                               mock_urllib,
+                                               mock_calc_display_id,
+                                               mock_envelope,
+                                               mock_merge_polygons,
+                                               ):
+        mock_shape_envelope = MagicMock()
+        mock_shape_envelope.bounds = 20, 20, 40, 60
+        mock_envelope.return_value.buffer.return_value = mock_shape_envelope
+        mock_calc_display_id.return_value = "LLC-1234"
+        expected_params = {
+            'SERVICE': 'WMS',
+            'VERSION': '1.1.1',
+            'REQUEST': 'GetMap',
+            'FORMAT': 'image/png',
+            'LAYERS': 'llc:charge_geometry_viaeuropa',
+            'CQL_FILTER': "llc_id='LLC-1234'",
+            'SRS': 'EPSG:27700',
+            'WIDTH': '176',
+            'HEIGHT': '117',
+            'BBOX': '0.0,20,60.0,60'
+        }
+        mock_urllib.parse.urlencode.return_value = "test=true"
+        expected_url = "/geoserver/llc/wms?test=true"
+        mock_geoserver_token.return_value = "test"
+        result = geoserver_thumbnail_url(1, {})
+
+        self.assertEqual(result, f"{current_app.config['GEOSERVER_URL']}/geoserver_thumbnail/test")
+        mock_urllib.parse.urlencode.assert_called_with(expected_params)
+        mock_geoserver_token.assert_called_with(expected_url)
+
+    def test_geoserver_thumbnail_url_sensitive(self):
+        geometry = {
+            "properties": "sensitive"
+        }
+        result = geoserver_thumbnail_url(1, geometry)
+        self.assertEqual(result, url_for('static', filename='images/mapping/no_geo_image.png'))

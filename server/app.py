@@ -1,11 +1,10 @@
 from urllib.parse import quote_plus
 
-from flask import g
+from flask import g, url_for
 from flask_babel import gettext as _
 from jinja2 import ChoiceLoader, PackageLoader, PrefixLoader
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from server import config
 from server.landregistry_flask import LandRegistryFlask
 from server.services.back_link_history import show_back_link
 from server.utils.base64_cookie import check_valid_base64_json_cookie
@@ -52,14 +51,9 @@ def inject_global_values():
     Use this to inject values into the templates that are used globally.
     This might be things such as the current username
     """
-    if g.locale == "cy":
-        contact_url = config.CONTACT_US_WELSH_URL
-    else:
-        contact_url = config.CONTACT_US_URL
-
     return dict(
         service_name=_("Search for local land charges"),
-        contact_url=contact_url,
+        contact_url=url_for("main.contact_us_redirect"),
         geoserver_token=geoserver_token,
         show_back_link=show_back_link,
         check_valid_base64_json_cookie=check_valid_base64_json_cookie,

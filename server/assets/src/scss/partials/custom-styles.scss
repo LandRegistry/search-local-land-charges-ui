@@ -123,3 +123,14 @@ input[data-hidden-when-small^="yes"] {
             display: inherit;
     }
 }
+
+.vertical-align-top {
+    vertical-align: top;
+}
+
+.result-thumbnail {
+    width: 100%;
+    max-width: 176px;
+    max-height: 117px;
+    aspect-ratio: 3 / 2;
+}

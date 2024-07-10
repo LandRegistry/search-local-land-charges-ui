@@ -1,7 +1,8 @@
 import json
 from datetime import datetime
 
-from flask import Blueprint, Response, current_app, render_template, request
+from flask import Blueprint, Response, current_app, redirect, render_template, request, url_for
+from flask_babel import lazy_gettext as _
 from landregistry.exceptions import ApplicationError
 
 from server.dependencies.maintain_api.category_service import CategoryService
@@ -19,10 +20,16 @@ categories_stat_provs = Blueprint(
 
 
 @categories_stat_provs.route("/category-list")
+def redirect_to_new_url():
+    return redirect(url_for("categories_stat_provs.get_page_categories"))
+
+
+@categories_stat_provs.route("/list-of-local-land-charge-categories")
 def get_page_categories():
     reset_history()
     categories = CategoryService(current_app.config).get_all_and_sub()
-    return render_template("category-list.html", categories=categories)
+    return render_template("category-list.html", categories=categories, format_date=format_date,
+                           translate_change_value=translate_change_value, fromisoformat=datetime.fromisoformat)
 
 
 @categories_stat_provs.route("/categories/all")
@@ -34,14 +41,26 @@ def get_categories_and_sub():
 @categories_stat_provs.route("/categories")
 def get_all_categories():
     categories = CategoryService(current_app.config).get()
+    for category in categories:
+        category['name'] = category.get('display-name')
     return Response(response=json.dumps(categories), mimetype="application/json")
 
 
 @categories_stat_provs.route("/categories/<path:category>")
 def get_category(category):
     category_info = CategoryService(current_app.config).get_category(category)
+    category_info_json = category_info.json()
+    category_info_json['name'] = category_info_json.get('display-name')
+    category_info_json['display-name-valid'] = {
+        "valid_display_names": category_info_json.get('valid-category-names', [])
+    }
+    for sub_category in category_info_json.get("sub-categories", []):
+        sub_category['name'] = sub_category.get('display-name')
+        sub_category['display-name-valid'] = {
+            "valid_display_names": sub_category.get('valid-category-names', [])
+        }
     return Response(
-        response=json.dumps(category_info.json()),
+        response=json.dumps(category_info_json),
         mimetype="application/json",
         status=category_info.status_code,
     )
@@ -50,8 +69,10 @@ def get_category(category):
 @categories_stat_provs.route("/categories/<path:category>/sub-category/<path:sub_category>")
 def get_sub_category(category, sub_category):
     sub_category_info = CategoryService(current_app.config).get_sub_category(category, sub_category)
+    sub_category_info_json = sub_category_info.json()
+    sub_category_info_json['name'] = sub_category_info_json.get('display-name')
     return Response(
-        response=json.dumps(sub_category_info.json()),
+        response=json.dumps(sub_category_info_json),
         mimetype="application/json",
         status=sub_category_info.status_code,
     )
@@ -127,7 +148,7 @@ def format_stat_prov_list(selectable):
             }
         if stat_prov["display_title"] != stat_prov["title"]:
             stat_provs_dict[stat_prov["display_title"]]["previous_titles"].append(stat_prov["title"])
-        last_updated = stat_prov.get("unselectable_timestamp", None)
+        last_updated = stat_prov.get("last_updated_timestamp", None)
         if not last_updated and stat_prov["selectable"]:
             last_updated = stat_prov.get("created_timestamp", None)
         current_last_updated = stat_provs_dict[stat_prov["display_title"]].get("last_updated", None)
@@ -138,3 +159,13 @@ def format_stat_prov_list(selectable):
         if stat_prov["selectable"]:
             stat_provs_dict[stat_prov["display_title"]]["selectable"] = True
     return [prov for prov in stat_provs_dict.values() if prov["selectable"] == selectable]
+
+
+def translate_change_value(change):
+    match change:
+        case "Added":
+            return _("Added")
+        case "Updated":
+            return _("Updated")
+        case "Unavailable for new charges":
+            return _("Unavailable for new charges")

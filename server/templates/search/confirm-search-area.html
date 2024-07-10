@@ -29,8 +29,10 @@
     {% endif %}
     <input type="hidden" name="saved-features" id="saved-features" value="{{ geometry }}">
     <form method="post" action="{{ url_for('search.confirm_search_area') }}" novalidate>
-      {{ form.csrf_token }}
-      {{ form.submit }}
+      {% if confirm_form.csrf_token %}
+        {{ confirm_form.csrf_token(id="confirm_csrf_token") }}
+      {% endif %}
+      {{ confirm_form.submit(id="confirm_submit") }}
     </form>
     <p class="govuk-body">
       {% set os_link_html %}<a class="govuk-link" href="{{ config.OS_TERMS_CONDITIONS_LINK | string() }}" target="_blank">{{ _('Ordnance Survey Licence Terms and Conditions') }} {{ _('(opens in new tab)') }}</a>{% endset %}
@@ -38,10 +40,19 @@
     </p>
   </div>
   <div class="govuk-grid-column-one-third">
+    {% if session.get("search_type", "") == "title_number" %}
+      <form method="post" action="{{ url_for('search.add_another_title') }}" novalidate>
+        {{ form.csrf_token }}
+        {{ form.title_number(params={"label": {"classes": "govuk-label--m"} }) }}
+        {{ form.submit(params={"classes": 'govuk-button--secondary'}) }}
+      </form>
+      <h2 class="govuk-heading-m govuk-!-margin-top-9">{{ _('Get help') }}</h2>
+    {% else %}
       <h2 class="govuk-heading-m">{{ _('Get help') }}</h2>
-      <p class="govuk-body-m">
-          <a class="govuk-link" href="{{ url_for('main.get_help_sllc') }}" target="_blank">{{ _('Get help with this service') }} ({{ _('opens in new tab') }})</a>
-      </p>
+    {% endif %}
+    <p class="govuk-body-m">
+        <a class="govuk-link" href="{{ url_for('main.get_help_sllc') }}" target="_blank">{{ _('Get help with this service') }} ({{ _('opens in new tab') }})</a>
+    </p>
   </div>
 </div>
 {% endblock %}

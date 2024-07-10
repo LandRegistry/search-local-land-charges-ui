@@ -14,6 +14,8 @@ from flask import (
 )
 from flask_babel import gettext as _
 from landregistry.exceptions import ApplicationError
+from shapely import envelope
+import urllib
 
 from server import config
 from server.dependencies.search_api.category_service import CategoryService
@@ -24,11 +26,14 @@ from server.models.charges import (
     LocalLandChargeItem,
 )
 from server.models.common import default_text
+from server.services.charge_id_utils import calc_display_id
 from server.services.fee_functions import format_fee_for_display
+from server.services.merge_polygons import merge_polygons
 from server.services.search_utilities import (
     calculate_pagination_info,
     decode_validate_search_id,
 )
+from server.utils.geoserver_token import geoserver_token
 from server.views.auth import authenticated
 from server.views.forms.search_results_form import SearchResultsForm
 
@@ -40,7 +45,7 @@ except ValueError:
 search_results = Blueprint(
     "search_results",
     __name__,
-    url_prefix="/search-results",
+    url_prefix="/local-land-charges-for-your-search-area",
     template_folder="../templates/search-results",
 )
 
@@ -101,6 +106,7 @@ def results():
     return render_template(
         "search-results.html",
         charges=group_charges_format_for_display(display_charges),
+        free_search_reference=str(session["search_state"].free_search_id),
         geometry=json.dumps(search_extent),
         total_charges=len(charges),
         show_pagination=len(pagination_info["items"]) > 1,
@@ -175,7 +181,11 @@ def format_for_display(charge):
             format_land_comp(charge, content)
         content[_("HM Land Registry reference")] = charge.format_llc_ref_for_display("local_land_charge")
 
-    return {"heading": heading, "content": content}
+    return {
+        "heading": heading,
+        "content": content,
+        "image_url": geoserver_thumbnail_url(charge.local_land_charge, charge.geometry)
+    }
 
 
 def format_land_comp(charge, content):
@@ -239,3 +249,53 @@ def format_lon(charge, heading, content):
     content[_("Law")] = charge.format_field_for_display("statutory_provision")
     content[_("Legal document")] = charge.format_field_for_display("instrument")
     content[_("HM Land Registry reference")] = charge.format_llc_ref_for_display("local_land_charge")
+
+
+def geoserver_thumbnail_url(llc_id, geometry):
+    if geometry.get("properties") == "sensitive":
+        return url_for('static', filename='images/mapping/no_geo_image.png')
+    merged_shape = merge_polygons(geometry, True)
+    shape_envelope = envelope(merged_shape).buffer(1)
+    minx, miny, maxx, maxy = shape_envelope.bounds
+
+    width = (maxx - minx)
+    # Prevent overzooming
+    if width < 18:
+        midx = minx + (width / 2)
+        width = 18
+        minx = midx - 9
+        maxx = midx + 9
+    height = (maxy - miny)
+    if height < 12:
+        midy = miny + (height / 2)
+        height = 12
+        miny = midy - 6
+        maxy = midy + 6
+    # Modify bbox values to maintain aspect ratio
+    aspect_ratio = width / height
+    if aspect_ratio > 3 / 2:
+        new_height = width * (2 / 3)
+        height_diff = new_height - height
+        maxy += height_diff / 2
+        miny -= height_diff / 2
+    elif aspect_ratio < 3 / 2:
+        new_width = height * (3 / 2)
+        width_diff = new_width - width
+        maxx += width_diff / 2
+        minx -= width_diff / 2
+
+    params = {
+        'SERVICE': 'WMS',
+        'VERSION': '1.1.1',
+        'REQUEST': 'GetMap',
+        'FORMAT': 'image/png',
+        'LAYERS': 'llc:charge_geometry_viaeuropa',
+        'CQL_FILTER': f"llc_id='{calc_display_id(llc_id)}'",
+        'SRS': 'EPSG:27700',
+        'WIDTH': '176',
+        'HEIGHT': '117',
+        'BBOX': f'{str(minx)},{str(miny)},{str(maxx)},{str(maxy)}'
+    }
+    url = f'/geoserver/llc/wms?{urllib.parse.urlencode(params)}'
+
+    return f"{current_app.config['GEOSERVER_URL']}/geoserver_thumbnail/{geoserver_token(url)}"

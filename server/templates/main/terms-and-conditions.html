@@ -229,7 +229,7 @@
         <h2 class="govuk-heading-m">{{ _('How to make a complaint') }}</h2>
 
         <p class="govuk-body">{{ _('If you’re unhappy with the service, contact HM Land Registry.  You can') }}:</p>
-        {% set contact_form_link %}<a class="govuk-link" href="{{ config.CONTACT_US_URL }}">{{ _('contact form') }}</a>{% endset %}
+        {% set contact_form_link %}<a class="govuk-link" href="{{ _('https://customerhelp.landregistry.gov.uk/llc_webform/') }}">{{ _('contact form') }}</a>{% endset %}
         <ul class="govuk-list govuk-list--bullet">
             <li>{{ _('complete the online %(contact_form_link)s', contact_form_link=contact_form_link) }}</li>
             <li>{{ _('phone: 0300 006 0411, open Monday to Thursday, 8am to 5pm (except public holidays)') }}</li>

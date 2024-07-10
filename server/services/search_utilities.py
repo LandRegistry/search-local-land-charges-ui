@@ -19,6 +19,7 @@ def start_new_search():
     session.pop("address_search_results", None)
     session.pop("zoom_to_location", None)
     session.pop("coordinate_search", None)
+    session.pop("search_type", None)
     reset_history()
 
 

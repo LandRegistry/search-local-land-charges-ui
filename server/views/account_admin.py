@@ -12,6 +12,7 @@ from landregistry.exceptions import ApplicationError
 
 from server.dependencies.account_api.account_api_service import AccountApiService
 from server.dependencies.audit_api.audit_api_service import AuditAPIService
+from server.dependencies.report_api.report_api_service import ReportAPIService
 from server.services.paid_search_utils import PaidSearchUtils
 from server.views.forms.change_password_with_token_form import (
     ChangePasswordWithTokenForm,
@@ -38,7 +39,7 @@ def register():
             form.first_name.data.strip(),
             form.last_name.data.strip(),
             form.email_addresses.email_address.data.strip(),
-            form.passwords.password.data.strip(),
+            form.password.data.strip(),
         )
 
         if register_response.get("status") == 409:
@@ -52,12 +53,18 @@ def register():
                 ]
             }
         elif register_response.get("status") == 400 and register_response.get("message") == "Password is blacklisted":
-            form.passwords.errors = {"passwords": [_("This password is not secure enough")]}
+            form.password.errors = [_("This password is not secure enough")]
             current_app.logger.info("Password is blacklisted")
         else:
             user_id = register_response.get("data").get("id")
             session["registered_email"] = form.email_addresses.email_address.data.strip()
             AuditAPIService.audit_event("User Registration Submitted", origin_id=user_id)
+
+            ReportAPIService.send_event(
+                "search_account_created",
+                {},
+                account_creation=True,
+            )
 
             return redirect(url_for("account_admin.check_your_email"))
 
@@ -174,11 +181,11 @@ def change_password_with_token(password_token):
             password_response = account_service.set_password(
                 password_token,
                 token_info["user_id"],
-                form.passwords.password.data.strip(),
+                form.password.data.strip(),
             )
 
             if password_response.status_code == 400 and "Password is blacklisted" in password_response.text:
-                form.passwords.errors = {"passwords": [_("This password is not secure enough")]}
+                form.password.errors = [_("This password is not secure enough")]
                 current_app.logger.info("Password is blacklisted")
             elif password_response.status_code != 200:
                 raise ApplicationError("Failed to change password", "CHPWF01", 500)

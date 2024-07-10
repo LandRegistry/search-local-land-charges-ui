@@ -132,10 +132,7 @@ def map_help():
 
 @main.route("/contact-us")
 def contact_us_redirect():
-    if g.locale == "cy":
-        return redirect(config.CONTACT_US_WELSH_URL)
-
-    return redirect(config.CONTACT_US_URL)
+    return redirect(url_for("main.get_help_sllc"))
 
 
 @main.route("/not-authorised")

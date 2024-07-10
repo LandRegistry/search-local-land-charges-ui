@@ -20,19 +20,14 @@ class TestRegisterForm(TestCase):
         form.email_addresses.email_address.raw_data = "Blah@rhubarb.com"
         form.email_addresses.confirm_email_address.data = "Blah@rhubarb.com"
         form.email_addresses.confirm_email_address.raw_data = "Blah@rhubarb.com"
-        form.passwords.password.data = "Blah"
-        form.passwords.password.raw_data = "Blah"
-        form.passwords.confirm_password.data = "Blah"
-        form.passwords.confirm_password.raw_data = "Blah"
+        form.password.data = "Blah"
+        form.password.raw_data = "Blah"
 
         self.assertFalse(form.validate())
         self.assertEqual(
             form.errors,
             {
-                "passwords": {
-                    "confirm_password": ["Enter a password in the correct format"],
-                    "password": ["Enter a password in the correct format"],
-                }
+                "password": ["Enter a password in the correct format"],
             },
         )
 
@@ -46,19 +41,14 @@ class TestRegisterForm(TestCase):
         form.email_addresses.email_address.raw_data = "Blah@rhubarb.com"
         form.email_addresses.confirm_email_address.data = "Blah@rhubarb.com"
         form.email_addresses.confirm_email_address.raw_data = "Blah@rhubarb.com"
-        form.passwords.password.data = "qwertyuiop"
-        form.passwords.password.raw_data = "qwertyuiop"
-        form.passwords.confirm_password.data = "qwertyuiop"
-        form.passwords.confirm_password.raw_data = "qwertyuiop"
+        form.password.data = "qwertyuiop"
+        form.password.raw_data = "qwertyuiop"
 
         self.assertFalse(form.validate())
         self.assertEqual(
             form.errors,
             {
-                "passwords": {
-                    "confirm_password": ["Enter a password in the correct format"],
-                    "password": ["Enter a password in the correct format"],
-                }
+                "password": ["Enter a password in the correct format"],
             },
         )
 
@@ -72,19 +62,14 @@ class TestRegisterForm(TestCase):
         form.email_addresses.email_address.raw_data = "Blah@rhubarb.com"
         form.email_addresses.confirm_email_address.data = "Blah@rhubarb.com"
         form.email_addresses.confirm_email_address.raw_data = "Blah@rhubarb.com"
-        form.passwords.password.data = "Qwertyuiop"
-        form.passwords.password.raw_data = "Qwertyuiop"
-        form.passwords.confirm_password.data = "Qwertyuiop"
-        form.passwords.confirm_password.raw_data = "Qwertyuiop"
+        form.password.data = "Qwertyuiop"
+        form.password.raw_data = "Qwertyuiop"
 
         self.assertFalse(form.validate())
         self.assertEqual(
             form.errors,
             {
-                "passwords": {
-                    "confirm_password": ["Enter a password in the correct format"],
-                    "password": ["Enter a password in the correct format"],
-                }
+                "password": ["Enter a password in the correct format"],
             },
         )
 
@@ -98,19 +83,14 @@ class TestRegisterForm(TestCase):
         form.email_addresses.email_address.raw_data = "Blah@rhubarb.com"
         form.email_addresses.confirm_email_address.data = "Blah@rhubarb.com"
         form.email_addresses.confirm_email_address.raw_data = "Blah@rhubarb.com"
-        form.passwords.password.data = "Qwertyuiop123"
-        form.passwords.password.raw_data = "Qwertyuiop123"
-        form.passwords.confirm_password.data = "Qwertyuiop123"
-        form.passwords.confirm_password.raw_data = "Qwertyuiop123"
+        form.password.data = "Qwertyuiop123"
+        form.password.raw_data = "Qwertyuiop123"
 
         self.assertFalse(form.validate())
         self.assertEqual(
             form.errors,
             {
-                "passwords": {
-                    "confirm_password": ["Enter a password in the correct format"],
-                    "password": ["Enter a password in the correct format"],
-                }
+                "password": ["Enter a password in the correct format"],
             },
         )
 
@@ -124,9 +104,7 @@ class TestRegisterForm(TestCase):
         form.email_addresses.email_address.raw_data = "Blah@rhubarb.com"
         form.email_addresses.confirm_email_address.data = "Blah@rhubarb.com"
         form.email_addresses.confirm_email_address.raw_data = "Blah@rhubarb.com"
-        form.passwords.password.data = "Qwertyuiop123!"
-        form.passwords.password.raw_data = "Qwertyuiop123!"
-        form.passwords.confirm_password.data = "Qwertyuiop123!"
-        form.passwords.confirm_password.raw_data = "Qwertyuiop123!"
+        form.password.data = "Qwertyuiop123!"
+        form.password.raw_data = "Qwertyuiop123!"
 
         self.assertTrue(form.validate())

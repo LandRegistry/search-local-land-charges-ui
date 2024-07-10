@@ -4,7 +4,10 @@ from flask import session
 from server import config
 
 
-def geoserver_token():
+def geoserver_token(url=None):
     f = Fernet(config.GEOSERVER_SECRET_KEY)
-    token = f.encrypt(session.sid.encode())
+    if url:
+        token = f.encrypt(url.encode())
+    else:
+        token = f.encrypt(session.sid.encode())
     return token.decode()

@@ -80,7 +80,7 @@
           </p>
           {% if maintenance_contact %}
             {% set inset_html %}
-              <a href="{{ config.CONTACT_US_URL }}">{{ _('Contact us') }}</a> {{ _('if you need this search urgently.  We may be able to complete this search for you.') }}
+              <a href="{{ url_for('main.contact_us_redirect') }}">{{ _('Contact us') }}</a> {{ _('if you need this search urgently.  We may be able to complete this search for you.') }}
             {% endset %}
             {{ govukInsetText({
               "html": inset_html
