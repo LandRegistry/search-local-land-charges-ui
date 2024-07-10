@@ -4,7 +4,6 @@ from unittest.mock import patch
 
 from flask import g, url_for
 
-from server import config
 from server.main import app
 from server.services.datetime_formatter import format_long_date
 from unit_tests.utilities_tests import super_test_context
@@ -111,14 +110,14 @@ class TestMain(TestCase):
     def test_contact_us_redirect_en(self):
         response = self.client.get(url_for("main.contact_us_redirect"))
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.location, config.CONTACT_US_URL)
+        self.assertEqual(response.location, url_for("main.get_help_sllc"))
 
     def test_contact_us_redirect_cy(self):
         with super_test_context(app):
             self.client.set_cookie("language", "cy")
             response = self.client.get(url_for("main.contact_us_redirect"))
             self.assertEqual(response.status_code, 302)
-            self.assertEqual(response.location, config.CONTACT_US_WELSH_URL)
+            self.assertEqual(response.location, url_for("main.get_help_sllc"))
 
     def test_not_authorised(self):
         response = self.client.get(url_for("main.not_authorised"))

@@ -20,7 +20,7 @@
   {% else %}
     <p class="govuk-body">{{ _('Try again later') }}.</p>
     {% set contact_link_html %}
-      <a href="{{ _('https://customerhelp.landregistry.gov.uk/contactus') }}">{{ _('contact HM Land Registry') }}</a>
+      <a href="{{ url_for('main.contact_us_redirect') }}">{{ _('contact HM Land Registry') }}</a>
     {% endset %}
     <p class="govuk-body">{{ _('If this problem persists, %(contact_link_html)s', contact_link_html=contact_link_html) }}.</p>
   {% endif %}

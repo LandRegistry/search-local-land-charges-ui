@@ -37,10 +37,11 @@ class TestAccountAdmin(TestCase):
             {"email_addresses": ["There is an existing account for some@email.com, try again"]},
         )
 
+    @patch("server.views.account_admin.ReportAPIService")
     @patch("server.views.account_admin.RegisterForm")
     @patch("server.views.account_admin.AccountApiService")
     @patch("server.views.account_admin.AuditAPIService")
-    def test_register_post_ok(self, mock_audit, mock_account, mock_register):
+    def test_register_post_ok(self, mock_audit, mock_account, mock_register, mock_report):
         mock_register.return_value.validate_on_submit.return_value = True
         mock_account.return_value.register.return_value = {
             "status": 200,
@@ -53,6 +54,11 @@ class TestAccountAdmin(TestCase):
         result = self.client.post(url_for("account_admin.register"))
         self.assertEqual(result.status_code, 302)
         self.assertEqual(result.location, url_for("account_admin.check_your_email"))
+        mock_report.send_event.assert_called_with(
+            "search_account_created",
+            {},
+            account_creation=True
+        )
 
     def test_check_your_email_ok(self):
         with self.client.session_transaction() as sess:
@@ -242,9 +248,8 @@ class TestAccountAdmin(TestCase):
             "user_id": "anuserid",
         }
         mock_form.return_value.validate_on_submit.return_value = True
-        mock_form.return_value.passwords.password.data = "anpassword"
-        mock_form.return_value.passwords.password.errors = []
-        mock_form.return_value.passwords.confirm_password.errors = []
+        mock_form.return_value.password.data = "anpassword"
+        mock_form.return_value.password.errors = []
         mock_account.return_value.set_password.return_value.status_code = 400
         mock_account.return_value.set_password.return_value.text = "Password is blacklisted"
 
@@ -254,8 +259,8 @@ class TestAccountAdmin(TestCase):
         mock_account.return_value.validate_token.assert_called_with("anpwtoken")
         mock_account.return_value.set_password.assert_called_with("anpwtoken", "anuserid", "anpassword")
         self.assertEqual(
-            mock_form.return_value.passwords.errors,
-            {"passwords": ["This password is not secure enough"]},
+            mock_form.return_value.password.errors,
+            ["This password is not secure enough"],
         )
 
     @patch("server.views.account_admin.ChangePasswordWithTokenForm")
@@ -267,9 +272,8 @@ class TestAccountAdmin(TestCase):
             "user_id": "anuserid",
         }
         mock_form.return_value.validate_on_submit.return_value = True
-        mock_form.return_value.passwords.password.data = "anpassword"
-        mock_form.return_value.passwords.password.errors = []
-        mock_form.return_value.passwords.confirm_password.errors = []
+        mock_form.return_value.password.data = "anpassword"
+        mock_form.return_value.password.errors = []
         mock_account.return_value.set_password.return_value.status_code = 500
 
         result = self.client.get(url_for("account_admin.change_password_with_token", password_token="anpwtoken"))
@@ -289,7 +293,7 @@ class TestAccountAdmin(TestCase):
             "user_id": "anuserid",
         }
         mock_form.return_value.validate_on_submit.return_value = True
-        mock_form.return_value.passwords.password.data = "anpassword"
+        mock_form.return_value.password.data = "anpassword"
         mock_account.return_value.set_password.return_value.status_code = 200
 
         result = self.client.get(url_for("account_admin.change_password_with_token", password_token="anpwtoken"))

@@ -38,13 +38,13 @@ class TestDatetimeFormatter(TestCase):
         with super_test_context(app):
             g.locale = "cy"
             result = format_date(datetime(2001, 1, 1, 0, 0, 0, 0))
-            self.assertEqual(result, "01 Ionawr 2001")
+            self.assertEqual(result, "1 Ionawr 2001")
 
     def test_format_date_ok(self):
         with super_test_context(app):
             g.locale = "en"
             result = format_date(datetime(2001, 1, 1, 0, 0, 0, 0))
-            self.assertEqual(result, "01 January 2001")
+            self.assertEqual(result, "1 January 2001")
 
     def test_format_long_date_welsh(self):
         with super_test_context(app):

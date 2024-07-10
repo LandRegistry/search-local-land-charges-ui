@@ -55,7 +55,7 @@ class TestStatutoryProvisions(TestCase):
                 "title": "A new version",
                 "display_title": "A new version",
                 "selectable": False,
-                "unselectable_timestamp": "2022-07-13T14:43:31.557072",
+                "last_updated_timestamp": "2022-07-13T14:43:31.557072",
             },
             {
                 "title": "An old version",
@@ -75,42 +75,68 @@ class TestStatutoryProvisions(TestCase):
 
     @patch("server.views.categories_stat_provs.CategoryService")
     def test_get_page_categories(self, mock_cat):
-        mock_cat.return_value.get_all_and_sub.return_value = {"some": "stuff"}
-
+        mock_cat.return_value.get_all_and_sub.return_value = [{"name": "Planning", "sub_categories": {
+            "name": "Planning notice",
+            "instruments": "Trumpet",
+            "last_updated": "2024-08-12",
+            "change": "Added"}
+        }]
         response = self.client.get(url_for("categories_stat_provs.get_page_categories"))
         self.assertEqual(response.status_code, 200)
-        self.assertIn("List of categories", response.text)
+        self.assertIn("List of local land charge categories", response.text)
 
     @patch("server.views.categories_stat_provs.CategoryService")
     def test_get_categories_and_sub(self, mock_cat):
-        mock_cat.return_value.get_all_and_sub.return_value = {"some": "stuff"}
+        mock_cat.return_value.get_all_and_sub.return_value = [{"some": "stuff"}]
 
         response = self.client.get(url_for("categories_stat_provs.get_categories_and_sub"))
-        self.assertEqual(response.json, {"some": "stuff"})
+        self.assertEqual(response.json, [{"some": "stuff"}])
 
     @patch("server.views.categories_stat_provs.CategoryService")
     def test_get_all_categories(self, mock_cat):
-        mock_cat.return_value.get.return_value = {"some": "stuff"}
+        mock_cat.return_value.get.return_value = [{"display-name": "stuff"}]
 
         response = self.client.get(url_for("categories_stat_provs.get_all_categories"))
-        self.assertEqual(response.json, {"some": "stuff"})
+        self.assertEqual(response.json, [{"display-name": "stuff", "name": "stuff"}])
 
     @patch("server.views.categories_stat_provs.CategoryService")
     def test_get_category(self, mock_cat):
         mock_response = MagicMock()
-        mock_response.json.return_value = {"some": "stuff"}
+        mock_response.json.return_value = {
+            "display-name": "stuff",
+            "valid-category-names": ["aard", "vark"],
+            "sub-categories": [{
+                "display-name": "sub-stuff",
+                "valid-category-names": ["rhu", "barb"],
+            }]
+        }
         mock_response.status_code = 207
         mock_cat.return_value.get_category.return_value = mock_response
 
         response = self.client.get(url_for("categories_stat_provs.get_category", category="acat"))
-        self.assertEqual(response.json, {"some": "stuff"})
+        self.assertEqual(response.json, {
+            'display-name-valid': {'valid_display_names': ["aard", "vark"]},
+            'name': 'stuff',
+            "valid-category-names": ["aard", "vark"],
+            'display-name': 'stuff',
+            'sub-categories': [{
+                'display-name': 'sub-stuff',
+                'display-name-valid': {
+                    'valid_display_names': ['rhu', 'barb']
+                },
+                'name': 'sub-stuff',
+                'valid-category-names': ['rhu', 'barb']
+            }],
+        })
         self.assertEqual(response.status_code, 207)
         mock_cat.return_value.get_category.assert_called_with("acat")
 
     @patch("server.views.categories_stat_provs.CategoryService")
     def test_get_sub_category(self, mock_cat):
         mock_response = MagicMock()
-        mock_response.json.return_value = {"some": "stuff"}
+        mock_response.json.return_value = {
+            "display-name": "stuff"
+        }
         mock_response.status_code = 207
         mock_cat.return_value.get_sub_category.return_value = mock_response
 
@@ -121,6 +147,9 @@ class TestStatutoryProvisions(TestCase):
                 sub_category="asubcat",
             )
         )
-        self.assertEqual(response.json, {"some": "stuff"})
+        self.assertEqual(response.json, {
+            'name': 'stuff',
+            'display-name': 'stuff'
+        })
         self.assertEqual(response.status_code, 207)
         mock_cat.return_value.get_sub_category.assert_called_with("acat", "asubcat")

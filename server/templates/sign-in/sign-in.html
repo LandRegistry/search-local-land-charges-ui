@@ -12,7 +12,21 @@
       {{ _('Sign in or') }} <a href="{{ url_for('account_admin.register') }}" class="govuk-link">{{ _('create an account') }}</a>
     </p>
     <form method="post" action="{{ url_for('sign_in.handle_sign_in') }}" novalidate>
-      {{ form.username_password(params={"username_password-username":{"classes": 'govuk-input--width-20', 'spellcheck': false, 'autocomplete': 'email'}, "username_password-password": {"classes": 'govuk-input--width-20'} }) }}
+      {{ form.username_password(params={
+        "username_password-username":{
+          "classes": 'govuk-input--width-20',
+          'spellcheck': false,
+          'autocomplete': 'email'
+        }, "username_password-password": {
+          "classes": 'govuk-input--width-20',
+          "showPasswordText": _("Show"),
+          "hidePasswordText": _("Hide"),
+          "showPasswordAriaLabelText": _("Show password"),
+          "hidePasswordAriaLabelText": _("Hide password"),
+          "passwordShownAnnouncementText": _("Your password is visible"),
+          "passwordHiddenAnnouncementText": _("Your password is hidden"),
+        }
+      } ) }}
       {{ form.redirect_uri(value=redirect_uri) }}
       {{ form.submit }}
     </form>

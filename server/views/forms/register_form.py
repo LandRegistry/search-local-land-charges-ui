@@ -36,33 +36,6 @@ class EmailAddressesForm(FlaskForm):
     )
 
 
-class PasswordsForm(FlaskForm):
-    password = PasswordField(
-        _("Password"),
-        widget=GovPasswordInput(),
-        validators=[
-            InputRequired(message=_("Enter a password")),
-            Length(max=256, message=_("Password must be 256 characters or fewer")),
-        ],
-    )
-    confirm_password = PasswordField(
-        _("Confirm password"),
-        widget=GovPasswordInput(),
-        validators=[
-            InputRequired(message=_("Confirm password")),
-            Length(max=256, message=_("Password must be 256 characters or fewer")),
-        ],
-    )
-
-    def validate_password(self, field):
-        if not valid_password_rules(field.data):
-            raise ValidationError(_("Enter a password in the correct format"))
-
-    def validate_confirm_password(self, field):
-        if not valid_password_rules(field.data):
-            raise ValidationError(_("Enter a password in the correct format"))
-
-
 class RegisterForm(FlaskForm):
     first_name = StringField(
         _("First name"),
@@ -98,16 +71,23 @@ class RegisterForm(FlaskForm):
         ],
     )
 
-    email_addresses = FieldGroup(EmailAddressesForm)
+    password = PasswordField(
+        _("Password"),
+        widget=GovPasswordInput(),
+        validators=[
+            InputRequired(message=_("Enter a password")),
+            Length(max=256, message=_("Password must be 256 characters or fewer")),
+        ],
+    )
 
-    passwords = FieldGroup(PasswordsForm)
+    def validate_password(self, field):
+        if not valid_password_rules(field.data):
+            raise ValidationError(_("Enter a password in the correct format"))
+
+    email_addresses = FieldGroup(EmailAddressesForm)
 
     submit = SubmitField(_("Submit"), widget=GovSubmitInput())
 
     def validate_email_addresses(self, field):
         if field.email_address.data != field.confirm_email_address.data:
             raise ValidationError(_("Email addresses do not match, try again"))
-
-    def validate_passwords(self, field):
-        if field.password.data != field.confirm_password.data:
-            raise ValidationError(_("Passwords do not match, try again"))

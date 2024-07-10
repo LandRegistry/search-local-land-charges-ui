@@ -20,7 +20,17 @@
           <li>{{ _('use at least 1 symbol, like a question mark') }}</li>
         </ul>
       {% endset %}
-      {{ form.passwords(params={"passwords-password": {"classes": 'govuk-input--width-20', "hint": {"html": hint_html } }, "passwords-confirm_password": {"classes": 'govuk-input--width-20', 'spellcheck': false} }) }}
+      {{ form.password(params={
+        "classes": 'govuk-input--width-20',
+        "hint": {"html": hint_html },
+        "autocomplete": "new-password",
+        "showPasswordText": _("Show"),
+        "hidePasswordText": _("Hide"),
+        "showPasswordAriaLabelText": _("Show password"),
+        "hidePasswordAriaLabelText": _("Hide password"),
+        "passwordShownAnnouncementText": _("Your password is visible"),
+        "passwordHiddenAnnouncementText": _("Your password is hidden"),
+      } ) }}
       {% set link_html %}<a class="govuk-link" href="{{ _('https://www.gov.uk/government/organisations/land-registry/about/personal-information-charter') }}">{{ _('personal information charter') }}</a>{% endset %}
       <p class="govuk-body">
         {{ _('Your personal information will be used to manage your account, process search requests and to contact you. We may retain and share it to help detect and prevent fraud, in line with our %(link_html)s', link_html=link_html) }}.

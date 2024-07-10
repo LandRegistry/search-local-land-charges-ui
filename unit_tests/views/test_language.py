@@ -34,8 +34,8 @@ class TestLanguage(TestCase):
 
     @patch("server.views.language.request")
     def test_change_language_en(self, mock_request):
-        mock_request.referrer = "/aardvark"
+        mock_request.referrer = url_for("main.map_help")
         response = self.client.get(url_for("language.change_language", language="en"))
         self.assertIn("language=en", response.headers["Set-Cookie"])
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.location, "/aardvark")
+        self.assertEqual(response.location, url_for("main.map_help"))

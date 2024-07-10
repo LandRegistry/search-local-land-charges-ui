@@ -3,7 +3,7 @@ from shapely.ops import unary_union
 from shapely.validation import make_valid
 
 
-def merge_polygons(extent):
+def merge_polygons(extent, return_shape=False):
     # Convert the FeatureCollection to GeometryCollection because Shapely doesn't like FCs
     geometry_collection = {
         "type": "GeometryCollection",
@@ -15,6 +15,8 @@ def merge_polygons(extent):
 
     # Merge all the polygons together
     geo_extent_shape = unary_union(extent_shape)
+    if return_shape:
+        return geo_extent_shape
 
     # Convert from Shapely format (mapping function)
     json_union = mapping(geo_extent_shape)

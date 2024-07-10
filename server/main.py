@@ -10,6 +10,7 @@ from server.blueprints import register_blueprints
 from server.extensions import enhanced_logging, register_extensions
 from server.locale import get_locale
 from server.services.back_link_history import add_history
+from server.utils.view_function import get_view_function
 
 
 class RequestsSessionTimeout(requests.Session):
@@ -60,6 +61,8 @@ def before_request():
             "ajax.ajax_llc1_pdf_poll",
         ]
         and urlparse(request.referrer).netloc == urlparse(request.url).netloc
+        # Only record URL if it's gettable
+        and get_view_function(request.referrer)
     ):
         add_history(request.referrer)
 

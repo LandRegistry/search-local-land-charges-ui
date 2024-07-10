@@ -10,7 +10,7 @@ class ReportAPIService(object):
     """Service class for making requests to report-api"""
 
     @staticmethod
-    def send_event(event_name, event_details):
+    def send_event(event_name, event_details, account_creation=False):
         current_app.logger.info(
             "Calling the report event endpoint of the Report API " "with the following data: {}".format(event_details)
         )
@@ -20,8 +20,12 @@ class ReportAPIService(object):
             "event_details": event_details,
         }
 
+        report_url = f"{REPORT_API_BASE_URL}/v2.0/report_events"
+        if account_creation:
+            report_url += "/account_creation"
+
         response = g.requests.post(
-            "{}/v2.0/report_events".format(REPORT_API_BASE_URL),
+            report_url,
             json=payload,
             headers={"Content-Type": "application/json"},
         )

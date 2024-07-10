@@ -1,8 +1,9 @@
 from datetime import datetime, timedelta
-
 from flask import Blueprint, make_response, redirect, request, url_for
 
 from server import config
+from server.services.back_link_history import get_back_url
+from server.utils.view_function import get_view_function
 
 # This is the blueprint object that gets registered into the app in blueprints.py.
 language = Blueprint("language", __name__, url_prefix="/language")
@@ -16,7 +17,11 @@ def change_language(language):
     ):
         response = make_response(redirect(url_for("index.index_page")))
     else:
-        response = make_response(redirect(request.referrer))
+        # Only redirect to GETable URLS, otherwise go back
+        if get_view_function(request.referrer):
+            response = make_response(redirect(request.referrer))
+        else:
+            response = redirect(get_back_url())
 
     return set_language_cookie(response, language)
 

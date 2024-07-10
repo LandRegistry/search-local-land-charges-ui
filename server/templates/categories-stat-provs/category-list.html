@@ -1,67 +1,56 @@
 {% extends 'base-templates/base.html' %}
 
-{% from "govuk_frontend_jinja/components/accordion/macro.html" import govukAccordion %}
 {% from "govuk_frontend_jinja/components/table/macro.html" import govukTable %}
 
-{% set map_style = "search-results-map-large" %}
-
-{% block title %}{{ _('List of categories') }}{% endblock %}
+{% block title %}{{ _('List of local land charge categories') }}{% endblock %}
 
 {% block inner_content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">{{ _('List of categories') }}</h1>
-    {% set accordian_items = [] %}
+    <h1 class="govuk-heading-xl">{{ _('List of local land charge categories') }}</h1>
     {% for category in categories %}
-      {% set heading_text %}
-        {{ category["name"] }}
-      {% endset %}
+      <h2 class="govuk-heading-l">{{ category["name"] }}</h2>
       {% set sub_cat_rows = [] %}
       {% for sub_cat in category['sub-categories'] %}
-        {% do sub_cat_rows.append([{"text": sub_cat['name']},
-                                   {"text": ", ".join(sub_cat['instruments'])}]) %}
-      {% endfor %}
-      {% set content_html %}
-        {{ govukTable({
-            "caption": _("Sub-categories and instruments"),
-            "captionClasses": "govuk-visually-hidden",
-            "firstCellIsHeader": false,
-            "head": [
-              {
-                "text": _("Sub-category")
-              },
-              {
-                "text": _("Instrument")
-              }
-            ],
-            "rows": sub_cat_rows
-          }) }}
-        {% if sub_cat_rows | length == 0 %}
-          <p class="govuk-body">{{ _('Category has no sub-categories') }}</p>
+        {% if category["change"] == "Unavailable for new charges" %}
+          {% set change = "Unavailable for new charges" %}
+        {% else %}
+          {% set change = sub_cat['change'] %}
         {% endif %}
-      {% endset %}
-      {% do accordian_items.append(
-        {
-          "heading": {
-            "text": heading_text
-          },
-          "content": {
-            "html": content_html
-          }
-        }
-      ) %}
+        {% do sub_cat_rows.append([{"text": sub_cat['name']},
+                                   {"text": ", ".join(sub_cat['instruments'])},
+                                   {"text": format_date(fromisoformat(sub_cat['last-updated'])) if sub_cat['last-updated']},
+                                   {"text": translate_change_value(change) if change}
+                                  ]) %}
+      {% endfor %}
+      {% if sub_cat_rows | length == 0 %}
+        <p class="govuk-body">{{ _('No subcategories') }}.</p>
+      {% else %}
+        {{ govukTable({
+              "caption": _("Subcategories and instruments") + ": " + category["name"],
+              "captionClasses": "govuk-visually-hidden",
+              "firstCellIsHeader": false,
+              "head": [
+                {
+                  "text": _("Subcategory"),
+                  "classes": "govuk-!-width-one-third"
+                },
+                {
+                  "text": _("Instrument"),
+                  "classes": "govuk-!-width-one-quarter"
+                },
+                {
+                  "text": _("Last updated"),
+                  "classes": "govuk-!-width-one-quarter"
+                },
+                {
+                  "text": _("Changes"),
+                }
+              ],
+              "rows": sub_cat_rows
+          }) }}
+      {% endif %}
     {% endfor %}
-    {{ govukAccordion({
-      "id": "accordion-categories",
-      "items": accordian_items,
-      "hideSectionText": _("Hide"),
-      "hideAllSectionsText": _("Hide all sections"),
-      "hideSectionAriaLabelText": _("Hide this section"),
-      "showSectionText": _("Show"),
-      "showAllSectionsText": _("Show all sections"),
-      "showSectionAriaLabelText": _("Show this section"),
-      "rememberExpanded": false
-    }) }}
   </div>
 </div>
 {% endblock %}

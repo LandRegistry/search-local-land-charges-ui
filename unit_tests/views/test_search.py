@@ -5,6 +5,7 @@ from unittest.mock import ANY, MagicMock, patch
 from flask import redirect, session, url_for
 from landregistry.exceptions import ApplicationError
 
+from server.dependencies.search_api.search_type import SearchType
 from server.main import app
 from server.models.charges import LocalLandChargeItem
 from server.models.searches import SearchState
@@ -307,7 +308,7 @@ class TestSearch(TestCase):
         mock_addresses.return_value.get_by.assert_called_with("title", "antitlenumber")
         self.assertEqual(
             mock_form.return_value.title_number.errors,
-            ["We do not recognise that title number. Check title number and try again"],
+            ["Enter a valid title number"],
         )
 
     @patch("server.views.search.SearchByTitleNumberForm")
@@ -834,3 +835,124 @@ class TestSearch(TestCase):
         self.assertEqual(result.location, url_for("search.no_information_available"))
         with self.client.session_transaction() as sess:
             self.assertEqual(sess["authority_data"], {"flag": "badness"})
+
+    @patch("server.views.search.CheckMigrationStatus")
+    def test_add_another_title_authority_fail(self, mock_check):
+        with self.client.session_transaction() as sess:
+            sess["search_state"] = SearchState()
+            sess["search_state"].search_extent = {"some": "extent"}
+        mock_check.process.return_value = None
+        result = self.client.post(url_for("search.add_another_title"))
+        self.assertEqual(result.status_code, 500)
+        self.assertIn("Sorry, there is a problem with the service", result.text)
+        mock_check.process.assert_called_with({"some": "extent"})
+
+    @patch("server.views.search.CheckMigrationStatus")
+    @patch("server.views.search.AddressesService")
+    @patch("server.views.search.ConfirmSearchAreaTitleNumberForm")
+    @patch("server.views.search.merge_polygons")
+    def test_add_another_title_ok(self, mock_merge, mock_form, mock_address_service, mock_check):
+        with self.client.session_transaction() as sess:
+            sess["search_state"] = SearchState()
+            sess["search_state"].search_extent = {"features": []}
+            sess["search_state"].address = "anaddress"
+        mock_check.process.return_value = {"flag": "pass"}
+        mock_form.return_value.validate_on_submit.return_value = True
+        mock_form.return_value.title_number.data = "ANTITLE"
+        mock_address_response = MagicMock()
+        mock_address_response.status_code = 200
+        mock_address_response.json.return_value = {'features': [{'geometry': {}}, {'geometry': {}}]}
+        mock_address_service.return_value.get_by.return_value = mock_address_response
+        mock_merge.return_value = {"merged": "geometry"}
+        result = self.client.post(url_for("search.add_another_title"))
+        self.assertEqual(result.status_code, 302)
+        self.assertEqual(result.location, url_for("search.confirm_search_area"))
+        mock_check.process.assert_called_with({'features': []})
+        mock_address_service.return_value.get_by.assert_called_with(SearchType.TITLE.value, "ANTITLE")
+        with self.client.session_transaction() as sess:
+            self.assertEqual(sess["unmerged_extent"], {
+                'features': [{'geometry': {}, 'properties': {'id': 0}},
+                             {'geometry': {}, 'properties': {'id': 1}}],
+                'type': 'FeatureCollection'})
+            self.assertEqual(sess["search_state"].search_extent, {'merged': 'geometry'})
+
+    @patch("server.views.search.CheckMigrationStatus")
+    @patch("server.views.search.AddressesService")
+    @patch("server.views.search.ConfirmSearchAreaTitleNumberForm")
+    def test_add_another_title_not_found(self, mock_form, mock_address_service, mock_check):
+        with self.client.session_transaction() as sess:
+            sess["search_state"] = SearchState()
+            sess["search_state"].search_extent = {"some": "extent"}
+            sess["search_state"].address = "anaddress"
+        mock_check.process.return_value = {"flag": "pass"}
+        mock_form.return_value.validate_on_submit.return_value = True
+        mock_form.return_value.title_number.data = "ANTITLE"
+        mock_address_response = MagicMock()
+        mock_address_response.status_code = 404
+        mock_address_service.return_value.get_by.return_value = mock_address_response
+        result = self.client.post(url_for("search.add_another_title"))
+        self.assertEqual(result.status_code, 200)
+        self.assertIn("There is a problem", result.text)
+        mock_check.process.assert_called_with({"some": "extent"})
+        mock_address_service.return_value.get_by.assert_called_with(SearchType.TITLE.value, "ANTITLE")
+
+    @patch("server.views.search.CheckMigrationStatus")
+    @patch("server.views.search.AddressesService")
+    @patch("server.views.search.ConfirmSearchAreaTitleNumberForm")
+    def test_add_another_title_not_found_warning(self, mock_form, mock_address_service, mock_check):
+        with self.client.session_transaction() as sess:
+            sess["search_state"] = SearchState()
+            sess["search_state"].search_extent = {"some": "extent"}
+            sess["search_state"].address = "anaddress"
+        mock_check.process.return_value = {"flag": "warning"}
+        mock_form.return_value.validate_on_submit.return_value = True
+        mock_form.return_value.title_number.data = "ANTITLE"
+        mock_address_response = MagicMock()
+        mock_address_response.status_code = 404
+        mock_address_service.return_value.get_by.return_value = mock_address_response
+        result = self.client.post(url_for("search.add_another_title"))
+        self.assertEqual(result.status_code, 200)
+        self.assertIn("This search area is near a local authority area that is not yet available on this service",
+                      result.text)
+        mock_check.process.assert_called_with({"some": "extent"})
+        mock_address_service.return_value.get_by.assert_called_with(SearchType.TITLE.value, "ANTITLE")
+
+    @patch("server.views.search.CheckMigrationStatus")
+    @patch("server.views.search.AddressesService")
+    @patch("server.views.search.ConfirmSearchAreaTitleNumberForm")
+    def test_add_another_title_not_found_no_info(self, mock_form, mock_address_service, mock_check):
+        with self.client.session_transaction() as sess:
+            sess["search_state"] = SearchState()
+            sess["search_state"].search_extent = {"some": "extent"}
+            sess["search_state"].address = "anaddress"
+        mock_check.process.return_value = {"flag": "aardvark"}
+        mock_form.return_value.validate_on_submit.return_value = True
+        mock_form.return_value.title_number.data = "ANTITLE"
+        mock_address_response = MagicMock()
+        mock_address_response.status_code = 404
+        mock_address_service.return_value.get_by.return_value = mock_address_response
+        result = self.client.post(url_for("search.add_another_title"))
+        self.assertEqual(result.status_code, 302)
+        self.assertEqual(result.location, url_for("search.no_information_available"))
+        mock_check.process.assert_called_with({"some": "extent"})
+        mock_address_service.return_value.get_by.assert_called_with(SearchType.TITLE.value, "ANTITLE")
+
+    @patch("server.views.search.CheckMigrationStatus")
+    @patch("server.views.search.AddressesService")
+    @patch("server.views.search.ConfirmSearchAreaTitleNumberForm")
+    def test_add_another_title_fail(self, mock_form, mock_address_service, mock_check):
+        with self.client.session_transaction() as sess:
+            sess["search_state"] = SearchState()
+            sess["search_state"].search_extent = {"some": "extent"}
+            sess["search_state"].address = "anaddress"
+        mock_check.process.return_value = {"flag": "pass"}
+        mock_form.return_value.validate_on_submit.return_value = True
+        mock_form.return_value.title_number.data = "ANTITLE"
+        mock_address_response = MagicMock()
+        mock_address_response.status_code = 500
+        mock_address_service.return_value.get_by.return_value = mock_address_response
+        result = self.client.post(url_for("search.add_another_title"))
+        self.assertEqual(result.status_code, 500)
+        self.assertIn("Sorry, there is a problem with the service", result.text)
+        mock_check.process.assert_called_with({"some": "extent"})
+        mock_address_service.return_value.get_by.assert_called_with(SearchType.TITLE.value, "ANTITLE")
